@@ -86,10 +86,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
     loadPreviewTopics();
   }
 
-  function showAuth() {
+  function showAuth(showSignup = false) {
     homeEl.classList.add('hidden');
     authEl.classList.remove('hidden');
     appEl.classList.add('hidden');
+    if (showSignup) {
+      document.querySelector('.auth-container').classList.add('hidden');
+      document.getElementById('signup-container').classList.remove('hidden');
+    } else {
+      document.getElementById('signup-container').classList.add('hidden');
+      document.querySelector('.auth-container').classList.remove('hidden');
+    }
   }
 
   function showApp() {
@@ -290,7 +297,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   // Home events
-  enterSiteBtn.addEventListener('click', showAuth);
+  enterSiteBtn.addEventListener('click', () => showAuth(true));
+  document.getElementById('show-login-link').addEventListener('click', e => {
+    e.preventDefault();
+    showAuth(false);
+  });
   enterSiteMainBtn.addEventListener('click', showAuth);
 
   // Auth events
