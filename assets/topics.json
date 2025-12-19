@@ -1,0 +1,91 @@
+[
+  {
+    "name": "Personal Finance",
+    "description": "Money management, budgeting, and investing basics.",
+    "subjects": [
+      "Budgeting and expense tracking",
+      "Savings strategies",
+      "Paying off debt",
+      "Basics of investing",
+      "Taxes 101",
+      "Credit scores and reports"
+    ]
+  },
+  {
+    "name": "Cooking & Nutrition",
+    "description": "Practical kitchen skills and healthy meal planning.",
+    "subjects": [
+      "Basic knife skills",
+      "Meal prep and planning",
+      "Healthy cooking techniques",
+      "Stovetop and oven basics",
+      "Reading recipes",
+      "Food safety"
+    ]
+  },
+  {
+    "name": "Household & Home Maintenance",
+    "description": "Keep your home functioning and tidy.",
+    "subjects": [
+      "Basic repairs (plumbing, drywall)",
+      "Cleaning routines",
+      "Tool basics",
+      "Seasonal home care",
+      "Appliance maintenance"
+    ]
+  },
+  {
+    "name": "Health & First Aid",
+    "description": "Everyday health, first response, and wellbeing.",
+    "subjects": [
+      "Basic first aid",
+      "CPR overview",
+      "Medication basics",
+      "Sleep and stress management",
+      "Healthy habits"
+    ]
+  },
+  {
+    "name": "Career & Work Skills",
+    "description": "Hiring, productivity, and career growth.",
+    "subjects": [
+      "Resume & interview prep",
+      "Networking basics",
+      "Time management",
+      "Email and communication",
+      "Negotiation skills"
+    ]
+  },
+  {
+    "name": "Digital Literacy",
+    "description": "Everyday tech skills for modern life.",
+    "subjects": [
+      "Online security basics",
+      "Managing files and backups",
+      "Using productivity apps",
+      "Privacy settings",
+      "Troubleshooting common issues"
+    ]
+  },
+  {
+    "name": "Relationship & Communication",
+    "description": "Interpersonal skills for healthier relationships.",
+    "subjects": [
+      "Active listening",
+      "Conflict resolution",
+      "Giving feedback",
+      "Boundaries and consent"
+    ]
+  },
+  {
+    "name": "Practical Life Skills",
+    "description": "Hands-on tasks useful for daily independence.",
+    "subjects": [
+      "Laundry and clothing care",
+      "Basic car maintenance",
+      "Packing and travel tips",
+      "Household budgeting",
+      "Grocery shopping skills"
+    ]
+  }
+]

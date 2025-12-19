@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Skill Central — Life Skills Hub</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <div id="home" class="home-page">
+      <header class="site-header">
+        <div class="container">
+          <h1><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44L6.5 19A2.5 2.5 0 0 1 2 16.5v-11A2.5 2.5 0 0 1 4.5 3H7m5.5 0A2.5 2.5 0 0 1 15 4.5v11a2.5 2.5 0 0 1-4.96.44L9.5 15A2.5 2.5 0 0 1 5 12.5v-8A2.5 2.5 0 0 1 7.5 2H9.5z"/><path d="M12 12v3"/></svg> Skill Central</h1>
+          <button id="enter-site">Enter Site</button>
+        </div>
+      </header>
+      <main class="container">
+        <section class="hero">
+          <h2>Welcome to Skill Central</h2>
+          <p>Master practical life skills with interactive courses on finance, cooking, home maintenance, and more.</p>
+          <button id="enter-site-main">Get Started</button>
+        </section>
+        <section class="preview">
+          <h3>Featured Topics</h3>
+          <div id="preview-topics"></div>
+        </section>
+      </main>
+      <footer class="site-footer container">
+        <p><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> Built with love — Skill Central</p>
+      </footer>
+    </div>
+
+    <div id="auth" class="auth-modal hidden">
+      <div class="auth-container" id="login-container">
+        <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><circle cx="12" cy="16" r="1"/><path d="m9 11 3-3 3 3"/></svg> Sign In</h2>
+        <form id="login-form">
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <button type="submit">Sign In</button>
+        </form>
+        <p>Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+      </div>
+      <div class="auth-container hidden signup-style" id="signup-container">
+        <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Create Account</h2>
+        <form id="signup-form">
+          <input type="email" id="signup-email" placeholder="Email" required />
+          <input type="password" id="signup-password" placeholder="Password" required />
+          <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+          <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="#" id="show-login">Sign In</a></p>
+      </div>
+    </div>
+
+    <div id="app" class="hidden">
+      <header class="site-header">
+        <div class="container">
+          <h1><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44L6.5 19A2.5 2.5 0 0 1 2 16.5v-11A2.5 2.5 0 0 1 4.5 3H7m5.5 0A2.5 2.5 0 0 1 15 4.5v11a2.5 2.5 0 0 1-4.96.44L9.5 15A2.5 2.5 0 0 1 5 12.5v-8A2.5 2.5 0 0 1 7.5 2H9.5z"/><path d="M12 12v3"/></svg> Skill Central</h1>
+          <div>
+            <button id="logout"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Logout</button>
+            <button id="admin-panel" class="hidden"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/></svg> Admin</button>
+          </div>
+        </div>
+      </header>
+
+      <nav class="nav container">
+        <input id="search" placeholder="Search topics or subjects..." aria-label="Search" />
+        <button id="files-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> Files</button>
+      </nav>
+
+      <main class="container" id="content">
+        <section id="topics"></section>
+        <section id="files" class="hidden">
+          <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> Your Files</h2>
+          <div id="file-list"></div>
+          <input type="file" id="file-upload" multiple />
+          <button id="upload-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Upload</button>
+        </section>
+        <div id="admin-edit" class="hidden">
+          <h3>Edit Topics</h3>
+          <form id="add-topic-form">
+            <input type="text" id="topic-name" placeholder="Topic Name" required />
+            <textarea id="topic-desc" placeholder="Description"></textarea>
+            <button type="submit">Add Topic</button>
+          </form>
+          <div id="edit-topics"></div>
+        </div>
+      </main>
+
+      <footer class="site-footer container">
+        <p><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> Built with love — Skill Central</p>
+      </footer>
+    </div>
+
+    <script src="assets/script.js"></script>
+  </body>
+</html>
