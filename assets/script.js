@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   let currentUser = null;
   let isAdmin = false;
   let topicsData = [];
+  let currentTopicIndex = -1;
+  let currentSubjectIndex = -1;
 
   // Improved hashing using Web Crypto API
   async function hashPassword(pwd) {
@@ -147,41 +149,74 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   }
 
-  function renderTopics(topics) {
-    topicsEl.innerHTML = '';
-    topics.forEach((t, i) => {
+  function showLessons(topicIndex, subjectIndex) {
+    currentTopicIndex = topicIndex;
+    currentSubjectIndex = subjectIndex;
+    const subject = topicsData[topicIndex].subjects[subjectIndex];
+    document.getElementById('lesson-subject-title').textContent = subject.name;
+    renderLessons(subject.lessons);
+    topicsEl.classList.add('hidden');
+    document.getElementById('lessons').classList.remove('hidden');
+  }
+
+  function renderLessons(lessons) {
+    const lessonListEl = document.getElementById('lesson-list');
+    lessonListEl.innerHTML = '';
+    lessons.forEach((l, k) => {
       const card = document.createElement('article');
-      card.className = 'topic-card';
-      const h = document.createElement('h2');
-      h.textContent = t.name;
+      card.className = 'lesson-card';
+      const h = document.createElement('h3');
+      h.textContent = l.title;
       card.appendChild(h);
-
-      if (t.description) {
-        const p = document.createElement('p');
-        p.textContent = t.description;
-        card.appendChild(p);
+      const p = document.createElement('p');
+      p.textContent = l.content;
+      card.appendChild(p);
+      if (l.image) {
+        const img = document.createElement('img');
+        img.src = l.image;
+        img.alt = l.title;
+        card.appendChild(img);
       }
-
-      const subWrap = document.createElement('div');
-      subWrap.className = 'subjects';
-      t.subjects.forEach(s => {
-        const span = document.createElement('span');
-        span.className = 'subject';
-        span.textContent = s;
-        subWrap.appendChild(span);
-      });
-      card.appendChild(subWrap);
-
       if (isAdmin) {
         const editBtn = document.createElement('button');
-        editBtn.textContent = 'Edit';
-        editBtn.onclick = () => editTopic(i);
+        editBtn.textContent = 'Edit Lesson';
+        editBtn.onclick = () => editLesson(k);
         card.appendChild(editBtn);
       }
-
-      topicsEl.appendChild(card);
+      lessonListEl.appendChild(card);
     });
   }
+
+  function editLesson(lessonIndex) {
+    const lesson = topicsData[currentTopicIndex].subjects[currentSubjectIndex].lessons[lessonIndex];
+    const editDiv = document.createElement('div');
+    editDiv.className = 'edit-lesson';
+    editDiv.innerHTML = `
+      <input type="text" value="${lesson.title}" id="edit-lesson-title-${lessonIndex}" />
+      <textarea id="edit-lesson-content-${lessonIndex}">${lesson.content}</textarea>
+      <input type="text" value="${lesson.image || ''}" id="edit-lesson-image-${lessonIndex}" placeholder="Image URL" />
+      <button class="save" onclick="saveLesson(${lessonIndex})">Save</button>
+      <button class="delete" onclick="deleteLesson(${lessonIndex})">Delete</button>
+    `;
+    document.getElementById('lesson-list').appendChild(editDiv);
+  }
+
+  window.saveLesson = (lessonIndex) => {
+    const title = document.getElementById(`edit-lesson-title-${lessonIndex}`).value;
+    const content = document.getElementById(`edit-lesson-content-${lessonIndex}`).value;
+    const image = document.getElementById(`edit-lesson-image-${lessonIndex}`).value;
+    topicsData[currentTopicIndex].subjects[currentSubjectIndex].lessons[lessonIndex] = { title, content, image };
+    localStorage.setItem('topics', JSON.stringify(topicsData));
+    const subject = topicsData[currentTopicIndex].subjects[currentSubjectIndex];
+    renderLessons(subject.lessons);
+  };
+
+  window.deleteLesson = (lessonIndex) => {
+    topicsData[currentTopicIndex].subjects[currentSubjectIndex].lessons.splice(lessonIndex, 1);
+    localStorage.setItem('topics', JSON.stringify(topicsData));
+    const subject = topicsData[currentTopicIndex].subjects[currentSubjectIndex];
+    renderLessons(subject.lessons);
+  };
 
   function loadFiles() {
     const files = JSON.parse(localStorage.getItem(`files_${currentUser}`) || '[]');
@@ -216,7 +251,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     editDiv.innerHTML = `
       <input type="text" value="${topic.name}" id="edit-name-${index}" />
       <textarea id="edit-desc-${index}">${topic.description || ''}</textarea>
-      <input type="text" value="${topic.subjects.join(', ')}" id="edit-subjects-${index}" />
+      <input type="text" value="${topic.subjects.map(s => s.name).join(', ')}" id="edit-subjects-${index}" />
       <button class="save" onclick="saveTopic(${index})">Save</button>
       <button class="delete" onclick="deleteTopic(${index})">Delete</button>
     `;
@@ -227,7 +262,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   window.saveTopic = (index) => {
     const name = document.getElementById(`edit-name-${index}`).value;
     const desc = document.getElementById(`edit-desc-${index}`).value;
-    const subjects = document.getElementById(`edit-subjects-${index}`).value.split(',').map(s => s.trim());
+    const subjects = document.getElementById(`edit-subjects-${index}`).value.split(',').map(s => ({ name: s.trim(), lessons: [] }));
     topicsData[index] = { name, description: desc, subjects };
     localStorage.setItem('topics', JSON.stringify(topicsData));
     loadTopics();
@@ -315,6 +350,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     addTopicForm.reset();
   });
 
+  document.getElementById('back-to-topics').addEventListener('click', () => {
+    document.getElementById('lessons').classList.add('hidden');
+    topicsEl.classList.remove('hidden');
+  });
+
   // Search
   searchEl.addEventListener('input', () => {
     const q = searchEl.value.trim().toLowerCase();
@@ -324,7 +364,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
     const filtered = topicsData.map(t => ({
       ...t,
-      subjects: t.subjects.filter(s => s.toLowerCase().includes(q) || t.name.toLowerCase().includes(q))
+      subjects: t.subjects.filter(s => s.name.toLowerCase().includes(q))
     })).filter(t => t.name.toLowerCase().includes(q) || t.subjects.length > 0);
     renderTopics(filtered);
   });

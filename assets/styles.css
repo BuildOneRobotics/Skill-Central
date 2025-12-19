@@ -44,6 +44,17 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 .topic-card h2{margin:0 0 0.5rem 0;font-size:1.25rem}
 .topic-card p{margin:0 0 1rem 0;color:var(--muted)}
 .subjects{display:flex;flex-wrap:wrap;gap:0.5rem}
+.subject{background:var(--accent);color:var(--accent-foreground);padding:0.25rem 0.75rem;border-radius:calc(var(--radius) - 2px);font-size:0.875rem;font-weight:500;cursor:pointer;transition:var(--transition)}
+.subject:hover{background:var(--accent-hover)}
+#lessons h2{margin:1rem 0}
+#lesson-list{display:grid;gap:1rem}
+.lesson-card{background:var(--card);padding:1.5rem;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border)}
+.lesson-card h3{margin:0 0 0.5rem 0}
+.lesson-card p{margin:0 0 1rem 0;line-height:1.6}
+.lesson-card img{max-width:100%;border-radius:var(--radius);margin:1rem 0}
+#back-to-topics{background:var(--accent);color:var(--accent-foreground);border:none;padding:0.5rem 1rem;border-radius:var(--radius);cursor:pointer;margin-bottom:1rem}
+#back-to-topics:hover{background:var(--accent-hover)}
+.subjects{display:flex;flex-wrap:wrap;gap:0.5rem}
 .subject{background:#f2f2f7;padding:0.4rem 0.8rem;border-radius:20px;font-size:0.9rem;color:#1d1d1f;border:1px solid var(--border);transition:var(--transition)}
 .subject:hover{background:#e8e8ed}
 #files h2{margin-bottom:1rem}
