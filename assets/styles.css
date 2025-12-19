@@ -122,8 +122,7 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 #mobile-menu li{margin:1rem 0}
 #mobile-menu a{color:var(--text);text-decoration:none;font-size:1.2rem;display:block;padding:0.5rem;border-radius:8px;transition:var(--transition)}
 #mobile-menu a:hover{background:var(--surface)}
-.modal{position:fixed;inset:0;background:rgba(30, 30, 46, 0.6);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:1000}
-.modal-content{background:var(--card);padding:2rem;border-radius:var(--radius);box-shadow:0 10px 30px rgba(0,0,0,0.3);width:100%;max-width:400px;border:1px solid var(--border);backdrop-filter:blur(10px)}
-.modal-content label{display:block;margin:1rem 0}
-.modal-content select, .modal-content input{width:100%;padding:0.5rem;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)}
+#settings-page label{display:block;margin:1rem 0}
+#settings-page select, #settings-page input{width:100%;padding:0.5rem;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)}
+#back-from-settings{background:var(--accent);color:#1e1e2e;border:none;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;margin-bottom:1rem}
 #mobile-menu.open{transform:translateX(0)}

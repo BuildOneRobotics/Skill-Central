@@ -123,8 +123,28 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if (isAdmin) {
       adminPanelBtn.classList.remove('hidden');
     }
-    loadTopics();
-    loadFiles();
+    showTopics();
+  }
+
+  function showTopics() {
+    topicsEl.classList.remove('hidden');
+    filesEl.classList.add('hidden');
+    document.getElementById('settings-page').classList.add('hidden');
+    adminEditEl.classList.add('hidden');
+  }
+
+  function showFiles() {
+    topicsEl.classList.add('hidden');
+    filesEl.classList.remove('hidden');
+    document.getElementById('settings-page').classList.add('hidden');
+    adminEditEl.classList.add('hidden');
+  }
+
+  function showSettings() {
+    topicsEl.classList.add('hidden');
+    filesEl.classList.add('hidden');
+    document.getElementById('settings-page').classList.remove('hidden');
+    adminEditEl.classList.add('hidden');
   }
 
   function loadPreviewTopics() {
@@ -399,8 +419,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   // Files toggle
   filesBtn.addEventListener('click', () => {
-    topicsEl.classList.toggle('hidden');
-    filesEl.classList.toggle('hidden');
+    if (topicsEl.classList.contains('hidden')) {
+      showTopics();
+    } else {
+      showFiles();
+    }
   });
 
   // Upload
@@ -426,19 +449,19 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // Menu items
   document.getElementById('menu-home').addEventListener('click', e => {
     e.preventDefault();
-    showHome();
+    showTopics();
     document.getElementById('mobile-menu').classList.remove('open');
   });
 
   document.getElementById('menu-settings').addEventListener('click', e => {
     e.preventDefault();
-    document.getElementById('settings-modal').classList.remove('hidden');
+    showSettings();
     document.getElementById('mobile-menu').classList.remove('open');
   });
 
   // Settings
-  document.getElementById('close-settings').addEventListener('click', () => {
-    document.getElementById('settings-modal').classList.add('hidden');
+  document.getElementById('back-from-settings').addEventListener('click', () => {
+    showTopics();
   });
 
   document.getElementById('theme-select').addEventListener('change', e => {
