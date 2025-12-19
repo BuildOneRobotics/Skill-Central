@@ -27,6 +27,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
   let topicsData = [];
   let currentTopicIndex = -1;
   let currentSubjectIndex = -1;
+  let theme = localStorage.getItem('theme') || 'auto';
+  let accentColor = localStorage.getItem('accent') || 'blue';
+  let fontFamily = localStorage.getItem('font') || 'verdana';
+  let fontSize = parseInt(localStorage.getItem('fontSize')) || 16;
+
+  function applySettings() {
+    document.documentElement.style.setProperty('--font-family', fontFamily === 'verdana' ? "'Verdana', sans-serif" : fontFamily === 'arial' ? "'Arial', sans-serif" : "'Georgia', serif");
+    document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const currentTheme = theme === 'auto' ? (prefersDark ? 'dark' : 'light') : theme;
+    document.body.setAttribute('data-theme', currentTheme);
+    const accents = { blue: '#89b4fa', green: '#a6e3a1', purple: '#cba6f7', red: '#f38ba8' };
+    document.documentElement.style.setProperty('--accent', accents[accentColor]);
+  }
+
+  applySettings();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySettings);
 
   // Improved hashing using Web Crypto API
   async function hashPassword(pwd) {
@@ -400,4 +417,57 @@ document.addEventListener('DOMContentLoaded', ()=>{
       reader.readAsDataURL(f);
     });
   });
+
+  // Burger menu
+  document.getElementById('burger-menu').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  });
+
+  // Menu items
+  document.getElementById('menu-home').addEventListener('click', e => {
+    e.preventDefault();
+    showHome();
+    document.getElementById('mobile-menu').classList.remove('open');
+  });
+
+  document.getElementById('menu-settings').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('settings-modal').classList.remove('hidden');
+    document.getElementById('mobile-menu').classList.remove('open');
+  });
+
+  // Settings
+  document.getElementById('close-settings').addEventListener('click', () => {
+    document.getElementById('settings-modal').classList.add('hidden');
+  });
+
+  document.getElementById('theme-select').addEventListener('change', e => {
+    theme = e.target.value;
+    localStorage.setItem('theme', theme);
+    applySettings();
+  });
+
+  document.getElementById('accent-select').addEventListener('change', e => {
+    accentColor = e.target.value;
+    localStorage.setItem('accent', accentColor);
+    applySettings();
+  });
+
+  document.getElementById('font-select').addEventListener('change', e => {
+    fontFamily = e.target.value;
+    localStorage.setItem('font', fontFamily);
+    applySettings();
+  });
+
+  document.getElementById('font-size-slider').addEventListener('input', e => {
+    fontSize = parseInt(e.target.value);
+    localStorage.setItem('fontSize', fontSize);
+    applySettings();
+  });
+
+  // Set initial values
+  document.getElementById('theme-select').value = theme;
+  document.getElementById('accent-select').value = accentColor;
+  document.getElementById('font-select').value = fontFamily;
+  document.getElementById('font-size-slider').value = fontSize;
 });
