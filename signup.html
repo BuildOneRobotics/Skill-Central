@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sign Up — Skill Central</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f9ef5'><path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/><path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/></svg>" />
+    <style>
+      :root {
+        --bg: #0d1117;
+        --card: rgba(255, 255, 255, 0.08);
+        --card-2: rgba(79, 158, 245, 0.05);
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --accent: #4f9ef5;
+        --accent-hover: #3a8ae6;
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --radius: 16px;
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(180deg, rgba(13, 17, 23, 1) 0%, rgba(15, 19, 25, 0.98) 50%, rgba(13, 17, 23, 1) 100%);
+        color: var(--text);
+        font-family: 'Verdana', sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .auth-page {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 0;
+      }
+
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.35;
+        z-index: 1;
+        pointer-events: none;
+        mix-blend-mode: screen;
+      }
+
+      .blob-1 {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #4f9ef5, #6b5dff);
+        top: -50px;
+        left: -150px;
+      }
+
+      .blob-2 {
+        width: 280px;
+        height: 280px;
+        background: linear-gradient(135deg, #9d4edd, #4f9ef5);
+        bottom: 10%;
+        right: -100px;
+      }
+
+      .auth-container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 420px;
+        padding: 2rem;
+      }
+
+      .auth-box {
+        background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius);
+        backdrop-filter: blur(20px);
+        padding: 2.5rem;
+        box-shadow: var(--shadow);
+      }
+
+      .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .auth-logo {
+        font-size: 2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+      }
+
+      .auth-logo svg {
+        width: 36px;
+        height: 36px;
+      }
+
+      .auth-title {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .auth-subtitle {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 0.95rem;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--glass-border);
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 0.95rem;
+        transition: var(--transition);
+        font-family: inherit;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(79, 158, 245, 0.1);
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      .form-group input::placeholder {
+        color: var(--muted);
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 0.875rem;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 4px 12px rgba(79, 158, 245, 0.2);
+        font-family: inherit;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 158, 245, 0.3);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .auth-footer {
+        margin-top: 1.5rem;
+        text-align: center;
+      }
+
+      .auth-footer p {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .auth-footer a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .auth-footer a:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+      }
+
+      .error-message {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        display: none;
+        font-size: 0.9rem;
+      }
+
+      .success-message {
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        color: #86efac;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        display: none;
+        font-size: 0.9rem;
+      }
+
+      .back-link {
+        text-align: center;
+        margin-top: 1.5rem;
+      }
+
+      .back-link a {
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: var(--transition);
+      }
+
+      .back-link a:hover {
+        color: var(--accent-hover);
+      }
+
+      @media (max-width: 480px) {
+        .auth-container {
+          padding: 1rem;
+        }
+
+        .auth-box {
+          padding: 1.5rem;
+        }
+
+        .auth-title {
+          font-size: 1.5rem;
+        }
+
+        .auth-subtitle {
+          font-size: 0.85rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- DECORATIVE BACKGROUND BLOBS -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-box">
+          <div class="auth-header">
+            <div class="auth-logo" onclick="window.location.href='index.html'">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              Skill Central
+            </div>
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Join Skill Central and start learning today.</p>
+          </div>
+
+          <form id="signup-form">
+            <div class="error-message" id="error-msg"></div>
+            <div class="success-message" id="success-msg"></div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="your@email.com" required />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="At least 6 characters" required />
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input type="password" id="confirm-password" placeholder="Confirm your password" required />
+            </div>
+
+            <button type="submit" class="submit-btn">Create Account</button>
+          </form>
+
+          <div class="auth-footer">
+            <p>Already have an account? <a href="signin.html">Sign in here</a></p>
+          </div>
+
+          <div class="back-link">
+            <a href="index.html">← Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('signup-form');
+        const errorMsg = document.getElementById('error-msg');
+        const successMsg = document.getElementById('success-msg');
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          errorMsg.style.display = 'none';
+          successMsg.style.display = 'none';
+
+          const email = document.getElementById('email').value.trim();
+          const password = document.getElementById('password').value;
+          const confirmPassword = document.getElementById('confirm-password').value;
+
+          // Validation
+          if (!email || !password || !confirmPassword) {
+            errorMsg.textContent = 'Please fill in all fields.';
+            errorMsg.style.display = 'block';
+            return;
+          }
+
+          if (password.length < 6) {
+            errorMsg.textContent = 'Password must be at least 6 characters long.';
+            errorMsg.style.display = 'block';
+            return;
+          }
+
+          if (password !== confirmPassword) {
+            errorMsg.textContent = 'Passwords do not match.';
+            errorMsg.style.display = 'block';
+            return;
+          }
+
+          // Check if user already exists
+          const users = JSON.parse(localStorage.getItem('users') || '[]');
+          if (users.some(u => u.email === email)) {
+            errorMsg.textContent = 'An account with this email already exists.';
+            errorMsg.style.display = 'block';
+            return;
+          }
+
+          // Hash password and create account
+          const hashed = await hashPassword(password);
+          users.push({ email, password: hashed });
+          localStorage.setItem('users', JSON.stringify(users));
+          localStorage.setItem('currentUser', email);
+          localStorage.setItem('isAdmin', 'false');
+
+          successMsg.textContent = 'Account created successfully! Redirecting...';
+          successMsg.style.display = 'block';
+
+          // Update learner count
+          const learnerCountEl = document.getElementById('learner-count');
+          if (learnerCountEl) {
+            learnerCountEl.textContent = users.length;
+          }
+
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 800);
+        });
+
+        async function hashPassword(pwd) {
+          const encoder = new TextEncoder();
+          const data = encoder.encode(pwd);
+          const hash = await crypto.subtle.digest('SHA-256', data);
+          return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -158,16 +158,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   function showAuth(showSignup = false) {
-    homeEl.classList.add('hidden');
-    authEl.classList.remove('hidden');
-    appEl.classList.add('hidden');
-    footerEl.classList.add('hidden');
     if (showSignup) {
-      document.querySelector('.auth-container').classList.add('hidden');
-      document.getElementById('signup-container').classList.remove('hidden');
+      window.location.href = 'signup.html';
     } else {
-      document.getElementById('signup-container').classList.add('hidden');
-      document.querySelector('.auth-container').classList.remove('hidden');
+      window.location.href = 'signin.html';
     }
   }
 
