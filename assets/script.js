@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const addTopicForm = document.getElementById('add-topic-form');
   const addLessonForm = document.getElementById('add-lesson-form');
   const editTopicsEl = document.getElementById('edit-topics');
+  const footerEl = document.querySelector('.site-footer');
 
   let currentUser = null;
   let isAdmin = false;
@@ -101,6 +102,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     homeEl.classList.remove('hidden');
     authEl.classList.add('hidden');
     appEl.classList.add('hidden');
+    footerEl.classList.add('hidden');
     loadPreviewTopics();
   }
 
@@ -108,6 +110,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     homeEl.classList.add('hidden');
     authEl.classList.remove('hidden');
     appEl.classList.add('hidden');
+    footerEl.classList.add('hidden');
     if (showSignup) {
       document.querySelector('.auth-container').classList.add('hidden');
       document.getElementById('signup-container').classList.remove('hidden');
@@ -121,6 +124,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     homeEl.classList.add('hidden');
     authEl.classList.add('hidden');
     appEl.classList.remove('hidden');
+    footerEl.classList.remove('hidden');
     if (isAdmin) {
       adminPanelBtn.classList.remove('hidden');
     }
