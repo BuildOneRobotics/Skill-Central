@@ -615,13 +615,61 @@ document.addEventListener('DOMContentLoaded', ()=>{
   addTopicForm?.addEventListener('submit', e => {
     e.preventDefault();
     const name = document.getElementById('topic-name').value;
+    const image = document.getElementById('topic-image')?.value || '';
     const desc = document.getElementById('topic-desc').value;
     const subjectsText = document.getElementById('topic-subjects').value;
     const subjects = subjectsText.split(',').map(s => ({ name: s.trim(), lessons: [] }));
-    topicsData.push({ name, description: desc, subjects });
+    const topicObj = { name, description: desc, subjects };
+    if (image) topicObj.image = image;
+    topicsData.push(topicObj);
     localStorage.setItem('topics', JSON.stringify(topicsData));
     loadTopics();
     addTopicForm.reset();
+  });
+
+  // Populate topic & subject selects for adding lessons
+  function populateLessonSelects() {
+    const topicSelect = document.getElementById('lesson-topic');
+    const subjectSelect = document.getElementById('lesson-subject');
+    if (!topicSelect) return;
+    topicSelect.innerHTML = '<option value="">Select Topic</option>';
+    topicsData.forEach((t, ti) => {
+      const opt = document.createElement('option');
+      opt.value = ti;
+      opt.textContent = t.name;
+      topicSelect.appendChild(opt);
+    });
+    // when topic changes, populate subjects
+    topicSelect.onchange = () => {
+      const ti = parseInt(topicSelect.value);
+      subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+      if (Number.isNaN(ti)) return;
+      (topicsData[ti].subjects || []).forEach((s, si) => {
+        const opt = document.createElement('option');
+        opt.value = si;
+        opt.textContent = s.name;
+        subjectSelect.appendChild(opt);
+      });
+    };
+  }
+
+  // Handle adding lessons via admin form
+  addLessonForm?.addEventListener('submit', e => {
+    e.preventDefault();
+    const topicIndex = parseInt(document.getElementById('lesson-topic').value);
+    const subjectIndex = parseInt(document.getElementById('lesson-subject').value);
+    const title = document.getElementById('lesson-title').value;
+    const content = document.getElementById('lesson-content').value;
+    const type = document.getElementById('lesson-type').value;
+    const image = document.getElementById('lesson-image')?.value || '';
+    if (Number.isNaN(topicIndex) || Number.isNaN(subjectIndex)) return alert('Select a topic and subject');
+    const lesson = { title, content, type };
+    if (image) lesson.image = image;
+    topicsData[topicIndex].subjects[subjectIndex].lessons.push(lesson);
+    localStorage.setItem('topics', JSON.stringify(topicsData));
+    loadTopics();
+    addLessonForm.reset();
+    populateLessonSelects();
   });
 
   function renderLessons(lessons) {
