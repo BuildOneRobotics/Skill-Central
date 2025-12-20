@@ -116,12 +116,35 @@
             <input type="text" id="topic-subjects" placeholder="Subjects (comma separated)" />
             <button type="submit">Add Topic</button>
           </form>
+          <h4>Add Lesson</h4>
+          <form id="add-lesson-form">
+            <select id="lesson-topic" required><option value="">Select Topic</option></select>
+            <select id="lesson-subject" required><option value="">Select Subject</option></select>
+            <input type="text" id="lesson-title" placeholder="Lesson Title" required />
+            <textarea id="lesson-content" placeholder="Content"></textarea>
+            <select id="lesson-type">
+              <option value="lesson">Lesson</option>
+              <option value="quiz">Quiz</option>
+              <option value="flashcard">Flashcard</option>
+              <option value="question">Question</option>
+              <option value="course">Course</option>
+            </select>
+            <button type="submit">Add Lesson</button>
+          </form>
           <div id="edit-topics"></div>
         </div>
       </main>
 
       <footer class="site-footer container">
-        <p><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> Built with love — Skill Central</p>
+        <div class="footer-content">
+          <div class="quick-links">
+            <a href="#" id="footer-home">Home</a>
+            <a href="#" id="footer-settings">Settings</a>
+            <a href="#" id="footer-files">Files</a>
+            <a href="#" id="footer-logout">Logout</a>
+          </div>
+          <p>&copy; 2025 Skill Central. Built with love.</p>
+        </div>
       </footer>
     </div>
 

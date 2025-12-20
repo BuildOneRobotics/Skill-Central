@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const previewTopicsEl = document.getElementById('preview-topics');
   const adminEditEl = document.getElementById('admin-edit');
   const addTopicForm = document.getElementById('add-topic-form');
+  const addLessonForm = document.getElementById('add-lesson-form');
   const editTopicsEl = document.getElementById('edit-topics');
 
   let currentUser = null;
@@ -323,7 +324,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     subjEdits.forEach(edit => {
       const subjName = edit.querySelector('input').value.trim();
       const lessonsText = edit.querySelector('textarea').value;
-      const lessons = lessonsText.split('\n').filter(l => l.trim()).map(title => ({ title: title.trim(), content: '' })); // assuming content empty for now
+      const lessons = lessonsText.split('\n').filter(l => l.trim()).map(title => ({ title: title.trim(), content: '', type: 'lesson' })); // assuming content empty for now
       if (subjName) subjects.push({ name: subjName, lessons });
     });
     topicsData[index] = { name, description: desc, subjects };
@@ -422,6 +423,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   adminPanelBtn.addEventListener('click', () => {
     adminEditEl.classList.toggle('hidden');
+    populateLessonSelects();
   });
 
   addTopicForm.addEventListener('submit', e => {
@@ -434,6 +436,47 @@ document.addEventListener('DOMContentLoaded', ()=>{
     localStorage.setItem('topics', JSON.stringify(topicsData));
     loadTopics();
     addTopicForm.reset();
+  });
+
+  function populateLessonSelects() {
+    const topicSelect = document.getElementById('lesson-topic');
+    topicSelect.innerHTML = '<option value="">Select Topic</option>';
+    topicsData.forEach((topic, index) => {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = topic.name;
+      topicSelect.appendChild(option);
+    });
+  }
+
+  document.getElementById('lesson-topic').addEventListener('change', () => {
+    const subjectSelect = document.getElementById('lesson-subject');
+    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+    const topicIndex = document.getElementById('lesson-topic').value;
+    if (topicIndex !== '') {
+      const topic = topicsData[topicIndex];
+      topic.subjects.forEach((subj, subjIndex) => {
+        const option = document.createElement('option');
+        option.value = subjIndex;
+        option.textContent = subj.name;
+        subjectSelect.appendChild(option);
+      });
+    }
+  });
+
+  addLessonForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const topicIndex = document.getElementById('lesson-topic').value;
+    const subjIndex = document.getElementById('lesson-subject').value;
+    const title = document.getElementById('lesson-title').value;
+    const content = document.getElementById('lesson-content').value;
+    const type = document.getElementById('lesson-type').value;
+    if (topicIndex !== '' && subjIndex !== '') {
+      topicsData[topicIndex].subjects[subjIndex].lessons.push({ title, content, type });
+      localStorage.setItem('topics', JSON.stringify(topicsData));
+      loadTopics();
+      addLessonForm.reset();
+    }
   });
 
   document.getElementById('back-to-topics').addEventListener('click', () => {
@@ -495,6 +538,32 @@ document.addEventListener('DOMContentLoaded', ()=>{
     e.preventDefault();
     showSettings();
     document.getElementById('mobile-menu').classList.remove('open');
+  });
+
+  // Footer links
+  document.getElementById('footer-home').addEventListener('click', e => {
+    e.preventDefault();
+    showHome();
+  });
+
+  document.getElementById('footer-settings').addEventListener('click', e => {
+    e.preventDefault();
+    showSettings();
+  });
+
+  document.getElementById('footer-files').addEventListener('click', e => {
+    e.preventDefault();
+    showFiles();
+  });
+
+  document.getElementById('footer-logout').addEventListener('click', e => {
+    e.preventDefault();
+    logout();
+  });
+
+  // Burger menu
+  document.getElementById('burger-menu').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('open');
   });
 
   // Settings

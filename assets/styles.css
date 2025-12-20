@@ -124,6 +124,10 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 .sign-in-link{color:var(--muted);text-decoration:none;font-weight:500}
 .sign-in-link:hover{color:var(--accent)}
 .site-footer{background:var(--card);border-top:1px solid var(--border);padding:1rem;text-align:center;border-radius:var(--radius) var(--radius) 0 0;backdrop-filter:blur(10px)}
+.footer-content{display:flex;justify-content:space-between;width:100%;align-items:center}
+.quick-links{display:flex;gap:1rem}
+.quick-links a{color:var(--accent);text-decoration:none;font-weight:500}
+.quick-links a:hover{text-decoration:underline}
 #burger-menu{background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer;padding:0.5rem}
 #mobile-menu{position:fixed;top:0;left:0;width:250px;height:100%;background:var(--card);backdrop-filter:blur(10px);transform:translateX(-100%);transition:var(--transition);z-index:1001;padding:2rem 1rem}
 #mobile-menu ul{list-style:none;padding:0;margin:0}
