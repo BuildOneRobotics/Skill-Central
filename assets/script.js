@@ -407,48 +407,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
     showTopics();
   }
-      const card = document.createElement('article');
-      card.className = 'lesson-card';
-      const h = document.createElement('h3');
-      h.textContent = l.title;
-      card.appendChild(h);
-      const p = document.createElement('p');
-      p.textContent = l.content;
-      card.appendChild(p);
-      if (l.image) {
-        const img = document.createElement('img');
-        img.src = l.image;
-        img.alt = l.title;
-        card.appendChild(img);
-      }
-      if (isAdmin) {
-        const editBtn = document.createElement('button');
-        editBtn.textContent = 'Edit Lesson';
-        editBtn.onclick = () => editLesson(k);
-        card.appendChild(editBtn);
-      }
-        lessonListEl.appendChild(card);
-        const status = document.createElement('span');
-        status.className = 'lesson-status';
-        const key = makeLessonKey(currentTopicIndex, currentSubjectIndex, k);
-        const completed = isLessonCompleted(currentTopicIndex, currentSubjectIndex, k);
-        status.textContent = completed ? 'Completed' : 'In progress';
-        card.appendChild(status);
-        const actions = document.createElement('div');
-        actions.className = 'lesson-actions';
-        if (!completed) {
-          const completeBtn = document.createElement('button');
-          completeBtn.textContent = 'Mark Complete';
-          completeBtn.className = 'secondary';
-          completeBtn.onclick = () => {
-            markLessonComplete(currentTopicIndex, currentSubjectIndex, k);
-          };
-          actions.appendChild(completeBtn);
-        }
-        card.appendChild(actions);
-        lessonListEl.appendChild(card);
-    });
-  }
 
   function editLesson(lessonIndex) {
     const lesson = topicsData[currentTopicIndex].subjects[currentSubjectIndex].lessons[lessonIndex];

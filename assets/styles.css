@@ -542,8 +542,6 @@ main{position:relative;z-index:2}
   font-weight: 600;
   text-transform: uppercase;
 }
-  font-style: italic;
-}
 
 .testimonial-author {
   display: flex;
