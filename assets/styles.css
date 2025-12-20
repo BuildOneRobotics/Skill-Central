@@ -20,7 +20,7 @@
 
 /* DECORATIVE BLOBS */
 .blob {
-  position: fixed;
+  position: absolute;
   border-radius: 50%;
   filter: blur(80px);
   opacity: 0.35;
