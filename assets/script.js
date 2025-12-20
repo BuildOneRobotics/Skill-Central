@@ -1,15 +1,10 @@
 document.addEventListener('DOMContentLoaded', ()=>{
   const homeEl = document.getElementById('home');
-  const authEl = document.getElementById('auth');
   const appEl = document.getElementById('app');
   // Determine whether this page contains the authenticated app UI.
   const isAppPage = !!appEl;
   const enterSiteBtn = document.getElementById('enter-site');
   const enterSiteMainBtn = document.getElementById('enter-site-main');
-  const loginForm = document.getElementById('login-form');
-  const signupForm = document.getElementById('signup-form');
-  const showSignup = document.getElementById('show-signup');
-  const showLogin = document.getElementById('show-login');
   const logoutBtn = document.getElementById('logout');
   const adminPanelBtn = document.getElementById('admin-panel');
   const topicsEl = document.getElementById('topics');
@@ -566,76 +561,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
     showHome();
   }
 
-  // Home events
-  enterSiteBtn.addEventListener('click', () => showAuth(true));
-  document.getElementById('show-login-link').addEventListener('click', e => {
+  // Home events - redirect to separate auth pages
+  enterSiteBtn?.addEventListener('click', () => window.location.href = 'signup.html');
+  document.getElementById('show-login-link')?.addEventListener('click', (e) => {
     e.preventDefault();
-    showAuth(false);
+    window.location.href = 'signin.html';
   });
-  enterSiteMainBtn.addEventListener('click', showAuth);
-  document.getElementById('cta-signup')?.addEventListener('click', () => showAuth(true));
-  document.getElementById('footer-signup')?.addEventListener('click', () => showAuth(true));
+  enterSiteMainBtn?.addEventListener('click', () => window.location.href = 'signup.html');
+  document.getElementById('cta-signup')?.addEventListener('click', () => window.location.href = 'signup.html');
+  document.getElementById('footer-signup')?.addEventListener('click', () => window.location.href = 'signup.html');
+  
   accountBtn?.addEventListener('click', showAccount);
-
-  // Auth events
-  loginForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const pwd = document.getElementById('password').value;
-    if (!email || !pwd) {
-      alert('Please enter email and password');
-      return;
-    }
-    if (await login(email, pwd)) {
-      authEl.classList.add('hidden');
-    } else {
-      alert('Invalid credentials');
-    }
-  });
-
-  signupForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const email = document.getElementById('signup-email').value.trim();
-    const pwd = document.getElementById('signup-password').value;
-    const confirmPwd = document.getElementById('confirm-password').value;
-    if (!email || !pwd || !confirmPwd) {
-      alert('Please fill in all fields');
-      return;
-    }
-    if (pwd !== confirmPwd) {
-      alert('Passwords do not match');
-      return;
-    }
-    if (pwd.length < 6) {
-      alert('Password must be at least 6 characters');
-      return;
-    }
-    if (await signup(email, pwd)) {
-      authEl.classList.add('hidden');
-    } else {
-      alert('User already exists');
-    }
-  });
-
-  showSignup?.addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelector('.auth-container').classList.add('hidden');
-    document.getElementById('signup-container').classList.remove('hidden');
-  });
-
-  showLogin?.addEventListener('click', e => {
-    e.preventDefault();
-    document.getElementById('signup-container').classList.add('hidden');
-    document.querySelector('.auth-container').classList.remove('hidden');
-  });
-
-  document.getElementById('close-auth')?.addEventListener('click', () => {
-    authEl.classList.add('hidden');
-  });
-
-  document.getElementById('close-auth-signup')?.addEventListener('click', () => {
-    authEl.classList.add('hidden');
-  });
 
   logoutBtn?.addEventListener('click', logout);
 
