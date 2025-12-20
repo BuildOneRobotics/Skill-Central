@@ -597,23 +597,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   });
 
-  showSignup.addEventListener('click', e => {
+  showSignup?.addEventListener('click', e => {
     e.preventDefault();
     document.querySelector('.auth-container').classList.add('hidden');
     document.getElementById('signup-container').classList.remove('hidden');
   });
 
-  showLogin.addEventListener('click', e => {
+  showLogin?.addEventListener('click', e => {
     e.preventDefault();
     document.getElementById('signup-container').classList.add('hidden');
     document.querySelector('.auth-container').classList.remove('hidden');
   });
 
-  document.getElementById('close-auth').addEventListener('click', () => {
+  document.getElementById('close-auth')?.addEventListener('click', () => {
     authEl.classList.add('hidden');
   });
 
-  document.getElementById('close-auth-signup').addEventListener('click', () => {
+  document.getElementById('close-auth-signup')?.addEventListener('click', () => {
     authEl.classList.add('hidden');
   });
 
