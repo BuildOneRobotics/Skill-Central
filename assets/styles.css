@@ -30,28 +30,35 @@
 }
 
 .blob-1 {
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   background: linear-gradient(135deg, #4f9ef5, #6b5dff);
-  top: -50px;
-  left: -150px;
+  top: -80px;
+  left: -180px;
 }
 
 .blob-2 {
-  width: 280px;
-  height: 280px;
+  width: 320px;
+  height: 320px;
   background: linear-gradient(135deg, #9d4edd, #4f9ef5);
-  top: 35%;
-  right: -100px;
-  transform: translateY(-50%);
+  top: 30%;
+  right: -140px;
 }
 
 .blob-3 {
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   background: linear-gradient(135deg, #4f9ef5, #00d4ff);
-  bottom: 200px;
-  left: -80px;
+  bottom: 150px;
+  left: -120px;
+}
+
+.blob-4 {
+  width: 280px;
+  height: 280px;
+  background: linear-gradient(135deg, #00d4ff, #9d4edd);
+  bottom: -100px;
+  right: -100px;
 }
 [data-theme="light"]{
   --bg:#ffffff;
