@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     isAdmin = false;
     localStorage.setItem('currentUser', email);
     localStorage.setItem('isAdmin', 'false');
+    updateLearnerCount();
     if (isAppPage) {
       showApp();
     } else {
@@ -143,6 +144,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     appEl.classList.add('hidden');
     footerEl.classList.add('hidden');
     loadPreviewTopics();
+    updateLearnerCount();
   }
 
   function showAuth(showSignup = false) {
@@ -242,6 +244,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('settings-page').classList.add('hidden');
     adminEditEl.classList.add('hidden');
     accountSection.classList.add('hidden');
+  }
+
+  function updateLearnerCount() {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const learnerCountEl = document.getElementById('learner-count');
+    if (learnerCountEl) {
+      learnerCountEl.textContent = users.length;
+    }
   }
 
   function showFiles() {
