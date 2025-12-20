@@ -310,10 +310,22 @@
             <div class="dashboard-user-info">
               <span class="user-email" id="user-email">user@example.com</span>
               <button class="logout-btn" onclick="handleLogout()">Logout</button>
+              <!-- Burger Menu -->
+              <button id="burger-menu-btn" style="background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; margin-left: 1rem;">☰</button>
             </div>
           </div>
         </div>
       </header>
+
+      <!-- BURGER MENU -->
+      <div id="burger-menu" style="display: none; position: fixed; top: 0; left: 0; width: 250px; height: 100vh; background: var(--card); backdrop-filter: blur(10px); transform: translateX(-100%); transition: transform 0.3s ease; z-index: 1000; border-right: 1px solid var(--glass-border); padding: 2rem 1rem;">
+        <button id="burger-close-btn" style="background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; margin-bottom: 2rem;">✕</button>
+        <nav style="display: flex; flex-direction: column; gap: 1rem;">
+          <a href="#" onclick="handleDashboard(); return false;" style="color: var(--text); text-decoration: none; padding: 0.75rem; border-radius: 8px; transition: var(--transition);">📊 Dashboard</a>
+          <a href="#" onclick="handleSettings(); return false;" style="color: var(--text); text-decoration: none; padding: 0.75rem; border-radius: 8px; transition: var(--transition);">⚙️ Settings</a>
+          <a href="#" onclick="handleLogout(); return false;" style="color: var(--text); text-decoration: none; padding: 0.75rem; border-radius: 8px; transition: var(--transition);">🚪 Logout</a>
+        </nav>
+      </div>
 
       <!-- MAIN CONTENT -->
       <div class="dashboard-content">
@@ -375,6 +387,66 @@
               <p class="path-item-desc">Finish courses, earn achievements, and apply what you've learned.</p>
             </div>
           </div>
+        </div>
+
+        <!-- SETTINGS PAGE -->
+        <div id="settings-page" class="hidden" style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: var(--radius); backdrop-filter: blur(15px); padding: 2rem; box-shadow: var(--shadow);">
+          <h2 style="margin-top: 0; color: var(--accent);">Settings & Preferences</h2>
+          
+          <div style="margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem;">Appearance</h3>
+            
+            <label style="display: block; margin: 1.5rem 0;">
+              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Theme</strong>
+              <select id="theme-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
+                <option value="auto">Auto (System Default)</option>
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+              </select>
+            </label>
+
+            <label style="display: block; margin: 1.5rem 0;">
+              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Blob Color Theme (from Catppuccin Latte)</strong>
+              <select id="color-theme-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
+                <option value="mauve">🟣 Mauve (Default)</option>
+                <option value="lavender">💜 Lavender</option>
+                <option value="blue">🔵 Blue</option>
+                <option value="sky">🌤️ Sky</option>
+                <option value="teal">🧊 Teal</option>
+                <option value="green">💚 Green</option>
+                <option value="peach">🍑 Peach</option>
+                <option value="flamingo">🦩 Flamingo</option>
+                <option value="pink">💕 Pink</option>
+                <option value="red">❤️ Red</option>
+              </select>
+            </label>
+
+            <label style="display: block; margin: 1.5rem 0;">
+              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Accent Color</strong>
+              <select id="accent-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="purple">Purple</option>
+                <option value="red">Red</option>
+              </select>
+            </label>
+
+            <label style="display: block; margin: 1.5rem 0;">
+              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Font Family</strong>
+              <select id="font-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
+                <option value="verdana">Verdana</option>
+                <option value="arial">Arial</option>
+                <option value="georgia">Georgia</option>
+              </select>
+            </label>
+
+            <label style="display: block; margin: 1.5rem 0;">
+              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Font Size: <span id="font-size-value">16</span>px</strong>
+              <input type="range" id="font-size-slider" min="12" max="24" value="16" style="width: 100%; cursor: pointer;">
+            </label>
+          </div>
+
+          <button id="back-from-settings" style="background: var(--accent); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 1rem;">Back to Dashboard</button>
         </div>
       </div>
 
@@ -456,7 +528,53 @@
       }
 
       function handleSettings() {
-        alert('Settings feature - coming soon! Manage profile and preferences.');
+        document.getElementById('settings-page').classList.remove('hidden');
+      }
+
+      // Settings page handlers
+      document.getElementById('back-from-settings')?.addEventListener('click', () => {
+        document.getElementById('settings-page').classList.add('hidden');
+      });
+
+      // Font size slider update
+      const fontSizeSlider = document.getElementById('font-size-slider');
+      const fontSizeValue = document.getElementById('font-size-value');
+      if (fontSizeSlider) {
+        fontSizeSlider.addEventListener('input', (e) => {
+          fontSizeValue.textContent = e.target.value;
+        });
+      }
+
+      // Burger menu functionality
+      const burgerMenuBtn = document.getElementById('burger-menu-btn');
+      const burgerMenu = document.getElementById('burger-menu');
+      const burgerCloseBtn = document.getElementById('burger-close-btn');
+
+      burgerMenuBtn?.addEventListener('click', () => {
+        burgerMenu.style.display = 'block';
+        burgerMenu.style.transform = 'translateX(0)';
+      });
+
+      burgerCloseBtn?.addEventListener('click', () => {
+        burgerMenu.style.transform = 'translateX(-100%)';
+        setTimeout(() => {
+          burgerMenu.style.display = 'none';
+        }, 300);
+      });
+
+      // Close burger menu when clicking a link
+      document.querySelectorAll('#burger-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+          burgerMenu.style.transform = 'translateX(-100%)';
+          setTimeout(() => {
+            burgerMenu.style.display = 'none';
+          }, 300);
+        });
+      });
+
+      function handleDashboard() {
+        // Hide settings and show main content
+        document.getElementById('settings-page').classList.add('hidden');
       }
     </script>
   </body>

@@ -36,8 +36,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
   let currentSubjectIndex = -1;
   let theme = localStorage.getItem('theme') || 'auto';
   let accentColor = localStorage.getItem('accent') || 'blue';
+  let colorTheme = localStorage.getItem('colorTheme') || 'mauve';
   let fontFamily = localStorage.getItem('font') || 'verdana';
   let fontSize = parseInt(localStorage.getItem('fontSize')) || 16;
+
+  // Catppuccin Latte color themes for blobs
+  const colorThemes = {
+    mauve: { primary: '#ca9ee6', secondary: '#7287fd' },
+    lavender: { primary: '#7287fd', secondary: '#ca9ee6' },
+    blue: { primary: '#1e66f5', secondary: '#209fb5' },
+    sky: { primary: '#04a5e5', secondary: '#209fb5' },
+    teal: { primary: '#179299', secondary: '#40a02b' },
+    green: { primary: '#40a02b', secondary: '#179299' },
+    peach: { primary: '#fe640b', secondary: '#df8e1d' },
+    flamingo: { primary: '#eebebe', secondary: '#ca9ee6' },
+    pink: { primary: '#f4b8e4', secondary: '#ca9ee6' },
+    red: { primary: '#e64553', secondary: '#e8414f' }
+  };
 
   function applySettings() {
     document.documentElement.style.setProperty('--font-family', fontFamily === 'verdana' ? "'Verdana', sans-serif" : fontFamily === 'arial' ? "'Arial', sans-serif" : "'Georgia', serif");
@@ -47,6 +62,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.body.setAttribute('data-theme', currentTheme);
     const accents = { blue: '#89b4fa', green: '#a6e3a1', purple: '#cba6f7', red: '#f38ba8' };
     document.documentElement.style.setProperty('--accent', accents[accentColor]);
+    
+    // Apply blob colors based on selected color theme
+    const selectedTheme = colorThemes[colorTheme] || colorThemes.mauve;
+    document.documentElement.style.setProperty('--blob-primary', selectedTheme.primary);
+    document.documentElement.style.setProperty('--blob-secondary', selectedTheme.secondary);
   }
 
   applySettings();
@@ -826,6 +846,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     applySettings();
   });
 
+  document.getElementById('color-theme-select')?.addEventListener('change', e => {
+    colorTheme = e.target.value;
+    localStorage.setItem('colorTheme', colorTheme);
+    applySettings();
+  });
+
   document.getElementById('font-select')?.addEventListener('change', e => {
     fontFamily = e.target.value;
     localStorage.setItem('font', fontFamily);
@@ -850,6 +876,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // Set initial values (only if the elements exist on this page)
   if (document.getElementById('theme-select')) document.getElementById('theme-select').value = theme;
   if (document.getElementById('accent-select')) document.getElementById('accent-select').value = accentColor;
+  if (document.getElementById('color-theme-select')) document.getElementById('color-theme-select').value = colorTheme;
   if (document.getElementById('font-select')) document.getElementById('font-select').value = fontFamily;
   if (document.getElementById('font-size-slider')) document.getElementById('font-size-slider').value = fontSize;
 
