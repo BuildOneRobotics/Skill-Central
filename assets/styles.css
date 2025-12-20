@@ -33,7 +33,7 @@
   width: 350px;
   height: 350px;
   background: linear-gradient(135deg, #4f9ef5, #6b5dff);
-  top: 8%;
+  top: 5%;
   left: -180px;
 }
 
@@ -41,7 +41,7 @@
   width: 300px;
   height: 300px;
   background: linear-gradient(135deg, #3a3a5c, #4f9ef5);
-  top: 25%;
+  top: 20%;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -50,7 +50,7 @@
   width: 320px;
   height: 320px;
   background: linear-gradient(135deg, #9d4edd, #4f9ef5);
-  top: 42%;
+  top: 35%;
   right: -140px;
 }
 
@@ -58,7 +58,7 @@
   width: 290px;
   height: 290px;
   background: linear-gradient(135deg, #2d2d45, #6b5dff);
-  top: 58%;
+  top: 50%;
   left: 5%;
 }
 
@@ -66,7 +66,7 @@
   width: 310px;
   height: 310px;
   background: linear-gradient(135deg, #4f9ef5, #00d4ff);
-  top: 72%;
+  top: 65%;
   right: 2%;
 }
 
@@ -74,8 +74,24 @@
   width: 330px;
   height: 330px;
   background: linear-gradient(135deg, #1a1a35, #9d4edd);
-  top: 88%;
+  top: 80%;
   left: -120px;
+}
+
+.blob-7 {
+  width: 340px;
+  height: 340px;
+  background: linear-gradient(135deg, #3a3a5c, #00d4ff);
+  top: 95%;
+  right: -160px;
+}
+
+.blob-8 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #2d2d45, #4f9ef5);
+  bottom: -50px;
+  left: 10%;
 }
 [data-theme="light"]{
   --bg:#ffffff;
