@@ -555,6 +555,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     showAuth(false);
   });
   enterSiteMainBtn.addEventListener('click', showAuth);
+  document.getElementById('cta-signup')?.addEventListener('click', () => showAuth(true));
+  document.getElementById('footer-signup')?.addEventListener('click', () => showAuth(true));
   accountBtn?.addEventListener('click', showAccount);
 
   // Auth events
