@@ -33,24 +33,25 @@
   width: 500px;
   height: 500px;
   background: linear-gradient(135deg, #4f9ef5, #6b5dff);
-  top: 50px;
-  left: -150px;
+  top: 100px;
+  left: -100px;
 }
 
 .blob-2 {
   width: 450px;
   height: 450px;
   background: linear-gradient(135deg, #9d4edd, #4f9ef5);
-  top: 400px;
-  right: -100px;
+  top: 50%;
+  right: -50px;
+  transform: translateY(-50%);
 }
 
 .blob-3 {
   width: 400px;
   height: 400px;
   background: linear-gradient(135deg, #4f9ef5, #00d4ff);
-  bottom: -50px;
-  left: 10%;
+  bottom: 100px;
+  left: 5%;
 }
 [data-theme="light"]{
   --bg:#ffffff;
