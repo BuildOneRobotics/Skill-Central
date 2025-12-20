@@ -33,9 +33,9 @@
   --ctp-latte-blue:#1e66f5;
   --ctp-latte-lavender:#7287fd;
   
-  /* Theme blob colors */
-  --blob-primary:var(--ctp-latte-mauve);
-  --blob-secondary:var(--ctp-latte-lavender);
+  /* Theme blob colors - darker mauve/purple */
+  --blob-primary:#9d4edd;
+  --blob-secondary:#b197fc;
 }
 
 /* DECORATIVE BLOBS */
@@ -51,28 +51,29 @@
 }
 
 .blob-1 {
-  width: 350px;
-  height: 350px;
+  width: 280px;
+  height: 280px;
   background: linear-gradient(135deg, var(--blob-primary), var(--blob-secondary));
-  top: 10%;
-  left: 5%;
+  top: 5%;
+  left: 8%;
+  display: none;
 }
 
 .blob-2 {
-  width: 300px;
-  height: 300px;
+  width: 260px;
+  height: 260px;
   background: linear-gradient(135deg, var(--blob-secondary), var(--blob-primary));
-  top: 25%;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 15%;
+  right: 10%;
+  display: none;
 }
 
 .blob-3 {
-  width: 320px;
-  height: 320px;
+  width: 300px;
+  height: 300px;
   background: linear-gradient(135deg, var(--blob-primary), var(--blob-secondary));
-  top: 40%;
-  right: 5%;
+  top: 45%;
+  left: 5%;
 }
 
 .blob-4 {
@@ -80,48 +81,48 @@
   height: 290px;
   background: linear-gradient(135deg, var(--blob-secondary), var(--blob-primary));
   top: 55%;
-  left: 10%;
+  right: 8%;
 }
 
 .blob-5 {
   width: 310px;
   height: 310px;
   background: linear-gradient(135deg, var(--blob-primary), var(--blob-secondary));
-  top: 70%;
-  right: 8%;
+  bottom: 25%;
+  left: 10%;
 }
 
 .blob-6 {
   width: 330px;
   height: 330px;
   background: linear-gradient(135deg, var(--blob-secondary), var(--blob-primary));
-  bottom: 15%;
-  left: 15%;
+  bottom: 12%;
+  right: 5%;
 }
 
 .blob-7 {
   width: 340px;
   height: 340px;
   background: linear-gradient(135deg, var(--blob-primary), var(--blob-secondary));
-  bottom: 8%;
-  right: 10%;
+  bottom: 2%;
+  left: 35%;
+  transform: translateX(-50%);
 }
 
 .blob-8 {
   width: 300px;
   height: 300px;
   background: linear-gradient(135deg, var(--blob-secondary), var(--blob-primary));
-  bottom: 5%;
-  left: 45%;
-  transform: translateX(-50%);
+  bottom: 20%;
+  right: 25%;
 }
 
 .blob-9 {
   width: 320px;
   height: 320px;
   background: linear-gradient(135deg, var(--blob-primary), var(--blob-secondary));
-  top: 50%;
-  left: 70%;
+  bottom: 8%;
+  left: 60%;
 }
 [data-theme="light"]{
   --bg:#ffffff;

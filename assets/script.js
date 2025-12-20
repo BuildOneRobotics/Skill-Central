@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   // Catppuccin Latte color themes for blobs
   const colorThemes = {
-    mauve: { primary: '#ca9ee6', secondary: '#7287fd' },
-    lavender: { primary: '#7287fd', secondary: '#ca9ee6' },
+    mauve: { primary: '#9d4edd', secondary: '#b197fc' },
+    lavender: { primary: '#7287fd', secondary: '#9d4edd' },
     blue: { primary: '#1e66f5', secondary: '#209fb5' },
     sky: { primary: '#04a5e5', secondary: '#209fb5' },
     teal: { primary: '#179299', secondary: '#40a02b' },
