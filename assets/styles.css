@@ -137,7 +137,7 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 #file-upload{margin:1rem 0;border-radius:10px;padding:0.5rem;border:1px solid var(--border);background:var(--surface)}
 #upload-btn{background:linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);color:white;border:none;padding:0.5rem 1rem;border-radius:10px;cursor:pointer;transition:var(--transition);box-shadow:0 2px 4px rgba(0,0,0,0.1)}
 #upload-btn:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(0,0,0,0.15)}
-.home-page{position:relative;min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(180deg, rgba(13,17,23,1) 0%, rgba(15,19,25,0.98) 50%, rgba(13,17,23,1) 100%);z-index:2}
+.home-page{position:relative;min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(180deg, rgba(13,17,23,1) 0%, rgba(15,19,25,0.98) 50%, rgba(13,17,23,1) 100%);z-index:0}
 .home-page::before{content:"";position:absolute;inset:0;background-image:radial-gradient(ellipse 900px 700px at 10% 20%, rgba(79,158,245,0.08) 0%, transparent 30%), radial-gradient(ellipse 700px 600px at 90% 80%, rgba(79,158,245,0.05) 0%, transparent 35%);pointer-events:none;z-index:0}
 [data-theme="dark"] .home-page{background:linear-gradient(180deg, rgba(6,10,20,1) 0%, rgba(8,12,24,0.92) 60%)}
 .hero{text-align:center;padding:2rem 0}
