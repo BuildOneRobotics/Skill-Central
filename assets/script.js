@@ -90,9 +90,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
       }
       return true;
     }
-    const users = JSON.parse(localStorage.getItem('users') || '{}');
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
+    // Handle legacy format if it's an object
+    if (!Array.isArray(users)) {
+      users = Object.keys(users).map(e => ({ email: e, password: users[e] }));
+    }
     const hashed = await hashPassword(pwd);
-    if (users[email] && users[email] === hashed) {
+    const user = users.find(u => u.email === email && u.password === hashed);
+    if (user) {
       currentUser = email;
       isAdmin = false;
       localStorage.setItem('currentUser', email);
@@ -108,9 +113,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   async function signup(email, pwd) {
-    const users = JSON.parse(localStorage.getItem('users') || '{}');
-    if (users[email]) return false;
-    users[email] = await hashPassword(pwd);
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
+    // Handle legacy format if it's an object
+    if (!Array.isArray(users)) {
+      users = Object.keys(users).map(e => ({ email: e, password: users[e] }));
+    }
+    // Check if user exists
+    if (users.some(u => u.email === email)) return false;
+    users.push({ email, password: await hashPassword(pwd) });
     localStorage.setItem('users', JSON.stringify(users));
     currentUser = email;
     isAdmin = false;
@@ -247,7 +257,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   function updateLearnerCount() {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
+    // Handle legacy format if it's an object
+    if (!Array.isArray(users)) {
+      users = Object.keys(users);
+    }
     const learnerCountEl = document.getElementById('learner-count');
     if (learnerCountEl) {
       learnerCountEl.textContent = users.length;
@@ -572,10 +586,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // Auth events
   loginForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const pwd = document.getElementById('password').value;
+    if (!email || !pwd) {
+      alert('Please enter email and password');
+      return;
+    }
     if (await login(email, pwd)) {
-      // success
+      authEl.classList.add('hidden');
     } else {
       alert('Invalid credentials');
     }
@@ -583,15 +601,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   signupForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const email = document.getElementById('signup-email').value;
+    const email = document.getElementById('signup-email').value.trim();
     const pwd = document.getElementById('signup-password').value;
     const confirmPwd = document.getElementById('confirm-password').value;
+    if (!email || !pwd || !confirmPwd) {
+      alert('Please fill in all fields');
+      return;
+    }
     if (pwd !== confirmPwd) {
       alert('Passwords do not match');
       return;
     }
+    if (pwd.length < 6) {
+      alert('Password must be at least 6 characters');
+      return;
+    }
     if (await signup(email, pwd)) {
-      // success
+      authEl.classList.add('hidden');
     } else {
       alert('User already exists');
     }
