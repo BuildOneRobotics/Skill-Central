@@ -308,24 +308,76 @@
           </div>
           <div class="dashboard-nav">
             <div class="dashboard-user-info">
-              <span class="user-email" id="user-email">user@example.com</span>
-              <button class="logout-btn" onclick="handleLogout()">Logout</button>
-              <!-- Burger Menu -->
-              <button id="burger-menu-btn" style="background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; margin-left: 1rem;">☰</button>
+              <!-- Burger Menu Button -->
+              <button id="burger-menu-btn" style="background: none; border: none; color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 0.5rem 0.75rem; display: flex; align-items: center;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
       </header>
 
-      <!-- BURGER MENU -->
-      <div id="burger-menu" style="display: none; position: fixed; top: 0; left: 0; width: 250px; height: 100vh; background: var(--card); backdrop-filter: blur(10px); transform: translateX(-100%); transition: transform 0.3s ease; z-index: 1000; border-right: 1px solid var(--glass-border); padding: 2rem 1rem;">
-        <button id="burger-close-btn" style="background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; margin-bottom: 2rem;">✕</button>
-        <nav style="display: flex; flex-direction: column; gap: 1rem;">
-          <a href="#" onclick="handleDashboard(); return false;" style="color: var(--text); text-decoration: none; padding: 0.75rem; border-radius: 8px; transition: var(--transition);">📊 Dashboard</a>
-          <a href="#" onclick="handleSettings(); return false;" style="color: var(--text); text-decoration: none; padding: 0.75rem; border-radius: 8px; transition: var(--transition);">⚙️ Settings</a>
-          <a href="#" onclick="handleLogout(); return false;" style="color: var(--text); text-decoration: none; padding: 0.75rem; border-radius: 8px; transition: var(--transition);">🚪 Logout</a>
+      <!-- BURGER MENU (LEFT SIDEBAR) -->
+      <div id="burger-menu" style="display: none; position: fixed; top: 0; left: 0; width: 280px; height: 100vh; background: linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%); backdrop-filter: blur(15px); transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; border-right: 1px solid var(--glass-border); padding: 0; box-shadow: 4px 0 16px rgba(0, 0, 0, 0.1); overflow-y: auto;">
+        <!-- Close Button -->
+        <div style="padding: 1.5rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border);">
+          <h3 style="margin: 0; color: var(--text); font-size: 1.1rem;">Menu</h3>
+          <button id="burger-close-btn" style="background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: var(--transition);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Menu Content -->
+        <nav style="display: flex; flex-direction: column; gap: 0.5rem; padding: 1.5rem 0.75rem;">
+          <!-- Dashboard Link -->
+          <a href="#" onclick="handleDashboard(); return false;" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Dashboard
+          </a>
+
+          <!-- Settings Link -->
+          <a href="#" onclick="handleSettings(); return false;" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
+            </svg>
+            Settings
+          </a>
+
+          <!-- Logout Link -->
+          <a href="#" onclick="handleLogout(); return false;" style="display: flex; align-items: center; gap: 0.75rem; color: #ef4444; text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Logout
+          </a>
         </nav>
+
+        <!-- User Info at Bottom -->
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem 0.75rem; border-top: 1px solid var(--glass-border); background: linear-gradient(180deg, transparent 0%, var(--card) 100%);">
+          <div style="padding: 1rem; background: var(--card); border-radius: 10px; text-align: center;">
+            <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; color: var(--muted);">Logged in as</p>
+            <p id="burger-user-email" style="margin: 0; color: var(--text); font-weight: 600; font-size: 0.9rem; word-break: break-all;">user@example.com</p>
+          </div>
+        </div>
       </div>
+
+      <!-- Overlay for burger menu -->
+      <div id="burger-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0); transition: background 0.35s ease; z-index: 999;" onclick="closeBurgerMenu()"></div>
 
       <!-- MAIN CONTENT -->
       <div class="dashboard-content">
@@ -338,21 +390,37 @@
         <!-- STATS CARDS -->
         <div class="dashboard-grid">
           <div class="dashboard-card">
-            <div class="card-icon">📚</div>
+            <div class="card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </div>
             <h3 class="card-title">Lessons Started</h3>
             <p class="card-subtitle">Total courses in progress</p>
             <div class="card-stat" id="lessons-started">0</div>
           </div>
 
           <div class="dashboard-card">
-            <div class="card-icon">✨</div>
+            <div class="card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                <polyline points="13 2 13 9 20 9"></polyline>
+                <path d="M9 15l2 2 4-4"></path>
+              </svg>
+            </div>
             <h3 class="card-title">Learning Streak</h3>
             <p class="card-subtitle">Days in a row</p>
             <div class="card-stat" id="streak-days">0</div>
           </div>
 
           <div class="dashboard-card">
-            <div class="card-icon">🎯</div>
+            <div class="card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
             <h3 class="card-title">Overall Progress</h3>
             <p class="card-subtitle">Average completion</p>
             <div class="card-stat" id="overall-progress">0%</div>
@@ -394,33 +462,59 @@
           <h2 style="margin-top: 0; color: var(--accent);">Settings & Preferences</h2>
           
           <div style="margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1rem;">Appearance</h3>
+            <h3 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="1"></circle>
+                <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
+              </svg>
+              Appearance
+            </h3>
             
+            <!-- Brightness Mode Toggle -->
             <label style="display: block; margin: 1.5rem 0;">
-              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Theme</strong>
-              <select id="theme-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
-                <option value="auto">Auto (System Default)</option>
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
-              </select>
+              <strong style="color: var(--text); display: block; margin-bottom: 0.75rem;">Brightness Mode</strong>
+              <div style="display: flex; gap: 1rem;">
+                <button id="brightness-light" style="flex: 1; padding: 0.75rem; border: 2px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer; font-weight: 600; transition: var(--transition);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: block; margin: 0 auto 0.5rem auto;">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                  </svg>
+                  Light
+                </button>
+                <button id="brightness-dark" style="flex: 1; padding: 0.75rem; border: 2px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer; font-weight: 600; transition: var(--transition);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: block; margin: 0 auto 0.5rem auto;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                  </svg>
+                  Dark
+                </button>
+              </div>
             </label>
 
+            <!-- Color Theme -->
             <label style="display: block; margin: 1.5rem 0;">
-              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Blob Color Theme (from Catppuccin Latte)</strong>
+              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Blob Color Theme (Catppuccin Latte)</strong>
               <select id="color-theme-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
-                <option value="mauve">🟣 Mauve (Default)</option>
-                <option value="lavender">💜 Lavender</option>
-                <option value="blue">🔵 Blue</option>
-                <option value="sky">🌤️ Sky</option>
-                <option value="teal">🧊 Teal</option>
-                <option value="green">💚 Green</option>
-                <option value="peach">🍑 Peach</option>
-                <option value="flamingo">🦩 Flamingo</option>
-                <option value="pink">💕 Pink</option>
-                <option value="red">❤️ Red</option>
+                <option value="mauve">Mauve (Default)</option>
+                <option value="lavender">Lavender</option>
+                <option value="blue">Blue</option>
+                <option value="sky">Sky</option>
+                <option value="teal">Teal</option>
+                <option value="green">Green</option>
+                <option value="peach">Peach</option>
+                <option value="flamingo">Flamingo</option>
+                <option value="pink">Pink</option>
+                <option value="red">Red</option>
               </select>
             </label>
 
+            <!-- Accent Color -->
             <label style="display: block; margin: 1.5rem 0;">
               <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Accent Color</strong>
               <select id="accent-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
@@ -431,6 +525,7 @@
               </select>
             </label>
 
+            <!-- Font Family -->
             <label style="display: block; margin: 1.5rem 0;">
               <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Font Family</strong>
               <select id="font-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
@@ -440,6 +535,7 @@
               </select>
             </label>
 
+            <!-- Font Size -->
             <label style="display: block; margin: 1.5rem 0;">
               <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Font Size: <span id="font-size-value">16</span>px</strong>
               <input type="range" id="font-size-slider" min="12" max="24" value="16" style="width: 100%; cursor: pointer;">
@@ -452,7 +548,7 @@
 
       <!-- FOOTER -->
       <footer class="dashboard-footer">
-        <p>&copy; 2025 Skill Central. All rights reserved. Made with 💙 for learners everywhere.</p>
+        <p>&copy; 2025 Skill Central. All rights reserved. Made with <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline; color: #3b82f6; margin: 0 0.25rem;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> for learners everywhere.</p>
       </footer>
     </div>
 
@@ -529,6 +625,7 @@
 
       function handleSettings() {
         document.getElementById('settings-page').classList.remove('hidden');
+        document.querySelector('.dashboard-content').scrollTop = 0;
       }
 
       // Settings page handlers
@@ -536,41 +633,136 @@
         document.getElementById('settings-page').classList.add('hidden');
       });
 
+      // Brightness mode handlers
+      const brightnessLight = document.getElementById('brightness-light');
+      const brightnessDark = document.getElementById('brightness-dark');
+
+      function updateBrightnessUI(mode) {
+        const light = document.getElementById('brightness-light');
+        const dark = document.getElementById('brightness-dark');
+        if (light && dark) {
+          light.style.borderColor = mode === 'light' ? 'var(--accent)' : 'var(--glass-border)';
+          light.style.background = mode === 'light' ? 'rgba(79, 158, 245, 0.1)' : 'var(--surface)';
+          dark.style.borderColor = mode === 'dark' ? 'var(--accent)' : 'var(--glass-border)';
+          dark.style.background = mode === 'dark' ? 'rgba(79, 158, 245, 0.1)' : 'var(--surface)';
+        }
+      }
+
+      brightnessLight?.addEventListener('click', () => {
+        document.documentElement.style.colorScheme = 'light';
+        localStorage.setItem('brightness', 'light');
+        updateBrightnessUI('light');
+      });
+
+      brightnessDark?.addEventListener('click', () => {
+        document.documentElement.style.colorScheme = 'dark';
+        localStorage.setItem('brightness', 'dark');
+        updateBrightnessUI('dark');
+      });
+
+      // Load brightness mode on init
+      const savedBrightness = localStorage.getItem('brightness') || 'dark';
+      updateBrightnessUI(savedBrightness);
+
       // Font size slider update
       const fontSizeSlider = document.getElementById('font-size-slider');
       const fontSizeValue = document.getElementById('font-size-value');
       if (fontSizeSlider) {
         fontSizeSlider.addEventListener('input', (e) => {
-          fontSizeValue.textContent = e.target.value;
+          const size = e.target.value;
+          fontSizeValue.textContent = size;
+          document.documentElement.style.fontSize = size + 'px';
+          localStorage.setItem('fontSize', size);
         });
+        // Load saved font size
+        const savedSize = localStorage.getItem('fontSize') || '16';
+        fontSizeSlider.value = savedSize;
+        document.documentElement.style.fontSize = savedSize + 'px';
+      }
+
+      // Color theme handler
+      const colorThemeSelect = document.getElementById('color-theme-select');
+      if (colorThemeSelect) {
+        colorThemeSelect.addEventListener('change', (e) => {
+          const theme = e.target.value;
+          localStorage.setItem('colorTheme', theme);
+          // Reload to apply theme (or implement live theme switching)
+          location.reload();
+        });
+        const savedTheme = localStorage.getItem('colorTheme') || 'mauve';
+        colorThemeSelect.value = savedTheme;
+      }
+
+      // Accent color handler
+      const accentSelect = document.getElementById('accent-select');
+      if (accentSelect) {
+        accentSelect.addEventListener('change', (e) => {
+          localStorage.setItem('accent', e.target.value);
+        });
+        const savedAccent = localStorage.getItem('accent') || 'blue';
+        accentSelect.value = savedAccent;
+      }
+
+      // Font family handler
+      const fontSelect = document.getElementById('font-select');
+      if (fontSelect) {
+        fontSelect.addEventListener('change', (e) => {
+          const fontMap = {
+            verdana: 'Verdana, sans-serif',
+            arial: 'Arial, sans-serif',
+            georgia: 'Georgia, serif'
+          };
+          document.body.style.fontFamily = fontMap[e.target.value];
+          localStorage.setItem('font', e.target.value);
+        });
+        const savedFont = localStorage.getItem('font') || 'verdana';
+        fontSelect.value = savedFont;
+        const fontMap = {
+          verdana: 'Verdana, sans-serif',
+          arial: 'Arial, sans-serif',
+          georgia: 'Georgia, serif'
+        };
+        document.body.style.fontFamily = fontMap[savedFont];
       }
 
       // Burger menu functionality
       const burgerMenuBtn = document.getElementById('burger-menu-btn');
       const burgerMenu = document.getElementById('burger-menu');
       const burgerCloseBtn = document.getElementById('burger-close-btn');
+      const burgerOverlay = document.getElementById('burger-overlay');
+      const burgerUserEmail = document.getElementById('burger-user-email');
 
-      burgerMenuBtn?.addEventListener('click', () => {
+      function openBurgerMenu() {
         burgerMenu.style.display = 'block';
-        burgerMenu.style.transform = 'translateX(0)';
-      });
+        burgerOverlay.style.display = 'block';
+        setTimeout(() => {
+          burgerMenu.style.transform = 'translateX(0)';
+          burgerOverlay.style.background = 'rgba(0, 0, 0, 0.3)';
+        }, 10);
+      }
 
-      burgerCloseBtn?.addEventListener('click', () => {
+      function closeBurgerMenu() {
         burgerMenu.style.transform = 'translateX(-100%)';
+        burgerOverlay.style.background = 'rgba(0, 0, 0, 0)';
         setTimeout(() => {
           burgerMenu.style.display = 'none';
-        }, 300);
-      });
+          burgerOverlay.style.display = 'none';
+        }, 350);
+      }
+
+      burgerMenuBtn?.addEventListener('click', openBurgerMenu);
+      burgerCloseBtn?.addEventListener('click', closeBurgerMenu);
 
       // Close burger menu when clicking a link
       document.querySelectorAll('#burger-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-          burgerMenu.style.transform = 'translateX(-100%)';
-          setTimeout(() => {
-            burgerMenu.style.display = 'none';
-          }, 300);
-        });
+        link.addEventListener('click', closeBurgerMenu);
       });
+
+      // Update burger menu user email
+      const currentUser = localStorage.getItem('currentUser');
+      if (burgerUserEmail && currentUser) {
+        burgerUserEmail.textContent = currentUser;
+      }
 
       function handleDashboard() {
         // Hide settings and show main content
