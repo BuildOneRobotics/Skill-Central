@@ -31,7 +31,9 @@
 body{font-family:var(--font-family);background:var(--bg);color:var(--text);margin:0;min-height:100vh;font-size:var(--font-size);transition:var(--transition)}
 h1,h2,h3,h4,h5,h6,p{color:var(--text)}
 .container{max-width:var(--max-width);margin:0 auto;padding:1rem}
-.auth-modal{position:fixed;inset:0;background:var(--overlay);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:1000}
+.auth-modal{position:fixed;inset:0;background:var(--overlay);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:1000;animation:fadeIn 0.3s ease}
+.app, .home-page{animation:fadeIn 0.5s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .auth-container{background:var(--card);padding:2rem;border-radius:var(--radius);box-shadow:0 10px 30px rgba(0,0,0,0.3);width:100%;max-width:400px;border:1px solid var(--border);transition:var(--transition);backdrop-filter:blur(10px);position:relative}
 .close-btn{position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5rem;color:var(--text);cursor:pointer;padding:0;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:var(--transition)}
 .close-btn:hover{background:var(--surface)}
@@ -89,7 +91,8 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 #file-upload{margin:1rem 0;border-radius:10px;padding:0.5rem;border:1px solid var(--border);background:var(--surface)}
 #upload-btn{background:linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);color:white;border:none;padding:0.5rem 1rem;border-radius:10px;cursor:pointer;transition:var(--transition);box-shadow:0 2px 4px rgba(0,0,0,0.1)}
 #upload-btn:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(0,0,0,0.15)}
-.home-page{background:var(--bg);min-height:100vh;display:flex;flex-direction:column}
+.home-page{background:linear-gradient(135deg, var(--bg) 0%, rgba(239, 241, 245, 0.1) 100%);min-height:100vh;display:flex;flex-direction:column}
+[data-theme="dark"] .home-page{background:linear-gradient(135deg, var(--bg) 0%, rgba(24, 24, 37, 0.1) 100%);min-height:100vh;display:flex;flex-direction:column}
 .hero{text-align:center;padding:2rem 0}
 .hero h2{font-size:2rem;margin-bottom:1rem}
 .hero p{font-size:1.2rem;color:var(--muted);margin-bottom:2rem}
@@ -112,9 +115,13 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 #add-topic-form input, #add-topic-form textarea{padding:0.5rem;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)}
 #add-topic-form button{background:var(--accent);color:white;border:none;padding:0.5rem;border-radius:8px;cursor:pointer}
 #edit-topics{display:grid;grid-template-columns:1fr;gap:1rem}
-.edit-topic{background:var(--surface);padding:1rem;border-radius:8px;border:1px solid var(--border)}
+.edit-topic{background:var(--surface);padding:1rem;border-radius:8px;border:1px solid var(--border);margin-bottom:1rem}
 .subject-edit{margin-bottom:1rem;padding:0.5rem;border:1px solid var(--border);border-radius:4px;background:var(--card)}
-.subject-edit input,.subject-edit textarea{margin-bottom:0.5rem;width:100%;padding:0.25rem;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text)}
+.subject-edit input,.subject-edit textarea,.subject-edit select{margin-bottom:0.5rem;width:100%;padding:0.25rem;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text)}
+.subject-edit button{margin-right:0.5rem;padding:0.25rem 0.5rem;border:1px solid var(--border);border-radius:4px;background:var(--accent);color:white;cursor:pointer}
+.add-topic-form, .add-lesson-form{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;padding:1rem;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+.add-topic-form input, .add-topic-form textarea, .add-lesson-form input, .add-lesson-form textarea, .add-lesson-form select{padding:0.5rem;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text)}
+.add-topic-form button, .add-lesson-form button{background:var(--accent);color:white;border:none;padding:0.5rem;border-radius:4px;cursor:pointer}
 .edit-topic input, .edit-topic textarea{width:100%;margin-bottom:0.5rem;padding:0.5rem;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text)}
 .edit-topic button{margin-right:0.5rem;padding:0.4rem 0.8rem;border-radius:4px;cursor:pointer}
 .edit-topic .save{background:#a6e3a1;color:#1e1e2e;border:none}
