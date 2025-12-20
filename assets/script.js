@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const homeEl = document.getElementById('home');
   const authEl = document.getElementById('auth');
   const appEl = document.getElementById('app');
+  // Determine whether this page contains the authenticated app UI.
+  const isAppPage = !!appEl;
   const enterSiteBtn = document.getElementById('enter-site');
   const enterSiteMainBtn = document.getElementById('enter-site-main');
   const loginForm = document.getElementById('login-form');
@@ -55,6 +57,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
   applySettings();
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySettings);
 
+  // Persistence / security notes:
+  // - Data is saved locally in the browser `localStorage` under keys such as:
+  //   - 'users' => JSON { email: hashedPassword }
+  //   - 'currentUser' => currently logged-in email
+  //   - 'isAdmin' => 'true' or 'false'
+  //   - 'topics' => array of topic objects (subjects, lessons)
+  //   - `files_<email>` => uploaded files for a user
+  //   - `progress_<email>` => per-user progress state
+  // - WARNING: The admin credential check below is hardcoded in this script and
+  //   is visible in the repository. For production, move auth and data to a
+  //   backend service and remove any hardcoded secrets from source files.
+
   // Improved hashing using Web Crypto API
   async function hashPassword(pwd) {
     const encoder = new TextEncoder();
@@ -69,7 +83,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
       isAdmin = true;
       localStorage.setItem('currentUser', email);
       localStorage.setItem('isAdmin', 'true');
-      showApp();
+      if (isAppPage) {
+        showApp();
+      } else {
+        window.location.href = 'dashboard.html';
+      }
       return true;
     }
     const users = JSON.parse(localStorage.getItem('users') || '{}');
@@ -79,7 +97,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
       isAdmin = false;
       localStorage.setItem('currentUser', email);
       localStorage.setItem('isAdmin', 'false');
-      showApp();
+      if (isAppPage) {
+        showApp();
+      } else {
+        window.location.href = 'dashboard.html';
+      }
       return true;
     }
     return false;
@@ -94,7 +116,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     isAdmin = false;
     localStorage.setItem('currentUser', email);
     localStorage.setItem('isAdmin', 'false');
-    showApp();
+    if (isAppPage) {
+      showApp();
+    } else {
+      window.location.href = 'dashboard.html';
+    }
     return true;
   }
 
@@ -103,7 +129,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     isAdmin = false;
     localStorage.removeItem('currentUser');
     localStorage.removeItem('isAdmin');
-    showHome();
+    // If we're on the dashboard page, send user back to the public homepage.
+    if (isAppPage) {
+      window.location.href = 'index.html';
+    } else {
+      showHome();
+    }
   }
 
   function showHome() {
@@ -127,6 +158,72 @@ document.addEventListener('DOMContentLoaded', ()=>{
       document.querySelector('.auth-container').classList.remove('hidden');
     }
   }
+
+  // Homepage config: stored in localStorage under 'homepage'.
+  // Structure example:
+  // { hero: {title, subtitle, cta}, features: [{title,desc}], testimonials: [{text,author}] }
+  function getHomepageConfig() {
+    try {
+      return JSON.parse(localStorage.getItem('homepage') || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveHomepageConfig(cfg) {
+    localStorage.setItem('homepage', JSON.stringify(cfg));
+  }
+
+  function renderHomepage() {
+    const cfg = getHomepageConfig();
+    // Hero
+    const heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      const title = cfg.hero?.title || 'Welcome to Skill Central';
+      const sub = cfg.hero?.subtitle || 'Master practical life skills with interactive, bite-sized courses.';
+      heroEl.querySelector('h2').textContent = title;
+      heroEl.querySelector('p').textContent = sub;
+      const cta = heroEl.querySelector('.learn-btn') || heroEl.querySelector('#enter-site-main');
+      if (cta) cta.textContent = cfg.hero?.cta || 'Get Started';
+    }
+
+    // Features
+    const featuresEl = document.getElementById('features');
+    if (featuresEl) {
+      featuresEl.innerHTML = '';
+      const features = cfg.features || [
+        { title: 'Practical Courses', desc: 'Short, actionable lessons focused on everyday skills.' },
+        { title: 'Personal Progress', desc: 'Track learning with per-lesson completion and a dashboard.' },
+        { title: 'Admin Tools', desc: 'Edit topics, lessons and homepage content without deploying.' }
+      ];
+      features.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'feature-card';
+        const h = document.createElement('h4'); h.textContent = f.title;
+        const p = document.createElement('p'); p.textContent = f.desc;
+        card.appendChild(h); card.appendChild(p);
+        featuresEl.appendChild(card);
+      });
+    }
+
+    // Testimonials
+    const testEl = document.querySelector('.testimonials');
+    if (testEl) {
+      testEl.innerHTML = '';
+      const tests = cfg.testimonials || [
+        { text: 'Clear, practical, and well-structured.', author: 'Alex' },
+        { text: 'Great for busy people. Short lessons that actually stick.', author: 'Priya' }
+      ];
+      tests.forEach(t => {
+        const d = document.createElement('div'); d.className = 'testimonial';
+        const p = document.createElement('p'); p.textContent = `"${t.text}" — ${t.author || ''}`;
+        d.appendChild(p); testEl.appendChild(d);
+      });
+    }
+  }
+
+  // Initialize homepage rendering on public page
+  if (homeEl) renderHomepage();
 
   function showApp() {
     homeEl.classList.add('hidden');
@@ -508,14 +605,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
     authEl.classList.add('hidden');
   });
 
-  logoutBtn.addEventListener('click', logout);
+  logoutBtn?.addEventListener('click', logout);
 
-  adminPanelBtn.addEventListener('click', () => {
+  adminPanelBtn?.addEventListener('click', () => {
     adminEditEl.classList.toggle('hidden');
     populateLessonSelects();
   });
 
-  addTopicForm.addEventListener('submit', e => {
+  addTopicForm?.addEventListener('submit', e => {
     e.preventDefault();
     const name = document.getElementById('topic-name').value;
     const desc = document.getElementById('topic-desc').value;
@@ -608,7 +705,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   // Search
-  searchEl.addEventListener('input', () => {
+  searchEl?.addEventListener('input', () => {
     const q = searchEl.value.trim().toLowerCase();
     if (!q) {
       renderTopics(topicsData);
@@ -622,7 +719,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 
   // Files toggle
-  filesBtn.addEventListener('click', () => {
+  filesBtn?.addEventListener('click', () => {
     if (topicsEl.classList.contains('hidden')) {
       showTopics();
     } else {
@@ -631,7 +728,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 
   // Upload
-  uploadBtn.addEventListener('click', () => {
+  uploadBtn?.addEventListener('click', () => {
     const files = Array.from(fileUpload.files);
     const userFiles = JSON.parse(localStorage.getItem(`files_${currentUser}`) || '[]');
     files.forEach(f => {
@@ -646,21 +743,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 
   // Burger menu
-  document.getElementById('burger-menu').addEventListener('click', () => {
-    document.getElementById('mobile-menu').classList.toggle('open');
+  document.getElementById('burger-menu')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu')?.classList.toggle('open');
   });
 
   // Menu items
-  document.getElementById('menu-home').addEventListener('click', e => {
+  document.getElementById('menu-home')?.addEventListener('click', e => {
     e.preventDefault();
     showTopics();
-    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('mobile-menu')?.classList.remove('open');
   });
 
-  document.getElementById('menu-settings').addEventListener('click', e => {
+  document.getElementById('menu-settings')?.addEventListener('click', e => {
     e.preventDefault();
     showSettings();
-    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('mobile-menu')?.classList.remove('open');
   });
 
   menuAccountLink?.addEventListener('click', e => {
@@ -670,12 +767,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 
   // Footer links
-  document.getElementById('footer-home').addEventListener('click', e => {
+  document.getElementById('footer-home')?.addEventListener('click', e => {
     e.preventDefault();
     showHome();
   });
 
-  document.getElementById('footer-settings').addEventListener('click', e => {
+  document.getElementById('footer-settings')?.addEventListener('click', e => {
     e.preventDefault();
     showSettings();
   });
@@ -685,40 +782,41 @@ document.addEventListener('DOMContentLoaded', ()=>{
     showAccount();
   });
 
-  document.getElementById('footer-files').addEventListener('click', e => {
+  document.getElementById('footer-files')?.addEventListener('click', e => {
     e.preventDefault();
     showFiles();
   });
 
-  document.getElementById('footer-logout').addEventListener('click', e => {
+  document.getElementById('footer-logout')?.addEventListener('click', e => {
     e.preventDefault();
     logout();
   });
 
+
   // Settings
-  document.getElementById('back-from-settings').addEventListener('click', () => {
+  document.getElementById('back-from-settings')?.addEventListener('click', () => {
     showTopics();
   });
 
-  document.getElementById('theme-select').addEventListener('change', e => {
+  document.getElementById('theme-select')?.addEventListener('change', e => {
     theme = e.target.value;
     localStorage.setItem('theme', theme);
     applySettings();
   });
 
-  document.getElementById('accent-select').addEventListener('change', e => {
+  document.getElementById('accent-select')?.addEventListener('change', e => {
     accentColor = e.target.value;
     localStorage.setItem('accent', accentColor);
     applySettings();
   });
 
-  document.getElementById('font-select').addEventListener('change', e => {
+  document.getElementById('font-select')?.addEventListener('change', e => {
     fontFamily = e.target.value;
     localStorage.setItem('font', fontFamily);
     applySettings();
   });
 
-  document.getElementById('font-size-slider').addEventListener('input', e => {
+  document.getElementById('font-size-slider')?.addEventListener('input', e => {
     fontSize = parseInt(e.target.value);
     localStorage.setItem('fontSize', fontSize);
     applySettings();
@@ -733,9 +831,135 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   });
 
-  // Set initial values
-  document.getElementById('theme-select').value = theme;
-  document.getElementById('accent-select').value = accentColor;
-  document.getElementById('font-select').value = fontFamily;
-  document.getElementById('font-size-slider').value = fontSize;
+  // Set initial values (only if the elements exist on this page)
+  if (document.getElementById('theme-select')) document.getElementById('theme-select').value = theme;
+  if (document.getElementById('accent-select')) document.getElementById('accent-select').value = accentColor;
+  if (document.getElementById('font-select')) document.getElementById('font-select').value = fontFamily;
+  if (document.getElementById('font-size-slider')) document.getElementById('font-size-slider').value = fontSize;
+
+  // Admin homepage editor bindings (if present)
+  const homepageForm = document.getElementById('homepage-form');
+  const homepageJson = document.getElementById('homepage-json');
+  const loadHomepageBtn = document.getElementById('load-homepage');
+  const saveHomepageBtn = document.getElementById('save-homepage');
+  const resetHomepageBtn = document.getElementById('reset-homepage');
+
+  if (homepageForm) {
+    loadHomepageBtn?.addEventListener('click', () => {
+      const cfg = getHomepageConfig();
+      homepageJson.value = JSON.stringify(cfg, null, 2);
+      alert('Loaded homepage JSON into editor.');
+    });
+
+    saveHomepageBtn?.addEventListener('click', () => {
+      try {
+        const parsed = JSON.parse(homepageJson.value);
+        saveHomepageConfig(parsed);
+        alert('Homepage saved. Changes will appear on the public homepage.');
+      } catch (e) {
+        alert('Invalid JSON: ' + e.message);
+      }
+    });
+
+    resetHomepageBtn?.addEventListener('click', () => {
+      if (!confirm('Reset homepage to defaults?')) return;
+      localStorage.removeItem('homepage');
+      homepageJson.value = '';
+      alert('Homepage reset.');
+    });
+  }
+
+  // Gist export/import for topics
+  async function createGistFromTopics(token, makePublic = false) {
+    const topics = JSON.parse(localStorage.getItem('topics') || '[]');
+    const body = {
+      description: 'Skill-Central topics backup',
+      public: !!makePublic,
+      files: {
+        'topics.json': {
+          content: JSON.stringify(topics, null, 2)
+        }
+      }
+    };
+    const res = await fetch('https://api.github.com/gists', {
+      method: 'POST',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error('Gist creation failed: ' + res.statusText);
+    return await res.json();
+  }
+
+  async function loadTopicsFromGist(gistId, token) {
+    const url = `https://api.github.com/gists/${gistId}`;
+    const res = await fetch(url, token ? { headers: { 'Authorization': `token ${token}` } } : {});
+    if (!res.ok) throw new Error('Failed to load gist: ' + res.statusText);
+    const data = await res.json();
+    if (data.files && data.files['topics.json'] && data.files['topics.json'].content) {
+      const content = data.files['topics.json'].content;
+      try {
+        const parsed = JSON.parse(content);
+        localStorage.setItem('topics', JSON.stringify(parsed));
+        topicsData = parsed;
+        loadTopics();
+        return true;
+      } catch (e) {
+        throw new Error('Invalid JSON in gist topics.json');
+      }
+    }
+    throw new Error('topics.json not found in gist');
+  }
+
+  // Admin buttons for gist handling
+  const createGistBtn = document.getElementById('create-gist');
+  const gistTokenInput = document.getElementById('gist-token');
+  const gistPublicCheckbox = document.getElementById('gist-public');
+  const loadGistBtn = document.getElementById('load-gist');
+  const gistIdInput = document.getElementById('gist-id');
+  const downloadTopicsBtn = document.getElementById('download-topics');
+  const clearTopicsBtn = document.getElementById('clear-topics');
+
+  createGistBtn?.addEventListener('click', async () => {
+    const token = gistTokenInput.value.trim();
+    if (!token) return alert('Please paste a GitHub token with `gist` scope in the token field.');
+    try {
+      createGistBtn.disabled = true;
+      const res = await createGistFromTopics(token, gistPublicCheckbox.checked);
+      alert('Gist created: ' + res.html_url + '\nGist ID: ' + res.id);
+    } catch (e) {
+      alert(e.message);
+    } finally { createGistBtn.disabled = false; }
+  });
+
+  loadGistBtn?.addEventListener('click', async () => {
+    const gid = gistIdInput.value.trim();
+    const token = gistTokenInput.value.trim();
+    if (!gid) return alert('Enter the Gist ID to load from.');
+    try {
+      loadGistBtn.disabled = true;
+      await loadTopicsFromGist(gid, token || null);
+      alert('Topics imported from gist.');
+    } catch (e) {
+      alert(e.message);
+    } finally { loadGistBtn.disabled = false; }
+  });
+
+  downloadTopicsBtn?.addEventListener('click', () => {
+    const topics = localStorage.getItem('topics') || '[]';
+    const blob = new Blob([topics], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'topics.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
+
+  clearTopicsBtn?.addEventListener('click', () => {
+    if (!confirm('Clear all local topics? This cannot be undone.')) return;
+    localStorage.setItem('topics', JSON.stringify([]));
+    topicsData = [];
+    loadTopics();
+    alert('Local topics cleared.');
+  });
 });

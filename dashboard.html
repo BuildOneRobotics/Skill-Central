@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Skill Central — Dashboard</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <!-- Dashboard is a separate page for authenticated users. This file contains only the app UI. -->
+    <div id="app">
+      <header class="site-header">
+        <div class="container">
+          <button id="burger-menu">☰</button>
+          <h1>Skill Central</h1>
+          <div>
+            <button id="logout">Logout</button>
+            <button id="admin-panel" class="hidden">Admin</button>
+          </div>
+        </div>
+      </header>
+
+      <nav class="nav container">
+        <input id="search" placeholder="Search topics or subjects..." aria-label="Search" />
+        <div class="nav-actions">
+          <button id="account-btn">Account</button>
+          <button id="files-btn">Files</button>
+        </div>
+      </nav>
+
+      <main class="container" id="content">
+        <section id="topics"></section>
+        <section id="lessons" class="hidden">
+          <button id="back-to-topics">Back to Topics</button>
+          <h2 id="lesson-subject-title"></h2>
+          <div id="lesson-list"></div>
+        </section>
+        <section id="files" class="hidden">
+          <h2>Your Files</h2>
+          <div id="file-list"></div>
+          <input type="file" id="file-upload" multiple />
+          <button id="upload-btn">Upload</button>
+        </section>
+        <section id="settings-page" class="hidden">
+          <button id="back-from-settings">Back</button>
+          <h2>Settings</h2>
+          <!-- settings omitted for brevity; script manages values in localStorage -->
+        </section>
+        <section id="account" class="hidden">
+          <div class="account-card">
+            <div>
+              <h2>Your Account</h2>
+              <p class="muted" id="account-email"></p>
+              <p class="muted" id="account-status"></p>
+            </div>
+            <button id="reset-progress" class="ghost-button">Reset Progress</button>
+          </div>
+          <div id="progress-summary" class="progress-grid"></div>
+        </section>
+
+        <div id="admin-edit" class="hidden">
+          <h3>Admin Dashboard</h3>
+          <form id="add-topic-form">
+            <input type="text" id="topic-name" placeholder="Topic Name" required />
+            <textarea id="topic-desc" placeholder="Description"></textarea>
+            <input type="text" id="topic-subjects" placeholder="Subjects (comma separated)" />
+            <button type="submit">Add Topic</button>
+          </form>
+          <h4>Add Lesson</h4>
+          <form id="add-lesson-form">
+            <select id="lesson-topic" required><option value="">Select Topic</option></select>
+            <select id="lesson-subject" required><option value="">Select Subject</option></select>
+            <input type="text" id="lesson-title" placeholder="Lesson Title" required />
+            <textarea id="lesson-content" placeholder="Content"></textarea>
+            <select id="lesson-type">
+              <option value="lesson">Lesson</option>
+              <option value="quiz">Quiz</option>
+              <option value="flashcard">Flashcard</option>
+              <option value="question">Question</option>
+              <option value="course">Course</option>
+            </select>
+            <button type="submit">Add Lesson</button>
+          </form>
+          <div id="edit-topics"></div>
+          <hr />
+          <h4>Edit Homepage</h4>
+          <p class="muted">Edit the homepage configuration as JSON. Use this to change hero text, feature boxes, and testimonials.</p>
+          <form id="homepage-form">
+            <label for="homepage-json">Homepage JSON</label>
+            <textarea id="homepage-json" rows="10" style="width:100%;font-family:monospace;" placeholder='{"hero":{...},"features":[],"testimonials":[]}'>
+            </textarea>
+            <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
+              <button id="load-homepage" type="button">Load</button>
+              <button id="save-homepage" type="button">Save</button>
+              <button id="reset-homepage" type="button">Reset</button>
+            </div>
+          </form>
+          <hr />
+          <h4>Topics Backup / Sync (GitHub Gist)</h4>
+          <p class="muted">Export your `topics` to a GitHub Gist for remote backups and cross-device sync. Provide a personal access token with `gist` scope.</p>
+          <div style="display:grid;gap:0.5rem">
+            <label>GitHub Token (paste temporarily)</label>
+            <input id="gist-token" type="password" placeholder="ghp_..." style="width:100%;" />
+            <label><input id="gist-public" type="checkbox" /> Make gist public</label>
+            <div style="display:flex;gap:0.5rem">
+              <button id="create-gist" type="button">Save Topics to Gist</button>
+              <button id="download-topics" type="button">Download topics.json</button>
+            </div>
+            <label>Import from Gist ID</label>
+            <input id="gist-id" placeholder="Gist ID (optional)" />
+            <div style="display:flex;gap:0.5rem">
+              <button id="load-gist" type="button">Load Topics from Gist</button>
+              <button id="clear-topics" type="button">Clear Local Topics</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="site-footer container">
+      <div class="footer-content">
+        <div class="quick-links">
+          <a href="index.html">Home</a>
+          <a href="#" id="footer-account">Account</a>
+          <a href="#" id="footer-settings">Settings</a>
+          <a href="#" id="footer-files">Files</a>
+          <a href="#" id="footer-logout">Logout</a>
+        </div>
+        <p>&copy; 2025 Skill Central. Built with love.</p>
+      </div>
+    </footer>
+
+    <nav id="mobile-menu" class="hidden">
+      <ul>
+        <li><a href="#" id="menu-home">Home</a></li>
+        <li><a href="#" id="menu-account">Account</a></li>
+        <li><a href="#" id="menu-settings">Settings</a></li>
+      </ul>
+    </nav>
+
+    <script src="assets/script.js"></script>
+  </body>
+</html>

@@ -17,15 +17,57 @@
           </div>
         </div>
       </header>
+      <!-- subtle decorative background SVG for depth -->
+      <svg class="home-bg-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1">
+            <stop offset="0%" stop-color="#86a8ff" stop-opacity="0.10" />
+            <stop offset="100%" stop-color="#5b7dff" stop-opacity="0.04" />
+          </linearGradient>
+        </defs>
+        <path fill="url(#g1)" d="M0,64L60,80C120,96,240,128,360,144C480,160,600,160,720,144C840,128,960,96,1080,74.7C1200,53,1320,43,1380,37.3L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+      </svg>
+
       <main class="container">
         <section class="hero">
           <h2>Welcome to Skill Central</h2>
-          <p>Master practical life skills with interactive courses on finance, cooking, home maintenance, and more.</p>
-          <button id="enter-site-main">Get Started</button>
+          <p>Master practical life skills with interactive, bite-sized courses on finance, cooking, home maintenance, job skills, and more.</p>
+          <div class="cta">
+            <button id="enter-site-main" class="learn-btn">Get Started</button>
+            <a href="#preview" class="muted">Browse featured topics</a>
+          </div>
         </section>
-        <section class="preview">
+
+        <section id="features">
+          <div class="feature-card">
+            <h4>Practical Courses</h4>
+            <p>Short, actionable lessons focused on everyday skills you can apply immediately.</p>
+          </div>
+          <div class="feature-card">
+            <h4>Personal Progress</h4>
+            <p>Track your learning with per-lesson completion and a personal dashboard.</p>
+          </div>
+          <div class="feature-card">
+            <h4>Admin Tools</h4>
+            <p>Easy content editing for instructors — add topics, lessons and quizzes without deploying code.</p>
+          </div>
+        </section>
+
+        <section class="preview" id="preview">
           <h3>Featured Topics</h3>
           <div id="preview-topics"></div>
+        </section>
+
+        <section class="testimonials">
+          <div class="testimonial">
+            <p>"Clear, practical, and well-structured — I used this to learn basic home repairs." — Alex</p>
+          </div>
+          <div class="testimonial">
+            <p>"Great for busy people. Short lessons that actually stick." — Priya</p>
+          </div>
+          <div class="testimonial">
+            <p>"The progress tracking helped me stay motivated." — Jordan</p>
+          </div>
         </section>
       </main>
       <footer class="site-footer container">
@@ -57,107 +99,17 @@
       </div>
     </div>
 
-    <div id="app" class="hidden">
-      <header class="site-header">
-        <div class="container">
-          <button id="burger-menu">☰</button>
-          <h1><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Skill Central</h1>
-          <div>
-            <button id="logout"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Logout</button>
-            <button id="admin-panel" class="hidden"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/></svg> Admin</button>
-          </div>
-        </div>
-      </header>
-
-      <nav class="nav container">
-        <input id="search" placeholder="Search topics or subjects..." aria-label="Search" />
-        <div class="nav-actions">
-          <button id="account-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3"/><path d="M5 21c0-3 4-5 7-5s7 2 7 5"/></svg> Account</button>
-          <button id="files-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> Files</button>
-        </div>
-      </nav>
-
-      <main class="container" id="content">
-        <section id="topics"></section>
-        <section id="lessons" class="hidden">
-          <button id="back-to-topics"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12,19 5,12 12,5"/></svg> Back to Topics</button>
-          <h2 id="lesson-subject-title"></h2>
-          <div id="lesson-list"></div>
-        </section>
-        <section id="files" class="hidden">
-          <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> Your Files</h2>
-          <div id="file-list"></div>
-          <input type="file" id="file-upload" multiple />
-          <button id="upload-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Upload</button>
-        </section>
-        <section id="settings-page" class="hidden">
-          <button id="back-from-settings"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12,19 5,12 12,5"/></svg> Back</button>
-          <h2>Settings</h2>
-          <label>Theme: <select id="theme-select">
-            <option value="auto">Auto</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select></label>
-          <label>Accent: <select id="accent-select">
-            <option value="blue">Blue</option>
-            <option value="green">Green</option>
-            <option value="purple">Purple</option>
-            <option value="red">Red</option>
-          </select></label>
-          <label>Font: <select id="font-select">
-            <option value="verdana">Verdana</option>
-            <option value="arial">Arial</option>
-            <option value="georgia">Georgia</option>
-          </select></label>
-          <label>Font Size: <input type="range" id="font-size-slider" min="12" max="24" value="16"></label>
-        </section>
-        <section id="account" class="hidden">
-          <div class="account-card">
-            <div>
-              <h2>Your Account</h2>
-              <p class="muted" id="account-email"></p>
-              <p class="muted" id="account-status"></p>
-            </div>
-            <button id="reset-progress" class="ghost-button">Reset Progress</button>
-          </div>
-          <div id="progress-summary" class="progress-grid"></div>
-        </section>
-        <div id="admin-edit" class="hidden">
-          <h3>Admin Dashboard</h3>
-          <form id="add-topic-form">
-            <input type="text" id="topic-name" placeholder="Topic Name" required />
-            <textarea id="topic-desc" placeholder="Description"></textarea>
-            <input type="text" id="topic-subjects" placeholder="Subjects (comma separated)" />
-            <button type="submit">Add Topic</button>
-          </form>
-          <h4>Add Lesson</h4>
-          <form id="add-lesson-form">
-            <select id="lesson-topic" required><option value="">Select Topic</option></select>
-            <select id="lesson-subject" required><option value="">Select Subject</option></select>
-            <input type="text" id="lesson-title" placeholder="Lesson Title" required />
-            <textarea id="lesson-content" placeholder="Content"></textarea>
-            <select id="lesson-type">
-              <option value="lesson">Lesson</option>
-              <option value="quiz">Quiz</option>
-              <option value="flashcard">Flashcard</option>
-              <option value="question">Question</option>
-              <option value="course">Course</option>
-            </select>
-            <button type="submit">Add Lesson</button>
-          </form>
-          <div id="edit-topics"></div>
-        </div>
-      </main>
-    </div>
+    <!-- App moved to a dedicated dashboard page: dashboard.html -->
+    <!-- The authenticated app UI now lives in dashboard.html. -->
 
     <footer class="site-footer container">
       <div class="footer-content">
         <div class="quick-links">
           <a href="#" id="footer-home">Home</a>
-          <a href="#" id="footer-account">Account</a>
-          <a href="#" id="footer-settings">Settings</a>
-          <a href="#" id="footer-files">Files</a>
-          <a href="#" id="footer-logout">Logout</a>
+          <a href="dashboard.html" id="footer-account">Account</a>
+          <a href="dashboard.html" id="footer-settings">Settings</a>
+          <a href="dashboard.html" id="footer-files">Files</a>
+          <a href="dashboard.html" id="footer-logout">Logout</a>
         </div>
         <p>&copy; 2025 Skill Central. Built with love.</p>
       </div>
@@ -166,8 +118,8 @@
       <nav id="mobile-menu" class="hidden">
         <ul>
           <li><a href="#" id="menu-home">Home</a></li>
-          <li><a href="#" id="menu-account">Account</a></li>
-          <li><a href="#" id="menu-settings">Settings</a></li>
+          <li><a href="dashboard.html" id="menu-account">Account</a></li>
+          <li><a href="dashboard.html" id="menu-settings">Settings</a></li>
         </ul>
       </nav>
 

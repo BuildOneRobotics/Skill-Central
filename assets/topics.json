@@ -9,46 +9,7 @@
           {
             "title": "Creating a Monthly Budget",
             "content": "A budget helps you understand where your money goes. Start by listing all income sources and fixed expenses like rent. Then allocate funds for variable expenses and savings. Use apps or spreadsheets to track spending.",
-            "image": ""
-          },
-          {
-            "title": "Expense Tracking Methods",
-            "content": "Track expenses daily using receipts, apps like Mint, or a notebook. Categorize spending (food, transportation, entertainment) to identify areas for savings.",
-            "image": ""
-          }
-        ]
-      },
-      {
-        "name": "Savings strategies",
-        "lessons": [
-          {
-            "title": "Emergency Fund Basics",
-            "content": "Build an emergency fund covering 3-6 months of expenses. Start small with automatic transfers to a high-yield savings account.",
-            "image": ""
-          }
-        ]
-      },
-      {
-        "name": "Paying off debt",
-        "lessons": [
-          {
-            "title": "Debt Snowball Method",
-            "content": "List debts by balance, pay minimums on all, and extra on smallest debt. Once paid off, roll that payment to next smallest.",
-            "image": ""
-          }
-        ]
-      },
-      {
-        "name": "Basics of investing",
-        "lessons": [
-          {
-            "title": "Stock Market Fundamentals",
-            "content": "Investing involves risk. Start with index funds for diversification. Understand compound interest and long-term growth.",
-            "image": ""
-          }
-        ]
-      },
-      {
+            []
         "name": "Taxes 101",
         "lessons": [
           {
