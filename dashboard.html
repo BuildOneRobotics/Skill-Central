@@ -39,47 +39,12 @@
         height: 28px;
       }
 
-      .dashboard-nav {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-      }
-
-      .dashboard-user-info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .user-email {
-        font-size: 0.95rem;
-        color: var(--muted);
-      }
-
-      .logout-btn {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius);
-        cursor: pointer;
-        font-size: 0.95rem;
-        font-weight: 600;
-        transition: var(--transition);
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
-      }
-
-      .logout-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
-      }
-
       .dashboard-content {
         flex: 1;
         max-width: 1200px;
         margin: 0 auto;
         width: 100%;
-        padding: 2rem;
+        padding: 3rem 2rem;
         position: relative;
         z-index: 2;
       }
@@ -90,7 +55,7 @@
         border-radius: var(--radius);
         backdrop-filter: blur(15px);
         padding: 2rem;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
         box-shadow: var(--shadow);
       }
 
@@ -110,9 +75,9 @@
 
       .dashboard-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        margin-bottom: 4rem;
       }
 
       .dashboard-card {
@@ -120,7 +85,7 @@
         border: 1px solid var(--glass-border);
         border-radius: var(--radius);
         backdrop-filter: blur(15px);
-        padding: 1.75rem;
+        padding: 2rem;
         box-shadow: var(--shadow);
         transition: var(--transition);
         cursor: pointer;
@@ -156,53 +121,14 @@
         margin: 1rem 0 0 0;
       }
 
-      .quick-actions {
-        background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%);
-        border: 1px solid var(--glass-border);
-        border-radius: var(--radius);
-        backdrop-filter: blur(15px);
-        padding: 1.75rem;
-        margin-bottom: 2rem;
-        box-shadow: var(--shadow);
-      }
-
-      .quick-actions h3 {
-        margin: 0 0 1.5rem 0;
-        font-size: 1.3rem;
-      }
-
-      .action-buttons {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1rem;
-      }
-
-      .action-btn {
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
-        color: white;
-        border: none;
-        padding: 1rem;
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 0.95rem;
-        font-weight: 600;
-        transition: var(--transition);
-        box-shadow: 0 4px 12px rgba(79, 158, 245, 0.2);
-        text-align: center;
-      }
-
-      .action-btn:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(79, 158, 245, 0.3);
-      }
-
       .learning-path {
         background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%);
         border: 1px solid var(--glass-border);
         border-radius: var(--radius);
         backdrop-filter: blur(15px);
-        padding: 1.75rem;
+        padding: 2rem;
         box-shadow: var(--shadow);
+        margin-bottom: 3rem;
       }
 
       .learning-path h3 {
@@ -212,11 +138,15 @@
 
       .path-item {
         background: rgba(0, 0, 0, 0.2);
-        padding: 1.25rem;
+        padding: 1.5rem;
         border-radius: 12px;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
         border-left: 3px solid var(--accent);
         transition: var(--transition);
+      }
+
+      .path-item:last-child {
+        margin-bottom: 0;
       }
 
       .path-item:hover {
@@ -242,7 +172,7 @@
         color: var(--muted);
         font-size: 0.9rem;
         border-top: 1px solid var(--glass-border);
-        margin-top: 2rem;
+        margin-top: 3rem;
       }
 
       .dashboard-container {
@@ -262,7 +192,7 @@
         }
 
         .dashboard-content {
-          padding: 1rem;
+          padding: 2rem 1rem;
         }
 
         .welcome-section {
@@ -271,10 +201,7 @@
 
         .dashboard-grid {
           grid-template-columns: 1fr;
-        }
-
-        .action-buttons {
-          grid-template-columns: 1fr;
+          gap: 1.5rem;
         }
 
         .dashboard-logo {
@@ -298,7 +225,7 @@
     <div class="dashboard-container">
       <!-- HEADER -->
       <header class="dashboard-header">
-        <div class="dashboard-header-content" style="display: flex; justify-content: space-between; align-items: center; padding: 0 1rem;">
+        <div class="dashboard-header-content">
           <!-- Burger Menu Button (LEFT) -->
           <button id="burger-menu-btn" style="background: none; border: none; color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 0.5rem; display: flex; align-items: center; order: -1;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -338,7 +265,7 @@
         <!-- Menu Content -->
         <nav style="display: flex; flex-direction: column; gap: 0.5rem; padding: 1.5rem 0.75rem;">
           <!-- Dashboard Link -->
-          <a href="#" onclick="handleDashboard(); return false;" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+          <a href="dashboard.html" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="7" height="7"></rect>
               <rect x="14" y="3" width="7" height="7"></rect>
@@ -349,7 +276,7 @@
           </a>
 
           <!-- Browse Topics Link -->
-          <a href="#" onclick="handleBrowseTopics(); return false;" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+          <a href="browse-topics.html" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
@@ -358,7 +285,7 @@
           </a>
 
           <!-- Admin Panel Link (only for admins) -->
-          <a id="admin-menu-link" href="#" onclick="handleAdminPanel(); return false;" style="display: none; align-items: center; gap: 0.75rem; color: #a855f7; text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+          <a id="admin-menu-link" href="admin.html" style="display: none; align-items: center; gap: 0.75rem; color: #a855f7; text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
@@ -366,7 +293,7 @@
           </a>
 
           <!-- Settings Link -->
-          <a href="#" onclick="handleSettings(); return false;" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+          <a href="settings.html" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="3"></circle>
               <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
@@ -414,9 +341,9 @@
                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
               </svg>
             </div>
-            <h3 class="card-title">Lessons Started</h3>
-            <p class="card-subtitle">Total courses in progress</p>
-            <div class="card-stat" id="lessons-started">0</div>
+            <h3 class="card-title">Topics Enrolled</h3>
+            <p class="card-subtitle">Active courses</p>
+            <div class="card-stat" id="topics-enrolled">0</div>
           </div>
 
           <div class="dashboard-card">
@@ -445,187 +372,22 @@
           </div>
         </div>
 
-        <!-- QUICK ACTIONS -->
-        <div class="quick-actions">
-          <h3>Quick Actions</h3>
-          <div class="action-buttons">
-            <button class="action-btn" onclick="handleBrowseTopics()">Browse Topics</button>
-            <button class="action-btn" onclick="handleSettings()">Settings</button>
-            <button class="action-btn" id="admin-action-btn" onclick="handleAdminPanel()" style="display: none; background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);">Admin Panel</button>
-          </div>
-        </div>
-
         <!-- LEARNING PATH -->
         <div class="learning-path">
           <h3>Your Learning Path</h3>
           <div id="learning-items-container">
             <div class="path-item">
-              <p class="path-item-title">Get Started</p>
-              <p class="path-item-desc">Choose a topic and begin learning. You have access to all available courses.</p>
+              <p class="path-item-title">Browse Topics</p>
+              <p class="path-item-desc">Explore available topics and choose what you want to learn. Start a new course anytime.</p>
             </div>
             <div class="path-item">
               <p class="path-item-title">Complete Lessons</p>
-              <p class="path-item-desc">Work through bite-sized lessons at your own pace and track your progress.</p>
+              <p class="path-item-desc">Work through bite-sized lessons at your own pace and track your progress across topics.</p>
             </div>
             <div class="path-item">
               <p class="path-item-title">Master Skills</p>
-              <p class="path-item-desc">Finish courses, earn achievements, and apply what you've learned.</p>
+              <p class="path-item-desc">Finish courses, build your portfolio, and apply what you've learned to real-world projects.</p>
             </div>
-          </div>
-        </div>
-
-        <!-- SETTINGS PAGE -->
-        <div id="settings-page" class="hidden" style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: var(--radius); backdrop-filter: blur(15px); padding: 2rem; box-shadow: var(--shadow);">
-          <h2 style="margin-top: 0; color: var(--accent);">Settings & Preferences</h2>
-          
-          <div style="margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="1"></circle>
-                <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
-              </svg>
-              Appearance
-            </h3>
-            
-            <!-- Brightness Mode Toggle -->
-            <label style="display: block; margin: 1.5rem 0;">
-              <strong style="color: var(--text); display: block; margin-bottom: 0.75rem;">Brightness Mode</strong>
-              <div style="display: flex; gap: 1rem;">
-                <button id="brightness-light" style="flex: 1; padding: 0.75rem; border: 2px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer; font-weight: 600; transition: var(--transition);">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: block; margin: 0 auto 0.5rem auto;">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                  </svg>
-                  Light
-                </button>
-                <button id="brightness-dark" style="flex: 1; padding: 0.75rem; border: 2px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer; font-weight: 600; transition: var(--transition);">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: block; margin: 0 auto 0.5rem auto;">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                  </svg>
-                  Dark
-                </button>
-              </div>
-            </label>
-
-            <!-- Color Theme -->
-            <label style="display: block; margin: 1.5rem 0;">
-              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Blob Color Theme (Catppuccin Latte)</strong>
-              <select id="color-theme-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
-                <option value="mauve">Mauve (Default)</option>
-                <option value="lavender">Lavender</option>
-                <option value="blue">Blue</option>
-                <option value="sky">Sky</option>
-                <option value="teal">Teal</option>
-                <option value="green">Green</option>
-                <option value="peach">Peach</option>
-                <option value="flamingo">Flamingo</option>
-                <option value="pink">Pink</option>
-                <option value="red">Red</option>
-              </select>
-            </label>
-
-            <!-- Accent Color -->
-            <label style="display: block; margin: 1.5rem 0;">
-              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Accent Color</strong>
-              <select id="accent-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-                <option value="purple">Purple</option>
-                <option value="red">Red</option>
-              </select>
-            </label>
-
-            <!-- Font Family -->
-            <label style="display: block; margin: 1.5rem 0;">
-              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Font Family</strong>
-              <select id="font-select" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer;">
-                <option value="verdana">Verdana</option>
-                <option value="arial">Arial</option>
-                <option value="georgia">Georgia</option>
-              </select>
-            </label>
-
-            <!-- Font Size -->
-            <label style="display: block; margin: 1.5rem 0;">
-              <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Font Size: <span id="font-size-value">16</span>px</strong>
-              <input type="range" id="font-size-slider" min="12" max="24" value="16" style="width: 100%; cursor: pointer;">
-            </label>
-          </div>
-
-          <button id="back-from-settings" style="background: var(--accent); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 1rem;">Back to Dashboard</button>
-        </div>
-
-        <!-- TOPICS BROWSER (For Users) -->
-        <div id="topics-page" class="hidden" style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: var(--radius); backdrop-filter: blur(15px); padding: 2rem; box-shadow: var(--shadow);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h2 style="margin: 0; color: var(--accent);">Available Topics</h2>
-            <button id="back-from-topics" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 0.9rem;">Back</button>
-          </div>
-          <div id="topics-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
-            <!-- Topics will be loaded here -->
-          </div>
-        </div>
-
-        <!-- ADMIN PANEL -->
-        <div id="admin-panel-page" class="hidden" style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: var(--radius); backdrop-filter: blur(15px); padding: 2rem; box-shadow: var(--shadow);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h2 style="margin: 0; color: #ef4444;">Admin Panel</h2>
-            <button id="back-from-admin" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 0.9rem;">Back</button>
-          </div>
-
-          <!-- Create New Topic Section -->
-          <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
-            <h3 style="margin-top: 0;">Create New Topic</h3>
-            <form id="create-topic-form" style="display: flex; flex-direction: column; gap: 1rem;">
-              <input type="text" id="topic-name" placeholder="Topic Name (e.g., Personal Finance)" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text);">
-              <textarea id="topic-description" placeholder="Topic Description" rows="3" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); font-family: inherit;"></textarea>
-              <input type="text" id="topic-image" placeholder="Image URL (optional)" style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text);">
-              <button type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition);">Create Topic</button>
-            </form>
-          </div>
-
-          <!-- Topics Management Section -->
-          <div>
-            <h3>Manage Topics</h3>
-            <div id="admin-topics-list" style="display: flex; flex-direction: column; gap: 1rem;">
-              <!-- Topics will be listed here -->
-            </div>
-          </div>
-        </div>
-
-        <!-- LESSON MANAGEMENT PAGE (for admins) -->
-        <div id="lesson-management-page" class="hidden" style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: var(--radius); backdrop-filter: blur(15px); padding: 2rem; box-shadow: var(--shadow);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h2 style="margin: 0; color: var(--accent);" id="lesson-topic-title">Topic Lessons</h2>
-            <button id="back-from-lessons" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 0.9rem;">Back</button>
-          </div>
-
-          <!-- Add New Lesson -->
-          <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
-            <h3 style="margin-top: 0;">Add New Lesson</h3>
-            <form id="create-lesson-form" style="display: flex; flex-direction: column; gap: 1rem;">
-              <input type="text" id="lesson-title" placeholder="Lesson Title" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text);">
-              <textarea id="lesson-content" placeholder="Lesson Content (Markdown supported)" rows="4" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); font-family: monospace;"></textarea>
-              <select id="lesson-type" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text);">
-                <option value="">Select Lesson Type</option>
-                <option value="lesson">Lesson</option>
-                <option value="quiz">Quiz</option>
-                <option value="flashcard">Flashcard</option>
-              </select>
-              <button type="submit" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition);">Add Lesson</button>
-            </form>
-          </div>
-
-          <!-- Lessons List -->
-          <div id="lessons-list" style="display: flex; flex-direction: column; gap: 1rem;">
-            <!-- Lessons will be listed here -->
           </div>
         </div>
       </div>
@@ -639,7 +401,9 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const currentUser = localStorage.getItem('currentUser');
-        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.email === currentUser);
+        const isAdmin = user?.isAdmin || false;
         
         // If no user is logged in, redirect to homepage
         if (!currentUser) {
@@ -649,7 +413,7 @@
 
         // Load and display user data
         const userName = document.getElementById('user-name');
-        const lessonsStarted = document.getElementById('lessons-started');
+        const topicsEnrolled = document.getElementById('topics-enrolled');
         const streakDays = document.getElementById('streak-days');
         const overallProgress = document.getElementById('overall-progress');
         const burgerUserEmail = document.getElementById('burger-user-email');
@@ -658,13 +422,21 @@
         userName.textContent = displayName;
         if (burgerUserEmail) burgerUserEmail.textContent = currentUser;
 
-        // Show admin button if user is admin
+        // Show admin link if user is admin
         const adminMenuLink = document.getElementById('admin-menu-link');
-        const adminActionBtn = document.getElementById('admin-action-btn');
         if (adminMenuLink) adminMenuLink.style.display = isAdmin ? 'flex' : 'none';
-        if (adminActionBtn) adminActionBtn.style.display = isAdmin ? 'block' : 'none';
 
         // Load user progress from localStorage
+        const enrolledTopics = JSON.parse(localStorage.getItem('enrolledTopics') || '[]');
+        topicsEnrolled.textContent = enrolledTopics.length;
+
+        // Calculate streak (days since last activity)
+        const lastActivityKey = `lastActivity_${currentUser}`;
+        const lastActivity = localStorage.getItem(lastActivityKey);
+        let streakCount = lastActivity ? Math.floor((Date.now() - parseInt(lastActivity)) / (1000 * 60 * 60 * 24)) + 1 : 0;
+        streakDays.textContent = Math.max(0, streakCount);
+
+        // Calculate overall progress
         const progressKey = `progress_${currentUser}`;
         let userProgress = {};
         try {
@@ -673,165 +445,19 @@
           userProgress = {};
         }
 
-        // Calculate stats from progress
-        const lessonsCount = Object.keys(userProgress).length || 0;
-        lessonsStarted.textContent = lessonsCount;
-
-        // Calculate streak (days since last activity)
-        const lastActivityKey = `lastActivity_${currentUser}`;
-        const lastActivity = localStorage.getItem(lastActivityKey);
-        let streakCount = lastActivity ? 1 : 0;
-        streakDays.textContent = streakCount;
-
-        // Calculate overall progress
         let totalProgress = 0;
-        if (lessonsCount > 0) {
-          const progressValues = Object.values(userProgress);
-          totalProgress = Math.round(
-            progressValues.reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0) / progressValues.length
-          );
+        if (enrolledTopics.length > 0) {
+          const progressValues = enrolledTopics.map(idx => userProgress[idx] || 0);
+          totalProgress = Math.round(progressValues.reduce((a, b) => a + b, 0) / progressValues.length);
         }
         overallProgress.textContent = totalProgress + '%';
 
-        // Log current user to verify auth
-        console.log('Logged in as:', currentUser);
+        console.log('Logged in as:', currentUser, 'Admin:', isAdmin);
       });
 
       function handleLogout() {
         localStorage.removeItem('currentUser');
-        localStorage.removeItem('isAdmin');
         window.location.href = 'index.html';
-      }
-
-      function handleBrowseTopics() {
-        closeBurgerMenu();
-        document.getElementById('settings-page').classList.add('hidden');
-        document.getElementById('admin-panel-page').classList.add('hidden');
-        document.getElementById('lesson-management-page').classList.add('hidden');
-        document.getElementById('topics-page').classList.remove('hidden');
-        loadTopicsForUser();
-      }
-
-      function handleAdminPanel() {
-        closeBurgerMenu();
-        document.getElementById('settings-page').classList.add('hidden');
-        document.getElementById('topics-page').classList.add('hidden');
-        document.getElementById('lesson-management-page').classList.add('hidden');
-        document.getElementById('admin-panel-page').classList.remove('hidden');
-        loadAdminTopics();
-      }
-
-      function handleSettings() {
-        closeBurgerMenu();
-        document.getElementById('topics-page').classList.add('hidden');
-        document.getElementById('admin-panel-page').classList.add('hidden');
-        document.getElementById('lesson-management-page').classList.add('hidden');
-        document.getElementById('settings-page').classList.remove('hidden');
-      }
-
-      function handleContinueLearning() {
-        alert('Continue Learning feature - coming soon! Resume last lesson.');
-      }
-
-      function handleMyProgress() {
-        alert('My Progress feature - coming soon! View detailed progress analytics.');
-      }
-
-      // Settings page handlers
-      document.getElementById('back-from-settings')?.addEventListener('click', () => {
-        document.getElementById('settings-page').classList.add('hidden');
-      });
-
-      // Brightness mode handlers
-      const brightnessLight = document.getElementById('brightness-light');
-      const brightnessDark = document.getElementById('brightness-dark');
-
-      function updateBrightnessUI(mode) {
-        const light = document.getElementById('brightness-light');
-        const dark = document.getElementById('brightness-dark');
-        if (light && dark) {
-          light.style.borderColor = mode === 'light' ? 'var(--accent)' : 'var(--glass-border)';
-          light.style.background = mode === 'light' ? 'rgba(79, 158, 245, 0.1)' : 'var(--surface)';
-          dark.style.borderColor = mode === 'dark' ? 'var(--accent)' : 'var(--glass-border)';
-          dark.style.background = mode === 'dark' ? 'rgba(79, 158, 245, 0.1)' : 'var(--surface)';
-        }
-      }
-
-      brightnessLight?.addEventListener('click', () => {
-        document.documentElement.style.colorScheme = 'light';
-        localStorage.setItem('brightness', 'light');
-        updateBrightnessUI('light');
-      });
-
-      brightnessDark?.addEventListener('click', () => {
-        document.documentElement.style.colorScheme = 'dark';
-        localStorage.setItem('brightness', 'dark');
-        updateBrightnessUI('dark');
-      });
-
-      // Load brightness mode on init
-      const savedBrightness = localStorage.getItem('brightness') || 'dark';
-      updateBrightnessUI(savedBrightness);
-
-      // Font size slider update
-      const fontSizeSlider = document.getElementById('font-size-slider');
-      const fontSizeValue = document.getElementById('font-size-value');
-      if (fontSizeSlider) {
-        fontSizeSlider.addEventListener('input', (e) => {
-          const size = e.target.value;
-          fontSizeValue.textContent = size;
-          document.documentElement.style.fontSize = size + 'px';
-          localStorage.setItem('fontSize', size);
-        });
-        // Load saved font size
-        const savedSize = localStorage.getItem('fontSize') || '16';
-        fontSizeSlider.value = savedSize;
-        document.documentElement.style.fontSize = savedSize + 'px';
-      }
-
-      // Color theme handler
-      const colorThemeSelect = document.getElementById('color-theme-select');
-      if (colorThemeSelect) {
-        colorThemeSelect.addEventListener('change', (e) => {
-          const theme = e.target.value;
-          localStorage.setItem('colorTheme', theme);
-          // Reload to apply theme (or implement live theme switching)
-          location.reload();
-        });
-        const savedTheme = localStorage.getItem('colorTheme') || 'mauve';
-        colorThemeSelect.value = savedTheme;
-      }
-
-      // Accent color handler
-      const accentSelect = document.getElementById('accent-select');
-      if (accentSelect) {
-        accentSelect.addEventListener('change', (e) => {
-          localStorage.setItem('accent', e.target.value);
-        });
-        const savedAccent = localStorage.getItem('accent') || 'blue';
-        accentSelect.value = savedAccent;
-      }
-
-      // Font family handler
-      const fontSelect = document.getElementById('font-select');
-      if (fontSelect) {
-        fontSelect.addEventListener('change', (e) => {
-          const fontMap = {
-            verdana: 'Verdana, sans-serif',
-            arial: 'Arial, sans-serif',
-            georgia: 'Georgia, serif'
-          };
-          document.body.style.fontFamily = fontMap[e.target.value];
-          localStorage.setItem('font', e.target.value);
-        });
-        const savedFont = localStorage.getItem('font') || 'verdana';
-        fontSelect.value = savedFont;
-        const fontMap = {
-          verdana: 'Verdana, sans-serif',
-          arial: 'Arial, sans-serif',
-          georgia: 'Georgia, serif'
-        };
-        document.body.style.fontFamily = fontMap[savedFont];
       }
 
       // Burger menu functionality
@@ -839,7 +465,6 @@
       const burgerMenu = document.getElementById('burger-menu');
       const burgerCloseBtn = document.getElementById('burger-close-btn');
       const burgerOverlay = document.getElementById('burger-overlay');
-      const burgerUserEmail = document.getElementById('burger-user-email');
 
       function openBurgerMenu() {
         burgerMenu.style.display = 'block';
@@ -861,231 +486,7 @@
 
       burgerMenuBtn?.addEventListener('click', openBurgerMenu);
       burgerCloseBtn?.addEventListener('click', closeBurgerMenu);
-
-      // Close burger menu when clicking a link
-      document.querySelectorAll('#burger-menu a').forEach(link => {
-        link.addEventListener('click', closeBurgerMenu);
-      });
-
-      // Update burger menu user email
-      const currentUser = localStorage.getItem('currentUser');
-      if (burgerUserEmail && currentUser) {
-        burgerUserEmail.textContent = currentUser;
-      }
-
-      function handleDashboard() {
-        closeBurgerMenu();
-        // Hide all pages
-        document.getElementById('settings-page').classList.add('hidden');
-        document.getElementById('topics-page').classList.add('hidden');
-        document.getElementById('admin-panel-page').classList.add('hidden');
-        document.getElementById('lesson-management-page').classList.add('hidden');
-      }
-
-      function handleBrowseTopics() {
-        closeBurgerMenu();
-        document.getElementById('settings-page').classList.add('hidden');
-        document.getElementById('admin-panel-page').classList.add('hidden');
-        document.getElementById('lesson-management-page').classList.add('hidden');
-        document.getElementById('topics-page').classList.remove('hidden');
-        loadTopicsForUser();
-      }
-
-      function handleAdminPanel() {
-        closeBurgerMenu();
-        document.getElementById('settings-page').classList.add('hidden');
-        document.getElementById('topics-page').classList.add('hidden');
-        document.getElementById('lesson-management-page').classList.add('hidden');
-        document.getElementById('admin-panel-page').classList.remove('hidden');
-        loadAdminTopics();
-      }
-
-      // Back buttons
-      document.getElementById('back-from-settings')?.addEventListener('click', handleDashboard);
-      document.getElementById('back-from-topics')?.addEventListener('click', handleDashboard);
-      document.getElementById('back-from-admin')?.addEventListener('click', handleDashboard);
-      document.getElementById('back-from-lessons')?.addEventListener('click', handleAdminPanel);
-
-      // Show admin panel only if user is admin
-      const isAdmin = localStorage.getItem('isAdmin') === 'true';
-      const adminMenuLink = document.getElementById('admin-menu-link');
-      if (adminMenuLink) {
-        adminMenuLink.style.display = isAdmin ? 'flex' : 'none';
-      }
-
-      // Load topics from localStorage
-      function getTopics() {
-        const topics = localStorage.getItem('topics');
-        return topics ? JSON.parse(topics) : [];
-      }
-
-      // Save topics to localStorage
-      function saveTopics(topics) {
-        localStorage.setItem('topics', JSON.stringify(topics));
-      }
-
-      // Load and display topics for users
-      function loadTopicsForUser() {
-        const topicsList = document.getElementById('topics-list');
-        const topics = getTopics();
-        
-        if (!topics.length) {
-          topicsList.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--muted);">No topics available yet. Check back soon!</p>';
-          return;
-        }
-
-        topicsList.innerHTML = topics.map((topic, idx) => `
-          <div style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; transition: var(--transition); cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--glass-border)'" onclick="viewTopicDetails(${idx})">
-            ${topic.image ? `<img src="${topic.image}" alt="${topic.name}" style="width: 100%; height: 180px; object-fit: cover;">` : '<div style="width: 100%; height: 180px; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); display: flex; align-items: center; justify-content: center;"><span style="color: white; font-size: 3rem;">📚</span></div>'}
-            <div style="padding: 1.5rem;">
-              <h3 style="margin: 0 0 0.75rem 0; color: var(--text);">${topic.name}</h3>
-              <p style="margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5;">${topic.description}</p>
-              <p style="margin: 1rem 0 0 0; color: var(--accent); font-size: 0.85rem; font-weight: 600;">${topic.lessons ? topic.lessons.length : 0} lessons</p>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      // View topic details
-      window.viewTopicDetails = function(topicIdx) {
-        const topics = getTopics();
-        const topic = topics[topicIdx];
-        // Could expand to show lesson list
-        alert(`Topic: ${topic.name}\n\nLessons: ${topic.lessons ? topic.lessons.length : 0}\n\nFeature coming soon!`);
-      };
-
-      // Load and display admin topics
-      function loadAdminTopics() {
-        const topicsList = document.getElementById('admin-topics-list');
-        const topics = getTopics();
-        
-        if (!topics.length) {
-          topicsList.innerHTML = '<p style="color: var(--muted); text-align: center;">No topics created yet. Create your first one above!</p>';
-          return;
-        }
-
-        topicsList.innerHTML = topics.map((topic, idx) => `
-          <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
-            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-              <div>
-                <h4 style="margin: 0 0 0.5rem 0; color: var(--text);">${topic.name}</h4>
-                <p style="margin: 0; color: var(--muted); font-size: 0.9rem;">${topic.description}</p>
-              </div>
-              <div style="display: flex; gap: 0.5rem;">
-                <button onclick="editAdminTopic(${idx})" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition);">Edit</button>
-                <button onclick="deleteAdminTopic(${idx})" style="background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition);">Delete</button>
-                <button onclick="manageLessons(${idx})" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition);">Lessons</button>
-              </div>
-            </div>
-            <p style="margin: 0; color: var(--muted); font-size: 0.85rem;">${topic.lessons ? topic.lessons.length : 0} lessons</p>
-          </div>
-        `).join('');
-      }
-
-      // Edit topic
-      window.editAdminTopic = function(idx) {
-        const topics = getTopics();
-        const topic = topics[idx];
-        const newName = prompt('Topic Name:', topic.name);
-        if (!newName) return;
-        const newDesc = prompt('Topic Description:', topic.description);
-        if (!newDesc) return;
-        const newImage = prompt('Image URL (optional):', topic.image || '');
-        
-        topics[idx] = { ...topic, name: newName, description: newDesc, image: newImage };
-        saveTopics(topics);
-        loadAdminTopics();
-      };
-
-      // Delete topic
-      window.deleteAdminTopic = function(idx) {
-        if (!confirm('Are you sure you want to delete this topic?')) return;
-        const topics = getTopics();
-        topics.splice(idx, 1);
-        saveTopics(topics);
-        loadAdminTopics();
-      };
-
-      // Manage lessons for topic
-      window.manageLessons = function(idx) {
-        const topics = getTopics();
-        const topic = topics[idx];
-        window.currentTopicIdx = idx;
-        document.getElementById('lesson-topic-title').textContent = `${topic.name} - Lessons`;
-        document.getElementById('admin-panel-page').classList.add('hidden');
-        document.getElementById('lesson-management-page').classList.remove('hidden');
-        loadLessonsForTopic(idx);
-      };
-
-      // Load lessons for current topic
-      function loadLessonsForTopic(topicIdx) {
-        const topics = getTopics();
-        const topic = topics[topicIdx];
-        const lessonsList = document.getElementById('lessons-list');
-        
-        if (!topic.lessons || !topic.lessons.length) {
-          lessonsList.innerHTML = '<p style="color: var(--muted); text-align: center;">No lessons yet. Add one above!</p>';
-          return;
-        }
-
-        lessonsList.innerHTML = topic.lessons.map((lesson, lesIdx) => `
-          <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
-            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-              <div style="flex: 1;">
-                <h4 style="margin: 0 0 0.5rem 0; color: var(--text);">${lesson.title}</h4>
-                <p style="margin: 0; color: var(--muted); font-size: 0.9rem;">Type: ${lesson.type}</p>
-                <p style="margin: 0.5rem 0 0 0; color: var(--muted); font-size: 0.85rem;">${lesson.content.substring(0, 100)}...</p>
-              </div>
-              <div style="display: flex; gap: 0.5rem;">
-                <button onclick="deleteLesson(${topicIdx}, ${lesIdx})" style="background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Delete</button>
-              </div>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      // Delete lesson
-      window.deleteLesson = function(topicIdx, lessonIdx) {
-        if (!confirm('Delete this lesson?')) return;
-        const topics = getTopics();
-        topics[topicIdx].lessons.splice(lessonIdx, 1);
-        saveTopics(topics);
-        loadLessonsForTopic(topicIdx);
-      };
-
-      // Create topic form
-      document.getElementById('create-topic-form')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('topic-name').value;
-        const desc = document.getElementById('topic-description').value;
-        const image = document.getElementById('topic-image').value;
-        
-        const topics = getTopics();
-        topics.push({ name, description: desc, image, lessons: [] });
-        saveTopics(topics);
-        
-        e.target.reset();
-        loadAdminTopics();
-        alert('Topic created successfully!');
-      });
-
-      // Create lesson form
-      document.getElementById('create-lesson-form')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const topicIdx = window.currentTopicIdx;
-        const title = document.getElementById('lesson-title').value;
-        const content = document.getElementById('lesson-content').value;
-        const type = document.getElementById('lesson-type').value;
-        
-        const topics = getTopics();
-        if (!topics[topicIdx].lessons) topics[topicIdx].lessons = [];
-        topics[topicIdx].lessons.push({ title, content, type });
-        saveTopics(topics);
-        
-        e.target.reset();
-        loadLessonsForTopic(topicIdx);
-        alert('Lesson added successfully!');
-      });
+      burgerOverlay?.addEventListener('click', closeBurgerMenu);
     </script>
   </body>
 </html>

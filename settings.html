@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Settings — Skill Central</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f9ef5'><path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/><path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/></svg>" />
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Verdana, sans-serif; background: linear-gradient(180deg, rgba(13, 17, 23, 1) 0%, rgba(15, 19, 25, 0.98) 100%); color: #e6edf3; min-height: 100vh; }
+      .settings-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+      .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(48, 54, 61, 0.4); }
+      .settings-header h1 { margin: 0; font-size: 2rem; color: #79c0ff; }
+      .back-btn { background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+      .back-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(88, 166, 255, 0.3); }
+      .settings-section { background: linear-gradient(135deg, rgba(30, 30, 30, 0.8) 0%, rgba(40, 40, 40, 0.6) 100%); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; backdrop-filter: blur(15px); }
+      .settings-section h2 { margin-top: 0; margin-bottom: 1.5rem; font-size: 1.3rem; color: #79c0ff; display: flex; align-items: center; gap: 0.75rem; }
+      .settings-section svg { width: 20px; height: 20px; }
+      .setting-item { margin-bottom: 1.5rem; }
+      .setting-item:last-child { margin-bottom: 0; }
+      .setting-label { display: block; font-weight: 600; margin-bottom: 0.75rem; color: #e6edf3; }
+      .setting-input, .setting-select { width: 100%; padding: 0.75rem; border: 1px solid rgba(48, 54, 61, 0.6); border-radius: 8px; background: rgba(20, 20, 20, 0.8); color: #e6edf3; font-size: 1rem; transition: all 0.3s ease; }
+      .setting-input:focus, .setting-select:focus { outline: none; border-color: #58a6ff; box-shadow: 0 0 12px rgba(88, 166, 255, 0.2); }
+      .brightness-toggle { display: flex; gap: 1rem; }
+      .brightness-btn { flex: 1; padding: 0.75rem; border: 2px solid rgba(48, 54, 61, 0.6); border-radius: 8px; background: rgba(20, 20, 20, 0.8); color: #e6edf3; cursor: pointer; font-weight: 600; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+      .brightness-btn:hover { border-color: #58a6ff; }
+      .brightness-btn svg { width: 20px; height: 20px; }
+      .range-slider { width: 100%; cursor: pointer; }
+      .slider-value { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <div class="settings-container">
+      <div class="settings-header">
+        <h1>Settings & Preferences</h1>
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+      </div>
+
+      <!-- Appearance Settings -->
+      <div class="settings-section">
+        <h2>
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="1"></circle>
+            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
+          </svg>
+          Appearance
+        </h2>
+
+        <div class="setting-item">
+          <label class="setting-label">Brightness Mode</label>
+          <div class="brightness-toggle">
+            <button id="brightness-light" class="brightness-btn">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              Light
+            </button>
+            <button id="brightness-dark" class="brightness-btn">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+              Dark
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">Blob Color Theme (Catppuccin Latte)</label>
+          <select id="color-theme-select" class="setting-select">
+            <option value="mauve">Mauve (Default)</option>
+            <option value="lavender">Lavender</option>
+            <option value="blue">Blue</option>
+            <option value="sky">Sky</option>
+            <option value="teal">Teal</option>
+            <option value="green">Green</option>
+            <option value="peach">Peach</option>
+            <option value="flamingo">Flamingo</option>
+            <option value="pink">Pink</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">Accent Color</label>
+          <select id="accent-select" class="setting-select">
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="purple">Purple</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">Font Family</label>
+          <select id="font-select" class="setting-select">
+            <option value="verdana">Verdana</option>
+            <option value="arial">Arial</option>
+            <option value="georgia">Georgia</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <div class="slider-value">
+            <label class="setting-label" style="margin-bottom: 0;">Font Size: <span id="font-size-value">16</span>px</label>
+          </div>
+          <input type="range" id="font-size-slider" class="range-slider" min="12" max="24" value="16">
+        </div>
+      </div>
+
+      <!-- Account Info -->
+      <div class="settings-section">
+        <h2>
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Account
+        </h2>
+
+        <div class="setting-item">
+          <label class="setting-label">Logged in as:</label>
+          <p id="account-email" style="margin: 0; color: #79c0ff; font-weight: 600;">user@example.com</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Check authentication
+      const currentUser = localStorage.getItem('currentUser');
+      if (!currentUser) {
+        window.location.href = 'index.html';
+      }
+
+      document.getElementById('account-email').textContent = currentUser;
+
+      // Brightness mode
+      const brightnessLight = document.getElementById('brightness-light');
+      const brightnessDark = document.getElementById('brightness-dark');
+
+      function updateBrightnessUI(mode) {
+        brightnessLight.style.borderColor = mode === 'light' ? '#58a6ff' : 'rgba(48, 54, 61, 0.6)';
+        brightnessLight.style.background = mode === 'light' ? 'rgba(88, 166, 255, 0.1)' : 'rgba(20, 20, 20, 0.8)';
+        brightnessDark.style.borderColor = mode === 'dark' ? '#58a6ff' : 'rgba(48, 54, 61, 0.6)';
+        brightnessDark.style.background = mode === 'dark' ? 'rgba(88, 166, 255, 0.1)' : 'rgba(20, 20, 20, 0.8)';
+      }
+
+      brightnessLight.addEventListener('click', () => {
+        document.documentElement.style.colorScheme = 'light';
+        localStorage.setItem('brightness', 'light');
+        updateBrightnessUI('light');
+      });
+
+      brightnessDark.addEventListener('click', () => {
+        document.documentElement.style.colorScheme = 'dark';
+        localStorage.setItem('brightness', 'dark');
+        updateBrightnessUI('dark');
+      });
+
+      const savedBrightness = localStorage.getItem('brightness') || 'dark';
+      updateBrightnessUI(savedBrightness);
+
+      // Font size
+      const fontSizeSlider = document.getElementById('font-size-slider');
+      const fontSizeValue = document.getElementById('font-size-value');
+      fontSizeSlider.addEventListener('input', (e) => {
+        const size = e.target.value;
+        fontSizeValue.textContent = size;
+        document.documentElement.style.fontSize = size + 'px';
+        localStorage.setItem('fontSize', size);
+      });
+
+      const savedSize = localStorage.getItem('fontSize') || '16';
+      fontSizeSlider.value = savedSize;
+      document.documentElement.style.fontSize = savedSize + 'px';
+
+      // Color theme
+      const colorThemeSelect = document.getElementById('color-theme-select');
+      colorThemeSelect.addEventListener('change', (e) => {
+        localStorage.setItem('colorTheme', e.target.value);
+        location.reload();
+      });
+      colorThemeSelect.value = localStorage.getItem('colorTheme') || 'mauve';
+
+      // Accent color
+      const accentSelect = document.getElementById('accent-select');
+      accentSelect.addEventListener('change', (e) => {
+        localStorage.setItem('accent', e.target.value);
+      });
+      accentSelect.value = localStorage.getItem('accent') || 'blue';
+
+      // Font family
+      const fontSelect = document.getElementById('font-select');
+      const fontMap = {
+        verdana: 'Verdana, sans-serif',
+        arial: 'Arial, sans-serif',
+        georgia: 'Georgia, serif'
+      };
+      fontSelect.addEventListener('change', (e) => {
+        document.body.style.fontFamily = fontMap[e.target.value];
+        localStorage.setItem('font', e.target.value);
+      });
+      const savedFont = localStorage.getItem('font') || 'verdana';
+      fontSelect.value = savedFont;
+      document.body.style.fontFamily = fontMap[savedFont];
+    </script>
+  </body>
+</html>
