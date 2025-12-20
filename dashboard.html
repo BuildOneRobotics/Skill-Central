@@ -347,6 +347,23 @@
             Dashboard
           </a>
 
+          <!-- Browse Topics Link -->
+          <a href="#" onclick="handleBrowseTopics(); return false;" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            Browse Topics
+          </a>
+
+          <!-- Admin Panel Link (only for admins) -->
+          <a id="admin-menu-link" href="#" onclick="handleAdminPanel(); return false;" style="display: none; align-items: center; gap: 0.75rem; color: #ef4444; text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Admin Panel
+          </a>
+
           <!-- Settings Link -->
           <a href="#" onclick="handleSettings(); return false;" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.85rem 1rem; border-radius: 10px; transition: var(--transition); font-weight: 500; font-size: 0.95rem;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -432,9 +449,8 @@
           <h3>Quick Actions</h3>
           <div class="action-buttons">
             <button class="action-btn" onclick="handleBrowseTopics()">Browse Topics</button>
-            <button class="action-btn" onclick="handleContinueLearning()">Continue Learning</button>
-            <button class="action-btn" onclick="handleMyProgress()">My Progress</button>
             <button class="action-btn" onclick="handleSettings()">Settings</button>
+            <button class="action-btn" id="admin-action-btn" onclick="handleAdminPanel()" style="display: none; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">Admin Panel</button>
           </div>
         </div>
 
@@ -544,6 +560,73 @@
 
           <button id="back-from-settings" style="background: var(--accent); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 1rem;">Back to Dashboard</button>
         </div>
+
+        <!-- TOPICS BROWSER (For Users) -->
+        <div id="topics-page" class="hidden" style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: var(--radius); backdrop-filter: blur(15px); padding: 2rem; box-shadow: var(--shadow);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2 style="margin: 0; color: var(--accent);">Available Topics</h2>
+            <button id="back-from-topics" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 0.9rem;">Back</button>
+          </div>
+          <div id="topics-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+            <!-- Topics will be loaded here -->
+          </div>
+        </div>
+
+        <!-- ADMIN PANEL -->
+        <div id="admin-panel-page" class="hidden" style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: var(--radius); backdrop-filter: blur(15px); padding: 2rem; box-shadow: var(--shadow);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2 style="margin: 0; color: #ef4444;">Admin Panel</h2>
+            <button id="back-from-admin" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 0.9rem;">Back</button>
+          </div>
+
+          <!-- Create New Topic Section -->
+          <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+            <h3 style="margin-top: 0;">Create New Topic</h3>
+            <form id="create-topic-form" style="display: flex; flex-direction: column; gap: 1rem;">
+              <input type="text" id="topic-name" placeholder="Topic Name (e.g., Personal Finance)" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text);">
+              <textarea id="topic-description" placeholder="Topic Description" rows="3" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); font-family: inherit;"></textarea>
+              <input type="text" id="topic-image" placeholder="Image URL (optional)" style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text);">
+              <button type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition);">Create Topic</button>
+            </form>
+          </div>
+
+          <!-- Topics Management Section -->
+          <div>
+            <h3>Manage Topics</h3>
+            <div id="admin-topics-list" style="display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Topics will be listed here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- LESSON MANAGEMENT PAGE (for admins) -->
+        <div id="lesson-management-page" class="hidden" style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: var(--radius); backdrop-filter: blur(15px); padding: 2rem; box-shadow: var(--shadow);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2 style="margin: 0; color: var(--accent);" id="lesson-topic-title">Topic Lessons</h2>
+            <button id="back-from-lessons" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition); font-size: 0.9rem;">Back</button>
+          </div>
+
+          <!-- Add New Lesson -->
+          <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+            <h3 style="margin-top: 0;">Add New Lesson</h3>
+            <form id="create-lesson-form" style="display: flex; flex-direction: column; gap: 1rem;">
+              <input type="text" id="lesson-title" placeholder="Lesson Title" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text);">
+              <textarea id="lesson-content" placeholder="Lesson Content (Markdown supported)" rows="4" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); font-family: monospace;"></textarea>
+              <select id="lesson-type" required style="padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text);">
+                <option value="">Select Lesson Type</option>
+                <option value="lesson">Lesson</option>
+                <option value="quiz">Quiz</option>
+                <option value="flashcard">Flashcard</option>
+              </select>
+              <button type="submit" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: var(--transition);">Add Lesson</button>
+            </form>
+          </div>
+
+          <!-- Lessons List -->
+          <div id="lessons-list" style="display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Lessons will be listed here -->
+          </div>
+        </div>
       </div>
 
       <!-- FOOTER -->
@@ -555,6 +638,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const currentUser = localStorage.getItem('currentUser');
+        const isAdmin = localStorage.getItem('isAdmin') === 'true';
         
         // If no user is logged in, redirect to homepage
         if (!currentUser) {
@@ -563,14 +647,21 @@
         }
 
         // Load and display user data
-        const userEmail = document.getElementById('user-email');
         const userName = document.getElementById('user-name');
         const lessonsStarted = document.getElementById('lessons-started');
         const streakDays = document.getElementById('streak-days');
         const overallProgress = document.getElementById('overall-progress');
+        const burgerUserEmail = document.getElementById('burger-user-email');
 
-        userEmail.textContent = currentUser;
-        userName.textContent = currentUser.split('@')[0];
+        const displayName = currentUser.split('@')[0];
+        userName.textContent = displayName;
+        if (burgerUserEmail) burgerUserEmail.textContent = currentUser;
+
+        // Show admin button if user is admin
+        const adminMenuLink = document.getElementById('admin-menu-link');
+        const adminActionBtn = document.getElementById('admin-action-btn');
+        if (adminMenuLink) adminMenuLink.style.display = isAdmin ? 'flex' : 'none';
+        if (adminActionBtn) adminActionBtn.style.display = isAdmin ? 'block' : 'none';
 
         // Load user progress from localStorage
         const progressKey = `progress_${currentUser}`;
@@ -765,9 +856,218 @@
       }
 
       function handleDashboard() {
-        // Hide settings and show main content
+        closeBurgerMenu();
+        // Hide all pages
         document.getElementById('settings-page').classList.add('hidden');
+        document.getElementById('topics-page').classList.add('hidden');
+        document.getElementById('admin-panel-page').classList.add('hidden');
+        document.getElementById('lesson-management-page').classList.add('hidden');
       }
+
+      function handleBrowseTopics() {
+        closeBurgerMenu();
+        document.getElementById('settings-page').classList.add('hidden');
+        document.getElementById('admin-panel-page').classList.add('hidden');
+        document.getElementById('lesson-management-page').classList.add('hidden');
+        document.getElementById('topics-page').classList.remove('hidden');
+        loadTopicsForUser();
+      }
+
+      function handleAdminPanel() {
+        closeBurgerMenu();
+        document.getElementById('settings-page').classList.add('hidden');
+        document.getElementById('topics-page').classList.add('hidden');
+        document.getElementById('lesson-management-page').classList.add('hidden');
+        document.getElementById('admin-panel-page').classList.remove('hidden');
+        loadAdminTopics();
+      }
+
+      // Back buttons
+      document.getElementById('back-from-settings')?.addEventListener('click', handleDashboard);
+      document.getElementById('back-from-topics')?.addEventListener('click', handleDashboard);
+      document.getElementById('back-from-admin')?.addEventListener('click', handleDashboard);
+      document.getElementById('back-from-lessons')?.addEventListener('click', handleAdminPanel);
+
+      // Show admin panel only if user is admin
+      const isAdmin = localStorage.getItem('isAdmin') === 'true';
+      const adminMenuLink = document.getElementById('admin-menu-link');
+      if (adminMenuLink) {
+        adminMenuLink.style.display = isAdmin ? 'flex' : 'none';
+      }
+
+      // Load topics from localStorage
+      function getTopics() {
+        const topics = localStorage.getItem('topics');
+        return topics ? JSON.parse(topics) : [];
+      }
+
+      // Save topics to localStorage
+      function saveTopics(topics) {
+        localStorage.setItem('topics', JSON.stringify(topics));
+      }
+
+      // Load and display topics for users
+      function loadTopicsForUser() {
+        const topicsList = document.getElementById('topics-list');
+        const topics = getTopics();
+        
+        if (!topics.length) {
+          topicsList.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--muted);">No topics available yet. Check back soon!</p>';
+          return;
+        }
+
+        topicsList.innerHTML = topics.map((topic, idx) => `
+          <div style="background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; transition: var(--transition); cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--glass-border)'" onclick="viewTopicDetails(${idx})">
+            ${topic.image ? `<img src="${topic.image}" alt="${topic.name}" style="width: 100%; height: 180px; object-fit: cover;">` : '<div style="width: 100%; height: 180px; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); display: flex; align-items: center; justify-content: center;"><span style="color: white; font-size: 3rem;">📚</span></div>'}
+            <div style="padding: 1.5rem;">
+              <h3 style="margin: 0 0 0.75rem 0; color: var(--text);">${topic.name}</h3>
+              <p style="margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5;">${topic.description}</p>
+              <p style="margin: 1rem 0 0 0; color: var(--accent); font-size: 0.85rem; font-weight: 600;">${topic.lessons ? topic.lessons.length : 0} lessons</p>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // View topic details
+      window.viewTopicDetails = function(topicIdx) {
+        const topics = getTopics();
+        const topic = topics[topicIdx];
+        // Could expand to show lesson list
+        alert(`Topic: ${topic.name}\n\nLessons: ${topic.lessons ? topic.lessons.length : 0}\n\nFeature coming soon!`);
+      };
+
+      // Load and display admin topics
+      function loadAdminTopics() {
+        const topicsList = document.getElementById('admin-topics-list');
+        const topics = getTopics();
+        
+        if (!topics.length) {
+          topicsList.innerHTML = '<p style="color: var(--muted); text-align: center;">No topics created yet. Create your first one above!</p>';
+          return;
+        }
+
+        topicsList.innerHTML = topics.map((topic, idx) => `
+          <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <div>
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--text);">${topic.name}</h4>
+                <p style="margin: 0; color: var(--muted); font-size: 0.9rem;">${topic.description}</p>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <button onclick="editAdminTopic(${idx})" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition);">Edit</button>
+                <button onclick="deleteAdminTopic(${idx})" style="background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition);">Delete</button>
+                <button onclick="manageLessons(${idx})" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition);">Lessons</button>
+              </div>
+            </div>
+            <p style="margin: 0; color: var(--muted); font-size: 0.85rem;">${topic.lessons ? topic.lessons.length : 0} lessons</p>
+          </div>
+        `).join('');
+      }
+
+      // Edit topic
+      window.editAdminTopic = function(idx) {
+        const topics = getTopics();
+        const topic = topics[idx];
+        const newName = prompt('Topic Name:', topic.name);
+        if (!newName) return;
+        const newDesc = prompt('Topic Description:', topic.description);
+        if (!newDesc) return;
+        const newImage = prompt('Image URL (optional):', topic.image || '');
+        
+        topics[idx] = { ...topic, name: newName, description: newDesc, image: newImage };
+        saveTopics(topics);
+        loadAdminTopics();
+      };
+
+      // Delete topic
+      window.deleteAdminTopic = function(idx) {
+        if (!confirm('Are you sure you want to delete this topic?')) return;
+        const topics = getTopics();
+        topics.splice(idx, 1);
+        saveTopics(topics);
+        loadAdminTopics();
+      };
+
+      // Manage lessons for topic
+      window.manageLessons = function(idx) {
+        const topics = getTopics();
+        const topic = topics[idx];
+        window.currentTopicIdx = idx;
+        document.getElementById('lesson-topic-title').textContent = `${topic.name} - Lessons`;
+        document.getElementById('admin-panel-page').classList.add('hidden');
+        document.getElementById('lesson-management-page').classList.remove('hidden');
+        loadLessonsForTopic(idx);
+      };
+
+      // Load lessons for current topic
+      function loadLessonsForTopic(topicIdx) {
+        const topics = getTopics();
+        const topic = topics[topicIdx];
+        const lessonsList = document.getElementById('lessons-list');
+        
+        if (!topic.lessons || !topic.lessons.length) {
+          lessonsList.innerHTML = '<p style="color: var(--muted); text-align: center;">No lessons yet. Add one above!</p>';
+          return;
+        }
+
+        lessonsList.innerHTML = topic.lessons.map((lesson, lesIdx) => `
+          <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <div style="flex: 1;">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--text);">${lesson.title}</h4>
+                <p style="margin: 0; color: var(--muted); font-size: 0.9rem;">Type: ${lesson.type}</p>
+                <p style="margin: 0.5rem 0 0 0; color: var(--muted); font-size: 0.85rem;">${lesson.content.substring(0, 100)}...</p>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <button onclick="deleteLesson(${topicIdx}, ${lesIdx})" style="background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Delete</button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Delete lesson
+      window.deleteLesson = function(topicIdx, lessonIdx) {
+        if (!confirm('Delete this lesson?')) return;
+        const topics = getTopics();
+        topics[topicIdx].lessons.splice(lessonIdx, 1);
+        saveTopics(topics);
+        loadLessonsForTopic(topicIdx);
+      };
+
+      // Create topic form
+      document.getElementById('create-topic-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('topic-name').value;
+        const desc = document.getElementById('topic-description').value;
+        const image = document.getElementById('topic-image').value;
+        
+        const topics = getTopics();
+        topics.push({ name, description: desc, image, lessons: [] });
+        saveTopics(topics);
+        
+        e.target.reset();
+        loadAdminTopics();
+        alert('Topic created successfully!');
+      });
+
+      // Create lesson form
+      document.getElementById('create-lesson-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const topicIdx = window.currentTopicIdx;
+        const title = document.getElementById('lesson-title').value;
+        const content = document.getElementById('lesson-content').value;
+        const type = document.getElementById('lesson-type').value;
+        
+        const topics = getTopics();
+        if (!topics[topicIdx].lessons) topics[topicIdx].lessons = [];
+        topics[topicIdx].lessons.push({ title, content, type });
+        saveTopics(topics);
+        
+        e.target.reset();
+        loadLessonsForTopic(topicIdx);
+        alert('Lesson added successfully!');
+      });
     </script>
   </body>
 </html>
