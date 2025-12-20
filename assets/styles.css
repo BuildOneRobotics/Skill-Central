@@ -23,7 +23,7 @@
   position: fixed;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.3;
+  opacity: 0.4;
   z-index: 0;
   pointer-events: none;
 }
@@ -32,15 +32,15 @@
   width: 400px;
   height: 400px;
   background: linear-gradient(135deg, #4f9ef5, #6b5dff);
-  top: -100px;
-  left: -100px;
+  top: 100px;
+  left: -80px;
 }
 
 .blob-2 {
   width: 350px;
   height: 350px;
   background: linear-gradient(135deg, #9d4edd, #4f9ef5);
-  top: 300px;
+  top: 250px;
   right: -50px;
 }
 
@@ -48,33 +48,32 @@
   width: 300px;
   height: 300px;
   background: linear-gradient(135deg, #4f9ef5, #00d4ff);
-  bottom: 200px;
-  left: 10%;
+  top: 45%;
+  left: 5%;
 }
 
 .blob-4 {
   width: 350px;
   height: 350px;
   background: linear-gradient(135deg, #6b5dff, #9d4edd);
-  bottom: 50px;
-  right: 5%;
+  bottom: 100px;
+  right: 3%;
 }
 
 .blob-5 {
   width: 320px;
   height: 320px;
   background: linear-gradient(135deg, #4f9ef5, #5865f2);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 60%;
+  right: 15%;
 }
 
 .blob-6 {
   width: 280px;
   height: 280px;
   background: linear-gradient(135deg, #9d4edd, #00d4ff);
-  top: 600px;
-  right: 20%;
+  bottom: 300px;
+  left: 15%;
 }
 [data-theme="light"]{
   --bg:#ffffff;
