@@ -71,7 +71,10 @@
 
       <nav class="nav container">
         <input id="search" placeholder="Search topics or subjects..." aria-label="Search" />
-        <button id="files-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> Files</button>
+        <div class="nav-actions">
+          <button id="account-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3"/><path d="M5 21c0-3 4-5 7-5s7 2 7 5"/></svg> Account</button>
+          <button id="files-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg> Files</button>
+        </div>
       </nav>
 
       <main class="container" id="content">
@@ -108,6 +111,17 @@
           </select></label>
           <label>Font Size: <input type="range" id="font-size-slider" min="12" max="24" value="16"></label>
         </section>
+        <section id="account" class="hidden">
+          <div class="account-card">
+            <div>
+              <h2>Your Account</h2>
+              <p class="muted" id="account-email"></p>
+              <p class="muted" id="account-status"></p>
+            </div>
+            <button id="reset-progress" class="ghost-button">Reset Progress</button>
+          </div>
+          <div id="progress-summary" class="progress-grid"></div>
+        </section>
         <div id="admin-edit" class="hidden">
           <h3>Admin Dashboard</h3>
           <form id="add-topic-form">
@@ -140,6 +154,7 @@
       <div class="footer-content">
         <div class="quick-links">
           <a href="#" id="footer-home">Home</a>
+          <a href="#" id="footer-account">Account</a>
           <a href="#" id="footer-settings">Settings</a>
           <a href="#" id="footer-files">Files</a>
           <a href="#" id="footer-logout">Logout</a>
@@ -148,12 +163,13 @@
       </div>
     </footer>
 
-    <nav id="mobile-menu" class="hidden">
-      <ul>
-        <li><a href="#" id="menu-home">Home</a></li>
-        <li><a href="#" id="menu-settings">Settings</a></li>
-      </ul>
-    </nav>
+      <nav id="mobile-menu" class="hidden">
+        <ul>
+          <li><a href="#" id="menu-home">Home</a></li>
+          <li><a href="#" id="menu-account">Account</a></li>
+          <li><a href="#" id="menu-settings">Settings</a></li>
+        </ul>
+      </nav>
 
     <script src="assets/script.js"></script>
   </body>

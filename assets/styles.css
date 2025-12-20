@@ -30,6 +30,7 @@
 *{box-sizing:border-box}
 body{font-family:var(--font-family);background:var(--bg);color:var(--text);margin:0;min-height:100vh;font-size:var(--font-size);transition:var(--transition)}
 h1,h2,h3,h4,h5,h6,p{color:var(--text)}
+.muted{color:var(--muted)}
 .container{max-width:var(--max-width);margin:0 auto;padding:1rem}
 .auth-modal{position:fixed;inset:0;background:var(--overlay);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:1000;animation:fadeIn 0.3s ease}
 .app, .home-page{animation:fadeIn 0.5s ease}
@@ -58,6 +59,8 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 .nav{display:flex;gap:1rem;padding:0.75rem 1rem;align-items:center;background:var(--card);border-bottom:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius);backdrop-filter:blur(10px)}
 #search{flex:1;padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:10px;font-size:1rem;background:var(--surface);color:var(--text);transition:var(--transition)}
 #search:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(137, 180, 250, 0.1)}
+.nav-actions{display:flex;gap:0.5rem}
+.nav-actions button{background:linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);color:white;border:none;padding:0.5rem 1rem;border-radius:10px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:0.35rem;box-shadow:0 2px 4px rgba(0,0,0,0.1);transition:var(--transition)}
 #files-btn{background:linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);color:white;border:none;padding:0.5rem 1rem;border-radius:10px;cursor:pointer;transition:var(--transition);box-shadow:0 2px 4px rgba(0,0,0,0.1)}
 #files-btn:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(0,0,0,0.15)}
 #content{margin-top:1rem}
@@ -75,6 +78,10 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 .lesson-card h3{margin:0 0 0.5rem 0}
 .lesson-card p{margin:0 0 1rem 0;line-height:1.6}
 .lesson-card img{max-width:100%;border-radius:var(--radius);margin:1rem 0}
+#lesson-list .lesson-status{display:inline-flex;align-items:center;gap:0.25rem;font-size:0.85rem;padding:0.25rem 0.5rem;border-radius:999px;border:1px solid var(--border);background:rgba(137, 180, 250, 0.1);margin-bottom:0.75rem}
+.lesson-actions{display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap}
+.lesson-actions .secondary{background:none;border:1px solid var(--accent);color:var(--accent);border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;transition:var(--transition);font-weight:600}
+.lesson-actions .secondary:hover{background:var(--accent);color:white;box-shadow:0 4px 8px rgba(137, 180, 250, 0.2)}
 #back-to-topics{background:var(--accent);color:white;border:none;padding:0.5rem 1rem;border-radius:var(--radius);cursor:pointer;margin-bottom:1rem}
 #back-to-topics:hover{background:var(--accent-hover)}
 .subjects{display:flex;flex-wrap:wrap;gap:0.5rem}
@@ -126,6 +133,19 @@ h1{margin:0;font-size:1.5rem;font-weight:600}
 .edit-topic button{margin-right:0.5rem;padding:0.4rem 0.8rem;border-radius:4px;cursor:pointer}
 .edit-topic .save{background:#a6e3a1;color:#1e1e2e;border:none}
 .edit-topic .delete{background:#f38ba8;color:#1e1e2e;border:none}
+.account-card{display:flex;justify-content:space-between;align-items:center;padding:1rem;border:1px solid var(--border);border-radius:12px;background:var(--card);box-shadow:var(--shadow);margin-bottom:1rem;gap:1rem}
+.account-card h2{margin:0;font-size:1.25rem}
+.account-card .muted{color:var(--muted);margin:0.35rem 0}
+.ghost-button{background:none;border:1px solid var(--border);color:var(--text);padding:0.6rem 1rem;border-radius:8px;cursor:pointer;transition:var(--transition)}
+.ghost-button:hover{background:var(--surface)}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.progress-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:0.35rem}
+.progress-card h4,.progress-card h5{margin:0}
+.progress-card p{margin:0;color:var(--muted)}
+.progress-card small{color:var(--muted);font-size:0.8rem}
+.progress-card .progress-meter{height:6px;border-radius:999px;background:rgba(255,255,255,0.1);overflow:hidden}
+.progress-card .progress-meter span{display:block;height:100%;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-hover));}
+.subject-progress{margin:0;font-size:0.85rem;color:var(--muted)}
 .auth-links{display:flex;gap:1rem;align-items:center}
 .sign-up-btn{background:var(--accent);color:white;border:none;padding:0.75rem 1.5rem;border-radius:var(--radius);cursor:pointer;font-weight:500}
 .sign-in-link{color:var(--muted);text-decoration:none;font-weight:500}

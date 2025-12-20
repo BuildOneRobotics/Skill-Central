@@ -22,6 +22,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const addTopicForm = document.getElementById('add-topic-form');
   const addLessonForm = document.getElementById('add-lesson-form');
   const editTopicsEl = document.getElementById('edit-topics');
+  const accountSection = document.getElementById('account');
+  const accountEmailEl = document.getElementById('account-email');
+  const accountStatusEl = document.getElementById('account-status');
+  const progressSummaryEl = document.getElementById('progress-summary');
+  const resetProgressBtn = document.getElementById('reset-progress');
+  const accountBtn = document.getElementById('account-btn');
+  const footerAccountLink = document.getElementById('footer-account');
+  const menuAccountLink = document.getElementById('menu-account');
   const footerEl = document.querySelector('.site-footer');
 
   let currentUser = null;
@@ -136,13 +144,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
     filesEl.classList.add('hidden');
     document.getElementById('settings-page').classList.add('hidden');
     adminEditEl.classList.add('hidden');
+    accountSection.classList.add('hidden');
   }
 
   function showFiles() {
+          if (!accountSection.classList.contains('hidden')) renderAccount();
     topicsEl.classList.add('hidden');
     filesEl.classList.remove('hidden');
     document.getElementById('settings-page').classList.add('hidden');
+      if (!accountSection.classList.contains('hidden')) renderAccount();
     adminEditEl.classList.add('hidden');
+    accountSection.classList.add('hidden');
   }
 
   function showSettings() {
@@ -150,6 +162,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
     filesEl.classList.add('hidden');
     document.getElementById('settings-page').classList.remove('hidden');
     adminEditEl.classList.add('hidden');
+    accountSection.classList.add('hidden');
+  }
+
+  function showAccount() {
+    topicsEl.classList.add('hidden');
+    filesEl.classList.add('hidden');
+    document.getElementById('settings-page').classList.add('hidden');
+    adminEditEl.classList.add('hidden');
+    accountSection.classList.remove('hidden');
+    renderAccount();
   }
 
   function loadPreviewTopics() {
@@ -183,35 +205,78 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
   }
 
-  function loadTopics() {
-    topicsData = JSON.parse(localStorage.getItem('topics') || '[]');
-    if (topicsData.length === 0) {
-      fetch('assets/topics.json')
-        .then(res => res.json())
-        .then(data => {
-          topicsData = data;
-          localStorage.setItem('topics', JSON.stringify(data));
-          renderTopics(data);
-        });
+  function renderAccount() {
+    if (!currentUser || !progressSummaryEl) return;
+    accountEmailEl.textContent = currentUser;
+    accountStatusEl.textContent = isAdmin ? 'Administrator access' : 'Learner access';
+    const progress = getProgressState();
+    const totalLessons = topicsData.reduce((total, topic) => total + topic.subjects.reduce((subjectSum, subj) => subjectSum + subj.lessons.length, 0), 0);
+    const completedLessons = Object.values(progress.lessons || {}).filter(entry => entry.completed).length;
+    const overallPercent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
+    let summaryHTML = `
+      <article class="progress-card">
+        <h4>Overall Progress</h4>
+        <p>${completedLessons} of ${totalLessons} lessons completed</p>
+        <div class="progress-meter"><span style="width:${overallPercent}%"></span></div>
+        <small>${overallPercent}% complete</small>
+      </article>
+    `;
+    topicsData.forEach((topic, topicIndex) => {
+      const topicTotal = topic.subjects.reduce((count, subj) => count + subj.lessons.length, 0);
+      let topicComplete = 0;
+      const subjectLines = topic.subjects.map((subject, subjIndex) => {
+        const subjectCompleted = subject.lessons.reduce((count, _, lessonIndex) => count + (isLessonCompleted(topicIndex, subjIndex, lessonIndex) ? 1 : 0), 0);
+        topicComplete += subjectCompleted;
+        return `<p class="subject-progress">${subject.name}: ${subjectCompleted}/${subject.lessons.length}</p>`;
+      }).join('');
+      const topicPercent = topicTotal ? Math.round((topicComplete / topicTotal) * 100) : 0;
+      summaryHTML += `
+        <article class="progress-card">
+          <h5>${topic.name}</h5>
+          <p>${topicComplete}/${topicTotal} lessons completed</p>
+          <div class="progress-meter"><span style="width:${topicPercent}%"></span></div>
+          ${subjectLines}
+        </article>
+      `;
+    });
+    progressSummaryEl.innerHTML = summaryHTML;
+  }
+
+  function showHome() {
+    homeEl.classList.remove('hidden');
+    authEl.classList.add('hidden');
+    appEl.classList.add('hidden');
+    footerEl.classList.add('hidden');
+    accountSection.classList.add('hidden');
+    loadPreviewTopics();
+  }
+
+  function showAuth(showSignup = false) {
+    homeEl.classList.add('hidden');
+    authEl.classList.remove('hidden');
+    appEl.classList.add('hidden');
+    footerEl.classList.add('hidden');
+    accountSection.classList.add('hidden');
+    if (showSignup) {
+      document.querySelector('.auth-container').classList.add('hidden');
+      document.getElementById('signup-container').classList.remove('hidden');
     } else {
-      renderTopics(topicsData);
+      document.getElementById('signup-container').classList.add('hidden');
+      document.querySelector('.auth-container').classList.remove('hidden');
     }
   }
 
-  function showLessons(topicIndex, subjectIndex) {
-    currentTopicIndex = topicIndex;
-    currentSubjectIndex = subjectIndex;
-    const subject = topicsData[topicIndex].subjects[subjectIndex];
-    document.getElementById('lesson-subject-title').textContent = subject.name;
-    renderLessons(subject.lessons);
-    topicsEl.classList.add('hidden');
-    document.getElementById('lessons').classList.remove('hidden');
+  function showApp() {
+    homeEl.classList.add('hidden');
+    authEl.classList.add('hidden');
+    appEl.classList.remove('hidden');
+    footerEl.classList.remove('hidden');
+    accountSection.classList.add('hidden');
+    if (isAdmin) {
+      adminPanelBtn.classList.remove('hidden');
+    }
+    showTopics();
   }
-
-  function renderLessons(lessons) {
-    const lessonListEl = document.getElementById('lesson-list');
-    lessonListEl.innerHTML = '';
-    lessons.forEach((l, k) => {
       const card = document.createElement('article');
       card.className = 'lesson-card';
       const h = document.createElement('h3');
@@ -232,7 +297,26 @@ document.addEventListener('DOMContentLoaded', ()=>{
         editBtn.onclick = () => editLesson(k);
         card.appendChild(editBtn);
       }
-      lessonListEl.appendChild(card);
+        lessonListEl.appendChild(card);
+        const status = document.createElement('span');
+        status.className = 'lesson-status';
+        const key = makeLessonKey(currentTopicIndex, currentSubjectIndex, k);
+        const completed = isLessonCompleted(currentTopicIndex, currentSubjectIndex, k);
+        status.textContent = completed ? 'Completed' : 'In progress';
+        card.appendChild(status);
+        const actions = document.createElement('div');
+        actions.className = 'lesson-actions';
+        if (!completed) {
+          const completeBtn = document.createElement('button');
+          completeBtn.textContent = 'Mark Complete';
+          completeBtn.className = 'secondary';
+          completeBtn.onclick = () => {
+            markLessonComplete(currentTopicIndex, currentSubjectIndex, k);
+          };
+          actions.appendChild(completeBtn);
+        }
+        card.appendChild(actions);
+        lessonListEl.appendChild(card);
     });
   }
 
@@ -374,6 +458,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     showAuth(false);
   });
   enterSiteMainBtn.addEventListener('click', showAuth);
+  accountBtn?.addEventListener('click', showAccount);
 
   // Auth events
   loginForm.addEventListener('submit', async e => {
@@ -442,51 +527,85 @@ document.addEventListener('DOMContentLoaded', ()=>{
     addTopicForm.reset();
   });
 
-  function populateLessonSelects() {
-    const topicSelect = document.getElementById('lesson-topic');
-    topicSelect.innerHTML = '<option value="">Select Topic</option>';
-    topicsData.forEach((topic, index) => {
-      const option = document.createElement('option');
-      option.value = index;
-      option.textContent = topic.name;
-      topicSelect.appendChild(option);
+  function renderLessons(lessons) {
+    const lessonListEl = document.getElementById('lesson-list');
+    lessonListEl.innerHTML = '';
+    lessons.forEach((l, k) => {
+      const card = document.createElement('article');
+      card.className = 'lesson-card';
+      const h = document.createElement('h3');
+      h.textContent = l.title;
+      card.appendChild(h);
+      const p = document.createElement('p');
+      p.textContent = l.content;
+      card.appendChild(p);
+      if (l.image) {
+        const img = document.createElement('img');
+        img.src = l.image;
+        img.alt = l.title;
+        card.appendChild(img);
+      }
+      if (isAdmin) {
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit Lesson';
+        editBtn.onclick = () => editLesson(k);
+        card.appendChild(editBtn);
+      }
+      const status = document.createElement('span');
+      status.className = 'lesson-status';
+      const key = makeLessonKey(currentTopicIndex, currentSubjectIndex, k);
+      const completed = isLessonCompleted(currentTopicIndex, currentSubjectIndex, k);
+      status.textContent = completed ? 'Completed' : 'In progress';
+      card.appendChild(status);
+      const actions = document.createElement('div');
+      actions.className = 'lesson-actions';
+      if (!completed) {
+        const completeBtn = document.createElement('button');
+        completeBtn.textContent = 'Mark Complete';
+        completeBtn.className = 'secondary';
+        completeBtn.onclick = () => {
+          markLessonComplete(currentTopicIndex, currentSubjectIndex, k);
+        };
+        actions.appendChild(completeBtn);
+      }
+      card.appendChild(actions);
+      lessonListEl.appendChild(card);
     });
   }
 
-  document.getElementById('lesson-topic').addEventListener('change', () => {
-    const subjectSelect = document.getElementById('lesson-subject');
-    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
-    const topicIndex = document.getElementById('lesson-topic').value;
-    if (topicIndex !== '') {
-      const topic = topicsData[topicIndex];
-      topic.subjects.forEach((subj, subjIndex) => {
-        const option = document.createElement('option');
-        option.value = subjIndex;
-        option.textContent = subj.name;
-        subjectSelect.appendChild(option);
-      });
-    }
-  });
+  function makeLessonKey(topicIndex, subjectIndex, lessonIndex) {
+    return `${topicIndex}-${subjectIndex}-${lessonIndex}`;
+  }
 
-  addLessonForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const topicIndex = document.getElementById('lesson-topic').value;
-    const subjIndex = document.getElementById('lesson-subject').value;
-    const title = document.getElementById('lesson-title').value;
-    const content = document.getElementById('lesson-content').value;
-    const type = document.getElementById('lesson-type').value;
-    if (topicIndex !== '' && subjIndex !== '') {
-      topicsData[topicIndex].subjects[subjIndex].lessons.push({ title, content, type });
-      localStorage.setItem('topics', JSON.stringify(topicsData));
-      loadTopics();
-      addLessonForm.reset();
-    }
-  });
+  function getProgressState() {
+    if (!currentUser) return { lessons: {} };
+    return JSON.parse(localStorage.getItem(`progress_${currentUser}`) || '{"lessons":{}}');
+  }
 
-  document.getElementById('back-to-topics').addEventListener('click', () => {
-    document.getElementById('lessons').classList.add('hidden');
-    topicsEl.classList.remove('hidden');
-  });
+  function saveProgressState(state) {
+    if (!currentUser) return;
+    localStorage.setItem(`progress_${currentUser}`, JSON.stringify(state));
+  }
+
+  function markLessonComplete(topicIndex, subjectIndex, lessonIndex) {
+    const state = getProgressState();
+    const key = makeLessonKey(topicIndex, subjectIndex, lessonIndex);
+    state.lessons[key] = { completed: true, timestamp: Date.now() };
+    saveProgressState(state);
+    const topic = topicsData[topicIndex];
+    if (!topic) return;
+    const subject = topic.subjects[subjectIndex];
+    if (!subject) return;
+    renderLessons(subject.lessons);
+    renderAccount();
+  }
+
+  function isLessonCompleted(topicIndex, subjectIndex, lessonIndex) {
+    if (!currentUser) return false;
+    const state = getProgressState();
+    const key = makeLessonKey(topicIndex, subjectIndex, lessonIndex);
+    return state.lessons[key]?.completed;
+  }
 
   // Search
   searchEl.addEventListener('input', () => {
@@ -544,6 +663,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('mobile-menu').classList.remove('open');
   });
 
+  menuAccountLink?.addEventListener('click', e => {
+    e.preventDefault();
+    showAccount();
+    document.getElementById('mobile-menu').classList.remove('open');
+  });
+
   // Footer links
   document.getElementById('footer-home').addEventListener('click', e => {
     e.preventDefault();
@@ -555,6 +680,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     showSettings();
   });
 
+  footerAccountLink?.addEventListener('click', e => {
+    e.preventDefault();
+    showAccount();
+  });
+
   document.getElementById('footer-files').addEventListener('click', e => {
     e.preventDefault();
     showFiles();
@@ -563,11 +693,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   document.getElementById('footer-logout').addEventListener('click', e => {
     e.preventDefault();
     logout();
-  });
-
-  // Burger menu
-  document.getElementById('burger-menu').addEventListener('click', () => {
-    document.getElementById('mobile-menu').classList.toggle('open');
   });
 
   // Settings
@@ -597,6 +722,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
     fontSize = parseInt(e.target.value);
     localStorage.setItem('fontSize', fontSize);
     applySettings();
+  });
+
+  resetProgressBtn?.addEventListener('click', () => {
+    if (!currentUser) return;
+    if (confirm('Clear your progress? This cannot be undone.')) {
+      localStorage.setItem(`progress_${currentUser}`, JSON.stringify({ lessons: {} }));
+      renderLessons(topicsData[currentTopicIndex]?.subjects[currentSubjectIndex]?.lessons || []);
+      renderAccount();
+    }
   });
 
   // Set initial values
