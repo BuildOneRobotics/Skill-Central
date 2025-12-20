@@ -292,13 +292,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const topic = topicsData[index];
     const editDiv = document.createElement('div');
     editDiv.className = 'edit-topic';
+    let subjectsHtml = topic.subjects.map((subj, subjIndex) => `
+      <div class="subject-edit">
+        <input type="text" value="${subj.name}" placeholder="Subject Name" id="edit-subj-name-${index}-${subjIndex}" />
+        <textarea placeholder="Lessons (one per line)" id="edit-subj-lessons-${index}-${subjIndex}">${subj.lessons.map(l => l.title).join('\n')}</textarea>
+        <button onclick="deleteSubject(${index}, ${subjIndex})">Delete Subject</button>
+      </div>
+    `).join('');
     editDiv.innerHTML = `
-      <input type="text" value="${topic.name}" id="edit-name-${index}" />
-      <textarea id="edit-desc-${index}">${topic.description || ''}</textarea>
-      <input type="text" value="${topic.subjects.map(s => s.name).join(', ')}" id="edit-subjects-${index}" />
-      <button class="save" onclick="saveTopic(${index})">Save</button>
-      <button class="delete" onclick="deleteTopic(${index})">Delete</button>
+      <h4>Edit Topic: ${topic.name}</h4>
+      <input type="text" value="${topic.name}" id="edit-name-${index}" placeholder="Topic Name" />
+      <textarea id="edit-desc-${index}" placeholder="Description">${topic.description || ''}</textarea>
+      <h5>Subjects</h5>
+      <div id="subjects-container-${index}">${subjectsHtml}</div>
+      <button onclick="addSubject(${index})">Add Subject</button>
+      <button class="save" onclick="saveTopic(${index})">Save Topic</button>
+      <button class="delete" onclick="deleteTopic(${index})">Delete Topic</button>
     `;
+    editTopicsEl.innerHTML = '';
     editTopicsEl.appendChild(editDiv);
     adminEditEl.classList.remove('hidden');
   }
@@ -306,7 +317,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
   window.saveTopic = (index) => {
     const name = document.getElementById(`edit-name-${index}`).value;
     const desc = document.getElementById(`edit-desc-${index}`).value;
-    const subjects = document.getElementById(`edit-subjects-${index}`).value.split(',').map(s => ({ name: s.trim(), lessons: [] }));
+    const subjects = [];
+    const container = document.getElementById(`subjects-container-${index}`);
+    const subjEdits = container.querySelectorAll('.subject-edit');
+    subjEdits.forEach(edit => {
+      const subjName = edit.querySelector('input').value.trim();
+      const lessonsText = edit.querySelector('textarea').value;
+      const lessons = lessonsText.split('\n').filter(l => l.trim()).map(title => ({ title: title.trim(), content: '' })); // assuming content empty for now
+      if (subjName) subjects.push({ name: subjName, lessons });
+    });
     topicsData[index] = { name, description: desc, subjects };
     localStorage.setItem('topics', JSON.stringify(topicsData));
     loadTopics();
@@ -314,12 +333,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
     adminEditEl.classList.add('hidden');
   };
 
-  window.deleteTopic = (index) => {
-    topicsData.splice(index, 1);
-    localStorage.setItem('topics', JSON.stringify(topicsData));
-    loadTopics();
-    editTopicsEl.innerHTML = '';
-    adminEditEl.classList.add('hidden');
+  window.deleteSubject = (topicIndex, subjIndex) => {
+    const container = document.getElementById(`subjects-container-${topicIndex}`);
+    const subjEdits = container.querySelectorAll('.subject-edit');
+    if (subjEdits[subjIndex]) subjEdits[subjIndex].remove();
+  };
+
+  window.addSubject = (topicIndex) => {
+    const container = document.getElementById(`subjects-container-${topicIndex}`);
+    const newSubj = document.createElement('div');
+    newSubj.className = 'subject-edit';
+    newSubj.innerHTML = `
+      <input type="text" placeholder="Subject Name" />
+      <textarea placeholder="Lessons (one per line)"></textarea>
+      <button onclick="deleteSubject(${topicIndex}, ${container.querySelectorAll('.subject-edit').length})">Delete Subject</button>
+    `;
+    container.appendChild(newSubj);
   };
 
   // Check if logged in
@@ -381,6 +410,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('.auth-container').classList.remove('hidden');
   });
 
+  document.getElementById('close-auth').addEventListener('click', () => {
+    authEl.classList.add('hidden');
+  });
+
+  document.getElementById('close-auth-signup').addEventListener('click', () => {
+    authEl.classList.add('hidden');
+  });
+
   logoutBtn.addEventListener('click', logout);
 
   adminPanelBtn.addEventListener('click', () => {
@@ -391,7 +428,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     e.preventDefault();
     const name = document.getElementById('topic-name').value;
     const desc = document.getElementById('topic-desc').value;
-    const subjects = [];
+    const subjectsText = document.getElementById('topic-subjects').value;
+    const subjects = subjectsText.split(',').map(s => ({ name: s.trim(), lessons: [] }));
     topicsData.push({ name, description: desc, subjects });
     localStorage.setItem('topics', JSON.stringify(topicsData));
     loadTopics();
