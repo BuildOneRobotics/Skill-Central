@@ -404,7 +404,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   function renderAccount() {
     if (!currentUser || !progressSummaryEl) return;
-    accountEmailEl.textContent = currentUser;
+    // Mask the email for privacy; reveal requires re-authentication
+    function maskEmail(email) {
+      if (!email) return '';
+      const parts = email.split('@');
+      const name = parts[0] || '';
+      const domain = parts[1] || '';
+      if (name.length <= 2) return name[0] + '***@' + domain;
+      return name.slice(0,2) + '***@' + domain;
+    }
+    accountEmailEl.innerHTML = `${maskEmail(currentUser)} <button id="reveal-email" class="small" style="margin-left:0.5rem;padding:0.25rem 0.5rem;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);">Reveal</button>`;
+    document.getElementById('reveal-email')?.addEventListener('click', async () => {
+      const confirmed = await requireReauth();
+      if (!confirmed) return alert('Re-authentication failed');
+      // show full email in an ephemeral alert and copy to clipboard
+      try { await navigator.clipboard.writeText(currentUser); alert('Email copied to clipboard: ' + currentUser); } catch (e) { alert('Signed-in email: ' + currentUser); }
+    });
     accountStatusEl.textContent = isAdmin ? 'Administrator access' : 'Learner access';
     const progress = getProgressState();
     const totalLessons = topicsData.reduce((total, topic) => total + topic.subjects.reduce((subjectSum, subj) => subjectSum + subj.lessons.length, 0), 0);
@@ -437,6 +452,29 @@ document.addEventListener('DOMContentLoaded', ()=>{
       `;
     });
     progressSummaryEl.innerHTML = summaryHTML;
+  }
+
+  // Re-auth helper for actions on the main app (matches admin.html's behavior)
+  async function requireReauth() {
+    return new Promise((resolve) => {
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed'; overlay.style.inset = 0; overlay.style.background = 'rgba(0,0,0,0.6)'; overlay.style.display = 'flex'; overlay.style.alignItems = 'center'; overlay.style.justifyContent = 'center'; overlay.style.zIndex = 3000;
+      const modal = document.createElement('div');
+      modal.style.width = '420px'; modal.style.maxWidth = '95%'; modal.style.background = 'linear-gradient(180deg,#0b0f13,#0f1317)'; modal.style.border = '1px solid rgba(255,255,255,0.04)'; modal.style.padding = '1rem'; modal.style.borderRadius = '12px'; modal.style.color = '#e6edf3';
+      modal.innerHTML = `<h4 style="margin-top:0;">Re-authenticate</h4><p style="color:#9aa4b2;">Enter your password to confirm this action.</p><input id="reauth-pwd-main" type="password" placeholder="Password" style="width:100%;padding:0.6rem;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;" /><div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.75rem;"><button id="reauth-cancel-main" class="btn">Cancel</button><button id="reauth-confirm-main" class="btn btn-primary">Confirm</button></div>`;
+      overlay.appendChild(modal); document.body.appendChild(overlay);
+      document.getElementById('reauth-cancel-main').addEventListener('click', () => { overlay.remove(); resolve(false); });
+      document.getElementById('reauth-confirm-main').addEventListener('click', async () => {
+        const pwd = document.getElementById('reauth-pwd-main').value || '';
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const savedUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+        if (!savedUser) { overlay.remove(); return resolve(false); }
+        const hashed = await hashPassword(pwd);
+        const found = users.find(u => (u.email === savedUser) && (u.password === hashed));
+        overlay.remove();
+        resolve(!!found);
+      });
+    });
   }
 
   function showHome() {
