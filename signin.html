@@ -279,7 +279,7 @@
             <p class="auth-subtitle">Welcome back! Enter your credentials to continue.</p>
           </div>
 
-          <form id="signin-form">
+          <form id="signin-form" novalidate>
             <div class="error-message" id="error-msg"></div>
             <div class="success-message" id="success-msg"></div>
 
@@ -318,18 +318,26 @@
         const successMsg = document.getElementById('success-msg');
 
           form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          errorMsg.style.display = 'none';
-          successMsg.style.display = 'none';
+            e.preventDefault();
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
 
-          const email = document.getElementById('email').value.trim();
-          const password = document.getElementById('password').value;
+            const emailEl = document.getElementById('email');
+            const email = emailEl.value.trim();
+            const password = document.getElementById('password').value;
 
-          if (!email || !password) {
-            errorMsg.textContent = 'Please enter both email and password.';
-            errorMsg.style.display = 'block';
-            return;
-          }
+            // Use HTML5 validity to detect malformed emails (e.g. missing '@')
+            if (!emailEl.checkValidity()) {
+              errorMsg.textContent = 'Please enter a valid email address.';
+              errorMsg.style.display = 'block';
+              return;
+            }
+
+            if (!email || !password) {
+              errorMsg.textContent = 'Please enter both email and password.';
+              errorMsg.style.display = 'block';
+              return;
+            }
 
           const remember = document.getElementById('remember-me')?.checked;
 
