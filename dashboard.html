@@ -376,7 +376,7 @@
         <div class="learning-path">
           <h3>Your Learning Path</h3>
           <div id="learning-items-container">
-            <div class="path-item">
+            <div class="path-item" onclick="window.location.href='browse-topics.html'" style="cursor:pointer;">
               <p class="path-item-title">Browse Topics</p>
               <p class="path-item-desc">Explore available topics and choose what you want to learn. Start a new course anytime.</p>
             </div>
@@ -400,10 +400,8 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const currentUser = localStorage.getItem('currentUser');
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.email === currentUser);
-        const isAdmin = user?.isAdmin || false;
+        const currentUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+        const isAdmin = (localStorage.getItem('isAdmin') === 'true') || (sessionStorage.getItem('isAdmin') === 'true') || currentUser === 'ben.steels@outlook.com';
         
         // If no user is logged in, redirect to homepage
         if (!currentUser) {
@@ -456,7 +454,11 @@
       });
 
       function handleLogout() {
+        // Clear auth from both storages
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('isAdmin');
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('isAdmin');
         window.location.href = 'index.html';
       }
 

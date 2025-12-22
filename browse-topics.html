@@ -40,8 +40,8 @@
     </div>
 
     <script>
-      // Check authentication
-      const currentUser = localStorage.getItem('currentUser');
+      // Check authentication (support sessionStorage)
+      const currentUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
       if (!currentUser) {
         window.location.href = 'index.html';
       }
@@ -82,7 +82,7 @@
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                   </svg>
-                  ${(topic.lessons || []).length} lessons
+                  ${((topic.subjects||[]).reduce((s,sub)=> s + (sub.lessons||[]).length,0))} lessons
                 </div>
               </div>
               <button class="btn-enroll" onclick="event.stopPropagation(); enrollTopic(${idx})">Start Learning</button>

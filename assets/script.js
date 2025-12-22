@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', ()=>{
   const homeEl = document.getElementById('home');
   const appEl = document.getElementById('app');
+  const authEl = document.getElementById('auth') || { classList: { add: () => {}, remove: () => {} } };
   // Determine whether this page contains the authenticated app UI.
   const isAppPage = !!appEl;
   const enterSiteBtn = document.getElementById('enter-site');
@@ -92,12 +93,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  async function login(email, pwd) {
+  async function login(email, pwd, remember = true) {
     if (email === 'ben.steels@outlook.com' && pwd === 'fhwe87syu') {
       currentUser = email;
       isAdmin = true;
-      localStorage.setItem('currentUser', email);
-      localStorage.setItem('isAdmin', 'true');
+      (remember ? localStorage : sessionStorage).setItem('currentUser', email);
+      (remember ? localStorage : sessionStorage).setItem('isAdmin', 'true');
       if (isAppPage) {
         showApp();
       } else {
@@ -115,8 +116,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if (user) {
       currentUser = email;
       isAdmin = false;
-      localStorage.setItem('currentUser', email);
-      localStorage.setItem('isAdmin', 'false');
+      (remember ? localStorage : sessionStorage).setItem('currentUser', email);
+      (remember ? localStorage : sessionStorage).setItem('isAdmin', 'false');
       if (isAppPage) {
         showApp();
       } else {
@@ -127,7 +128,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     return false;
   }
 
-  async function signup(email, pwd) {
+  async function signup(email, pwd, remember = true) {
     let users = JSON.parse(localStorage.getItem('users') || '[]');
     // Handle legacy format if it's an object
     if (!Array.isArray(users)) {
@@ -139,8 +140,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     localStorage.setItem('users', JSON.stringify(users));
     currentUser = email;
     isAdmin = false;
-    localStorage.setItem('currentUser', email);
-    localStorage.setItem('isAdmin', 'false');
+    (remember ? localStorage : sessionStorage).setItem('currentUser', email);
+    (remember ? localStorage : sessionStorage).setItem('isAdmin', 'false');
     updateLearnerCount();
     if (isAppPage) {
       showApp();
@@ -153,8 +154,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
   function logout() {
     currentUser = null;
     isAdmin = false;
+    // Clear auth from both storages so users are fully logged out
     localStorage.removeItem('currentUser');
     localStorage.removeItem('isAdmin');
+    sessionStorage.removeItem('currentUser');
+    sessionStorage.removeItem('isAdmin');
     // If we're on the dashboard page, send user back to the public homepage.
     if (isAppPage) {
       window.location.href = 'index.html';
@@ -316,6 +320,76 @@ document.addEventListener('DOMContentLoaded', ()=>{
     } else {
       renderPreviewTopics(topics.slice(0, 3));
     }
+  }
+
+  // Load topics into `topicsData`, normalizing older formats
+  async function loadTopics() {
+    let topics = JSON.parse(localStorage.getItem('topics') || '[]');
+    if (!Array.isArray(topics) || topics.length === 0) {
+      try {
+        const res = await fetch('assets/topics.json');
+        const data = await res.json();
+        topics = data || [];
+      } catch (e) {
+        topics = [];
+      }
+    }
+    // Normalize: if topic has `lessons` at top-level, convert to subjects
+    topics = topics.map(t => {
+      if (Array.isArray(t.lessons) && !Array.isArray(t.subjects)) {
+        return { ...t, subjects: [{ name: 'General', lessons: t.lessons }], lessons: undefined };
+      }
+      if (!Array.isArray(t.subjects)) {
+        t.subjects = t.subjects || [];
+      }
+      return t;
+    });
+    topicsData = topics;
+    localStorage.setItem('topics', JSON.stringify(topicsData));
+    renderTopics(topicsData);
+  }
+
+  // Render topics list in-app
+  function renderTopics(topics) {
+    if (!topicsEl) return;
+    topics = topics || topicsData || [];
+    topicsEl.innerHTML = '';
+    topics.forEach((t, ti) => {
+      const card = document.createElement('article');
+      card.className = 'topic-card';
+      const title = document.createElement('h4'); title.textContent = t.name;
+      const desc = document.createElement('p'); desc.textContent = t.description || '';
+      const img = document.createElement('img');
+      if (t.image) { img.src = t.image; img.alt = t.name; img.className = 'topic-thumb'; img.onerror = () => img.style.display = 'none'; }
+      const btn = document.createElement('button'); btn.textContent = 'Open'; btn.className = 'secondary'; btn.onclick = () => openTopic(ti);
+      card.appendChild(img);
+      card.appendChild(title);
+      card.appendChild(desc);
+      const meta = document.createElement('div'); meta.className = 'topic-meta'; meta.textContent = `${(t.subjects||[]).reduce((s,sub)=> s + (sub.lessons||[]).length,0)} lessons`;
+      card.appendChild(meta);
+      card.appendChild(btn);
+      topicsEl.appendChild(card);
+    });
+  }
+
+  function openTopic(topicIndex) {
+    currentTopicIndex = topicIndex;
+    currentSubjectIndex = 0;
+    const topic = topicsData[topicIndex];
+    if (!topic) return;
+    // populate subjects list if UI element exists
+    const subjectsList = document.getElementById('subject-list');
+    if (subjectsList) {
+      subjectsList.innerHTML = '';
+      (topic.subjects||[]).forEach((s, si) => {
+        const el = document.createElement('button');
+        el.textContent = s.name; el.className = 'subject-tab';
+        el.onclick = () => { currentSubjectIndex = si; renderLessons(s.lessons || []); };
+        subjectsList.appendChild(el);
+      });
+    }
+    renderLessons((topic.subjects && topic.subjects[0] && topic.subjects[0].lessons) || []);
+    showApp();
   }
 
   function renderPreviewTopics(topics) {
@@ -528,9 +602,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     container.appendChild(newSubj);
   };
 
-  // Check if logged in
-  const savedUser = localStorage.getItem('currentUser');
-  const savedAdmin = localStorage.getItem('isAdmin') === 'true';
+  // Check if logged in (support both localStorage and sessionStorage)
+  const savedUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+  const savedAdmin = (localStorage.getItem('isAdmin') === 'true') || (sessionStorage.getItem('isAdmin') === 'true');
   if (savedUser) {
     currentUser = savedUser;
     isAdmin = savedAdmin;
@@ -660,6 +734,45 @@ document.addEventListener('DOMContentLoaded', ()=>{
         actions.appendChild(completeBtn);
       }
       card.appendChild(actions);
+
+      // Show revisions if provided by admin
+      if (l.revisions && l.revisions.length > 0) {
+        const revWrap = document.createElement('div');
+        revWrap.className = 'lesson-revisions';
+        revWrap.style.marginTop = '0.75rem';
+        revWrap.innerHTML = `<strong>Revisions:</strong>`;
+        const ul = document.createElement('ul');
+        ul.style.margin = '0.5rem 0 0 1rem';
+        l.revisions.forEach(r => {
+          const li = document.createElement('li'); li.textContent = r; ul.appendChild(li);
+        });
+        revWrap.appendChild(ul);
+        card.appendChild(revWrap);
+      }
+
+      // Notes area for learner
+      const notesKey = makeLessonKey(currentTopicIndex, currentSubjectIndex, k);
+      function getNotesForUser() {
+        if (!currentUser) return {};
+        return JSON.parse(localStorage.getItem(`notes_${currentUser}`) || '{}');
+      }
+      function saveNoteForLesson(key, text) {
+        if (!currentUser) return;
+        const notes = getNotesForUser();
+        notes[key] = text;
+        localStorage.setItem(`notes_${currentUser}`, JSON.stringify(notes));
+      }
+
+      const notesWrap = document.createElement('div');
+      notesWrap.className = 'lesson-notes';
+      notesWrap.style.marginTop = '0.75rem';
+      const notesLabel = document.createElement('label'); notesLabel.textContent = 'Your notes'; notesLabel.style.display='block'; notesLabel.style.color='var(--muted)';
+      const notesArea = document.createElement('textarea');
+      notesArea.style.width = '100%'; notesArea.style.minHeight = '80px'; notesArea.style.marginTop = '0.5rem'; notesArea.value = getNotesForUser()[notesKey] || '';
+      const saveNoteBtn = document.createElement('button'); saveNoteBtn.textContent = 'Save Note'; saveNoteBtn.className='secondary'; saveNoteBtn.style.marginTop='0.5rem';
+      saveNoteBtn.onclick = () => { saveNoteForLesson(notesKey, notesArea.value); saveNoteBtn.textContent = 'Saved'; setTimeout(()=> saveNoteBtn.textContent='Save Note',1200); };
+      notesWrap.appendChild(notesLabel); notesWrap.appendChild(notesArea); notesWrap.appendChild(saveNoteBtn);
+      card.appendChild(notesWrap);
       lessonListEl.appendChild(card);
     });
   }

@@ -298,6 +298,10 @@
               <input type="password" id="confirm-password" placeholder="Confirm your password" required />
             </div>
 
+            <div class="form-group">
+              <label><input type="checkbox" id="remember-me" /> Remember me</label>
+            </div>
+
             <button type="submit" class="submit-btn">Create Account</button>
           </form>
 
@@ -358,8 +362,9 @@
           const hashed = await hashPassword(password);
           users.push({ email, password: hashed });
           localStorage.setItem('users', JSON.stringify(users));
-          localStorage.setItem('currentUser', email);
-          localStorage.setItem('isAdmin', 'false');
+          const remember = document.getElementById('remember-me')?.checked;
+          (remember ? localStorage : sessionStorage).setItem('currentUser', email);
+          (remember ? localStorage : sessionStorage).setItem('isAdmin', 'false');
 
           successMsg.textContent = 'Account created successfully! Redirecting...';
           successMsg.style.display = 'block';

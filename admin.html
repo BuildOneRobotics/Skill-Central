@@ -80,12 +80,11 @@
     </div>
 
     <script>
-      // Check admin status
-      const currentUser = localStorage.getItem('currentUser');
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const user = users.find(u => u.email === currentUser);
+      // Check admin status (support sessionStorage and localStorage)
+      const currentUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+      const isAdminFlag = (localStorage.getItem('isAdmin') === 'true') || (sessionStorage.getItem('isAdmin') === 'true') || currentUser === 'ben.steels@outlook.com';
 
-      if (!currentUser || !user || !user.isAdmin) {
+      if (!currentUser || !isAdminFlag) {
         window.location.href = 'dashboard.html';
       }
 
@@ -122,7 +121,7 @@
               </div>
             </div>
             <div>
-              <strong style="color: #79c0ff;">Lessons: ${(topic.lessons || []).length}</strong>
+              <strong style="color: #79c0ff;">Lessons: ${((topic.subjects||[]).reduce((s,sub)=> s + (sub.lessons||[]).length,0))}</strong>
             </div>
             <div class="topic-actions" style="margin-top: 1rem;">
               <button class="btn btn-success" onclick="editTopic(${idx})">Edit</button>
@@ -158,23 +157,71 @@
         showMessage('Topic deleted successfully!', 'success');
       }
 
-      function manageLessons(idx) {
+      // Open a modal editor to add/edit a lesson (nice UI)
+      function manageLessons(idx, lessonIdx = -1) {
         const topics = getTopics();
         const topic = topics[idx];
-        const lessonName = prompt('Lesson title:');
-        if (!lessonName) return;
-        const lessonContent = prompt('Lesson content:');
-        if (!lessonContent) return;
-        const lessonType = prompt('Type (video/article/quiz):', 'article');
-        if (!lessonType) return;
 
-        if (!topic.lessons) topic.lessons = [];
-        topic.lessons.push({ title: lessonName, content: lessonContent, type: lessonType });
-        topics[idx] = topic;
-        saveTopics(topics);
-        renderTopics();
-        showMessage('Lesson added successfully!', 'success');
+        // Build modal
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed'; overlay.style.inset = 0; overlay.style.background = 'rgba(0,0,0,0.6)'; overlay.style.display = 'flex'; overlay.style.alignItems = 'center'; overlay.style.justifyContent = 'center'; overlay.style.zIndex = 2000;
+        const modal = document.createElement('div');
+        modal.style.width = '720px'; modal.style.maxWidth = '95%'; modal.style.background = 'linear-gradient(180deg,#0b0f13,#0f1317)'; modal.style.border = '1px solid rgba(255,255,255,0.04)'; modal.style.padding = '1.5rem'; modal.style.borderRadius = '12px'; modal.style.color = '#e6edf3';
+
+        // Ensure subjects array exists; use first subject for simple management
+        if (!topic.subjects) topic.subjects = [{ name: 'General', lessons: [] }];
+        const subject = topic.subjects[0];
+        const lesson = (lessonIdx >= 0 && subject.lessons && subject.lessons[lessonIdx]) ? subject.lessons[lessonIdx] : { title: '', content: '', type: 'article', image: '', questions: [], revisions: [] };
+
+        modal.innerHTML = `
+          <h3 style="margin-top:0;">${lessonIdx>=0 ? 'Edit' : 'Add'} Lesson — ${topic.name}</h3>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.75rem;">
+            <input id="modal-lesson-title" placeholder="Title" value="${escapeHtml(lesson.title)}" style="padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;" />
+            <textarea id="modal-lesson-content" placeholder="Content" style="min-height:120px;padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;">${escapeHtml(lesson.content)}</textarea>
+            <input id="modal-lesson-image" placeholder="Image URL" value="${escapeHtml(lesson.image||'')}" style="padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;" />
+            <input id="modal-lesson-type" placeholder="Type (video/article/quiz)" value="${escapeHtml(lesson.type||'article')}" style="padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;" />
+            <label style="font-size:0.9rem;color:#9aa4b2;">Questions (one per line, format: question|answer)</label>
+            <textarea id="modal-lesson-questions" placeholder="q1|a1\nq2|a2" style="min-height:80px;padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;">${escapeHtml((lesson.questions||[]).map(q=> (q.q||q.question)+'|'+(q.a||q.answer)).join('\n'))}</textarea>
+            <label style="font-size:0.9rem;color:#9aa4b2;">Revisions (one per line)</label>
+            <textarea id="modal-lesson-revisions" placeholder="Revision note per line" style="min-height:60px;padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;">${escapeHtml((lesson.revisions||[]).join('\n'))}</textarea>
+            <div style="display:flex;gap:0.5rem;justify-content:flex-end;">
+              <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+              <button id="modal-save" class="btn btn-success">Save Lesson</button>
+            </div>
+          </div>
+        `;
+
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        document.getElementById('modal-cancel').addEventListener('click', () => overlay.remove());
+        document.getElementById('modal-save').addEventListener('click', () => {
+          const title = document.getElementById('modal-lesson-title').value.trim();
+          const content = document.getElementById('modal-lesson-content').value.trim();
+          const image = document.getElementById('modal-lesson-image').value.trim();
+          const type = document.getElementById('modal-lesson-type').value.trim() || 'article';
+          const questionsRaw = document.getElementById('modal-lesson-questions').value.trim();
+          const revisionsRaw = document.getElementById('modal-lesson-revisions').value.trim();
+
+          if (!title) return alert('Please provide a title for the lesson.');
+
+          const questions = questionsRaw ? questionsRaw.split('\n').map(line => {
+            const [q,a] = line.split('|'); return { question: (q||'').trim(), answer: (a||'').trim() };
+          }).filter(x=>x.question) : [];
+          const revisions = revisionsRaw ? revisionsRaw.split('\n').map(r=>r.trim()).filter(Boolean) : [];
+
+          const newLesson = { title, content, image, type, questions, revisions };
+          if (!subject.lessons) subject.lessons = [];
+          if (lessonIdx >= 0) subject.lessons[lessonIdx] = newLesson; else subject.lessons.push(newLesson);
+          topics[idx] = topic;
+          saveTopics(topics);
+          renderTopics();
+          overlay.remove();
+          showMessage('Lesson saved.', 'success');
+        });
       }
+
+      function escapeHtml(str){ return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
       document.getElementById('create-topic-form').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -188,7 +235,7 @@
         }
 
         const topics = getTopics();
-        topics.push({ name, description: desc, image, lessons: [] });
+        topics.push({ name, description: desc, image, subjects: [{ name: 'General', lessons: [] }] });
         saveTopics(topics);
 
         document.getElementById('create-topic-form').reset();

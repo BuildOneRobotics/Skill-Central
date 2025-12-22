@@ -293,6 +293,10 @@
               <input type="password" id="password" placeholder="Enter your password" required />
             </div>
 
+            <div class="form-group">
+              <label><input type="checkbox" id="remember-me" /> Remember me</label>
+            </div>
+
             <button type="submit" class="submit-btn">Sign In</button>
           </form>
 
@@ -313,7 +317,7 @@
         const errorMsg = document.getElementById('error-msg');
         const successMsg = document.getElementById('success-msg');
 
-        form.addEventListener('submit', async (e) => {
+          form.addEventListener('submit', async (e) => {
           e.preventDefault();
           errorMsg.style.display = 'none';
           successMsg.style.display = 'none';
@@ -327,10 +331,12 @@
             return;
           }
 
+          const remember = document.getElementById('remember-me')?.checked;
+
           // Check for admin account
           if (email === 'ben.steels@outlook.com' && password === 'fhwe87syu') {
-            localStorage.setItem('currentUser', email);
-            localStorage.setItem('isAdmin', 'true');
+            (remember ? localStorage : sessionStorage).setItem('currentUser', email);
+            (remember ? localStorage : sessionStorage).setItem('isAdmin', 'true');
             successMsg.textContent = 'Admin login successful! Redirecting...';
             successMsg.style.display = 'block';
             setTimeout(() => {
@@ -345,8 +351,8 @@
           const user = users.find(u => u.email === email && u.password === hashed);
 
           if (user) {
-            localStorage.setItem('currentUser', email);
-            localStorage.setItem('isAdmin', 'false');
+            (remember ? localStorage : sessionStorage).setItem('currentUser', email);
+            (remember ? localStorage : sessionStorage).setItem('isAdmin', 'false');
             successMsg.textContent = 'Login successful! Redirecting...';
             successMsg.style.display = 'block';
             setTimeout(() => {
