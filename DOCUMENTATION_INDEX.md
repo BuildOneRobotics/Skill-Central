@@ -59,7 +59,7 @@ Open index.html in your browser
 - Get redirected to dashboard ✅
 
 ### 3. As Admin (Optional)
-- Login: `ben.steels@outlook.com` / `fhwe87syu`
+- Admin credentials removed from the repo. Configure admin accounts using the admin import (admins.json in a Gist) or the admin UI.
 - Click **"Admin Panel"**
 - Create your first topic!
 
@@ -206,13 +206,7 @@ A: Browser localStorage typically allows 5-10MB per domain.
 
 ## 📝 Admin Credentials
 
-**For testing/demo purposes:**
-```
-Email:    ben.steels@outlook.com
-Password: fhwe87syu
-```
-
-⚠️ **Note**: Change these credentials before production deployment!
+Admin credentials have been removed from the repository. Configure admin accounts by importing an `admins.json` file via the Admin Panel (Gist import), or add admin emails directly in the admin UI. Do not store plaintext credentials in source files.
 
 ---
 

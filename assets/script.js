@@ -94,18 +94,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   async function login(email, pwd, remember = true) {
-    if (email === 'ben.steels@outlook.com' && pwd === 'fhwe87syu') {
-      currentUser = email;
-      isAdmin = true;
-      (remember ? localStorage : sessionStorage).setItem('currentUser', email);
-      (remember ? localStorage : sessionStorage).setItem('isAdmin', 'true');
-      if (isAppPage) {
-        showApp();
-      } else {
-        window.location.href = 'dashboard.html';
-      }
-      return true;
-    }
+    // No hardcoded admin credentials in source. Admin accounts are
+    // determined by the `admins` list stored externally (e.g. in a gist)
+    // or saved to `localStorage` under the key 'admins'.
     let users = JSON.parse(localStorage.getItem('users') || '[]');
     // Handle legacy format if it's an object
     if (!Array.isArray(users)) {
@@ -115,9 +106,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const user = users.find(u => u.email === email && u.password === hashed);
     if (user) {
       currentUser = email;
-      isAdmin = false;
+      // Determine admin status from stored admins list or user record
+      const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+      isAdmin = !!(user.isAdmin || admins.includes(email));
       (remember ? localStorage : sessionStorage).setItem('currentUser', email);
-      (remember ? localStorage : sessionStorage).setItem('isAdmin', 'false');
+      (remember ? localStorage : sessionStorage).setItem('isAdmin', isAdmin ? 'true' : 'false');
       if (isAppPage) {
         showApp();
       } else {
@@ -1025,6 +1018,25 @@ document.addEventListener('DOMContentLoaded', ()=>{
       }
     }
     throw new Error('topics.json not found in gist');
+  }
+
+  // Load admins list from a Gist (expects a file named 'admins.json' with an array of emails)
+  async function loadAdminsFromGist(gistId, token) {
+    const url = `https://api.github.com/gists/${gistId}`;
+    const res = await fetch(url, token ? { headers: { 'Authorization': `token ${token}` } } : {});
+    if (!res.ok) throw new Error('Failed to load gist: ' + res.statusText);
+    const data = await res.json();
+    if (data.files && data.files['admins.json'] && data.files['admins.json'].content) {
+      try {
+        const parsed = JSON.parse(data.files['admins.json'].content);
+        if (!Array.isArray(parsed)) throw new Error('admins.json must be an array of admin emails');
+        localStorage.setItem('admins', JSON.stringify(parsed));
+        return true;
+      } catch (e) {
+        throw new Error('Invalid JSON in admins.json: ' + e.message);
+      }
+    }
+    throw new Error('admins.json not found in gist');
   }
 
   // Admin buttons for gist handling

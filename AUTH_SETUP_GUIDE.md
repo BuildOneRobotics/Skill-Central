@@ -48,7 +48,7 @@ signupForm.addEventListener('submit', async e => {
 #### 3. **Authentication Functions** (`assets/script.js`, lines 80-140)
 
 **Login Function** (line 80):
-- Checks for hardcoded admin account: `ben.steels@outlook.com` / `fhwe87syu`
+- No hardcoded admin account; configure admin accounts with the `admins` list (localStorage) or import from a Gist (admins.json).
 - For regular users, hashes password with SHA-256 and compares against localStorage
 - On success: saves `currentUser` and `isAdmin` to localStorage, redirects to `dashboard.html`
 - On failure: returns false, shows "Invalid credentials" alert
@@ -105,12 +105,11 @@ localStorage.setItem('users', JSON.stringify({
 5. **Expected**: Redirects to `dashboard.html`
 
 **For Admin Test**:
-- Email: `ben.steels@outlook.com`
-- Password: `fhwe87syu`
+Use an admin account configured via the `admins` list (localStorage) or imported from a Gist (`admins.json`).
 
 ### ⚠️ Security Warning
 
-- **Admin credentials are hardcoded** in `assets/script.js` (line 84-88) — **do not use in production**
+- There are no hardcoded admin credentials in the repository. Admin accounts are controlled via the `admins` list (localStorage) or can be imported from a Gist (`admins.json`).
 - **All authentication is client-side** — no server validation, passwords stored in localStorage
 - **For production**: Move auth to a backend server with secure password hashing (bcrypt, Argon2, etc.)
 

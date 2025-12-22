@@ -24,8 +24,7 @@
 
 ### Log In as Admin
 ```
-Email:    ben.steels@outlook.com
-Password: fhwe87syu
+ Admin credentials removed from repository. Configure admin accounts using the admin import (admins.json in a Gist) or add admin emails via the admin UI.
 ```
 
 ### Create Your First Topic
@@ -149,8 +148,9 @@ Password: fhwe87syu
 
 ### "Invalid credentials" on login
 - Check email spelling
-- For admin, use: `ben.steels@outlook.com` / `fhwe87syu`
-- Check DevTools Console (F12) for errors
+ - Check email spelling
+ - Admin credentials are not stored in the repository. Configure admin accounts using the admin import (admins.json in a Gist) or add admin emails via the admin UI.
+ - Check DevTools Console (F12) for errors
 
 ### Topics not showing
 - Admin needs to add them first

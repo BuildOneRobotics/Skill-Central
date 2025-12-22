@@ -37,7 +37,7 @@ Dashboard (dashboard.html) ← Redirect after successful auth
 ### 3. Sign In Page: `signin.html`
 - User enters: Email, Password
 - Authentication:
-  - Checks for admin account: `ben.steels@outlook.com` / `fhwe87syu`
+  - Admin accounts are configured via the `admins` list (localStorage) or via the admin import from a Gist (admins.json).
   - Checks user array in localStorage
   - Validates password hash using SHA-256
 - Success: Sets `currentUser` and `isAdmin` in localStorage
@@ -80,9 +80,8 @@ Dashboard (dashboard.html) ← Redirect after successful auth
 
 ### Test Case 3: Admin Account
 1. Click "Sign In" on homepage
-2. Email: `ben.steels@outlook.com`
-3. Password: `fhwe87syu`
-4. Should login as admin
+2. Use an admin account configured via the `admins` list (localStorage) or imported from a Gist (admins.json).
+3. Admin accounts are not hardcoded in the repository.
 
 ### Test Case 4: Invalid Credentials
 1. Enter wrong email or password

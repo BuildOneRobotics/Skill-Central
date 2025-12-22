@@ -77,12 +77,28 @@
         <h2>Manage Topics</h2>
         <div id="topics-list" class="topics-list"></div>
       </div>
+
+      <!-- Admin Import -->
+      <div class="admin-section">
+        <h2>Import Admins</h2>
+        <p style="color:#9aa4b2;">Import a list of admin emails from a GitHub Gist file named <code>admins.json</code>.</p>
+        <div class="form-group">
+          <label class="form-label">Admins Gist ID</label>
+          <input type="text" id="admins-gist-id" class="form-input" placeholder="Enter Gist ID containing admins.json" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">GitHub Token (optional)</label>
+          <input type="text" id="admins-gist-token" class="form-input" placeholder="Personal Access Token (gist scope)" />
+        </div>
+        <button id="load-admins" class="btn btn-primary">Load Admins from Gist</button>
+        <div id="admins-msg" style="margin-top:0.75rem;color:#9aa4b2;"></div>
+      </div>
     </div>
 
     <script>
       // Check admin status (support sessionStorage and localStorage)
       const currentUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
-      const isAdminFlag = (localStorage.getItem('isAdmin') === 'true') || (sessionStorage.getItem('isAdmin') === 'true') || currentUser === 'ben.steels@outlook.com';
+      const isAdminFlag = (localStorage.getItem('isAdmin') === 'true') || (sessionStorage.getItem('isAdmin') === 'true') || (JSON.parse(localStorage.getItem('admins') || '[]').includes(currentUser));
 
       if (!currentUser || !isAdminFlag) {
         window.location.href = 'dashboard.html';
@@ -241,6 +257,27 @@
         document.getElementById('create-topic-form').reset();
         renderTopics();
         showMessage('Topic created successfully!', 'success');
+      });
+
+      // Wire up admin imports (admins.json from a Gist)
+      const loadAdminsBtn = document.getElementById('load-admins');
+      const adminsGistIdInput = document.getElementById('admins-gist-id');
+      const adminsGistTokenInput = document.getElementById('admins-gist-token');
+      const adminsMsg = document.getElementById('admins-msg');
+
+      loadAdminsBtn?.addEventListener('click', async () => {
+        const gid = adminsGistIdInput.value.trim();
+        const token = adminsGistTokenInput.value.trim();
+        if (!gid) return alert('Enter the Gist ID that contains admins.json');
+        try {
+          loadAdminsBtn.disabled = true;
+          // loadAdminsFromGist is defined in assets/script.js
+          await loadAdminsFromGist(gid, token || null);
+          adminsMsg.textContent = 'Admins imported successfully.';
+          renderTopics();
+        } catch (e) {
+          alert(e.message);
+        } finally { loadAdminsBtn.disabled = false; }
       });
 
       renderTopics();

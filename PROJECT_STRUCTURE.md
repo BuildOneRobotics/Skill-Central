@@ -136,15 +136,14 @@ Skill-Central/
 1. User clicks "Sign In" (or is prompted on first visit)
 2. Enters email and password
 3. **JavaScript** (line 561):
-   - Checks if email === admin account (`ben.steels@outlook.com`)
+  - Admin accounts are configured via the `admins` list (localStorage or imported from a Gist)
    - If not, hashes password and compares against localStorage
    - On match: sets `currentUser` and `isAdmin`, redirects to `dashboard.html`
    - On mismatch: shows alert "Invalid credentials"
 
 ### Admin Access
 - **Hardcoded admin credential** (line 84-88):
-  - Email: `ben.steels@outlook.com`
-  - Password: `fhwe87syu`
+  - Admin credentials are not stored in this repository. Use the admin import feature or the admin UI to configure admin users.
 - Admin panel button only appears if `isAdmin === true`
 
 ---

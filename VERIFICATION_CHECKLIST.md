@@ -32,7 +32,7 @@ Skill-Central/
 - ✅ Sign In: Log in with credentials
 - ✅ Login Persistence: Stays logged in after page refresh
 - ✅ Logout: Clears session and returns to homepage
-- ✅ Admin Credential: `ben.steels@outlook.com` / `fhwe87syu`
+- ✅ Admin Credential: removed from repository; configure via admin import or admin UI (admins.json in a Gist)
 - ✅ Password Hashing: SHA-256 using Web Crypto API
 - ✅ Data Storage: All credentials stored in localStorage
 

@@ -401,7 +401,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const currentUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
-        const isAdmin = (localStorage.getItem('isAdmin') === 'true') || (sessionStorage.getItem('isAdmin') === 'true') || currentUser === 'ben.steels@outlook.com';
+        const isAdmin = (localStorage.getItem('isAdmin') === 'true') || (sessionStorage.getItem('isAdmin') === 'true') || (JSON.parse(localStorage.getItem('admins') || '[]').includes(currentUser));
         
         // If no user is logged in, redirect to homepage
         if (!currentUser) {

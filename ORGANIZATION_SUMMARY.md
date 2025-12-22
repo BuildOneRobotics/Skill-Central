@@ -74,7 +74,7 @@ Skill-Central/
 4. You're in the dashboard! 🎉
 
 ### Option 2: Admin Mode (Create Content)
-1. Login with: `ben.steels@outlook.com` / `fhwe87syu`
+1. Admin credentials removed from the repository. Configure admin accounts via the admin import (admins.json in a Gist) or the admin UI.
 2. Click "Admin Panel"
 3. Create your first topic
 4. Add lessons with images

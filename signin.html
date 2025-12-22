@@ -333,17 +333,7 @@
 
           const remember = document.getElementById('remember-me')?.checked;
 
-          // Check for admin account
-          if (email === 'ben.steels@outlook.com' && password === 'fhwe87syu') {
-            (remember ? localStorage : sessionStorage).setItem('currentUser', email);
-            (remember ? localStorage : sessionStorage).setItem('isAdmin', 'true');
-            successMsg.textContent = 'Admin login successful! Redirecting...';
-            successMsg.style.display = 'block';
-            setTimeout(() => {
-              window.location.href = 'dashboard.html';
-            }, 800);
-            return;
-          }
+          // Determine admin flags from stored admins list (no hardcoded credentials)
 
           // Check user account
           const users = JSON.parse(localStorage.getItem('users') || '[]');
@@ -351,8 +341,10 @@
           const user = users.find(u => u.email === email && u.password === hashed);
 
           if (user) {
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const isAdmin = !!(user.isAdmin || admins.includes(email));
             (remember ? localStorage : sessionStorage).setItem('currentUser', email);
-            (remember ? localStorage : sessionStorage).setItem('isAdmin', 'false');
+            (remember ? localStorage : sessionStorage).setItem('isAdmin', isAdmin ? 'true' : 'false');
             successMsg.textContent = 'Login successful! Redirecting...';
             successMsg.style.display = 'block';
             setTimeout(() => {
